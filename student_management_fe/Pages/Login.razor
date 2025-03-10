@@ -1,3 +1,29 @@
 ﻿@page "/login"
+@inject NavigationManager Navigation
 
-<h3>Login</h3>
+
+<div class="background"></div>
+
+<div class="login-container">
+    <h1 class="login-title">ĐĂNG NHẬP</h1>
+    <h2 class="login-subtitle">QUẢN LÝ SINH VIÊN</h2>
+
+    <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+        <div class="login-form">
+            <label for="username">Tên đăng nhập</label>
+            <input id="username" @bind="loginModel.Username" class="input" placeholder="Nhập tên đăng nhập" />
+            <ValidationMessage For="@(() => loginModel.Username)" class="error-message" />
+
+            <label for="password">Mật khẩu</label>
+            <input id="password" @bind="loginModel.Password" class="input" type="password" placeholder="Nhập mật khẩu" />
+            <ValidationMessage For="@(() => loginModel.Password)" class="error-message" />
+
+            <button type="submit" class="login-button">Đăng nhập</button>
+            
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <p class="error-message">@errorMessage</p>
+            }
+        </div>
+    </EditForm>
+</div>

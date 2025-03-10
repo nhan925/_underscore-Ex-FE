@@ -1,0 +1,225 @@
+﻿/* Định dạng tiêu đề */
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #043C70;
+}
+
+/* Thanh tìm kiếm */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-bar button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-bar button:first-of-type {
+    background-color: #2962ff;
+    color: white;
+}
+
+.search-bar button:first-of-type:hover {
+    background-color: #1e50d8;
+}
+
+/* Nút thêm mới */
+.btn-add {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+/* Bảng hiển thị danh sách sinh viên */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    table-layout: fixed;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 14px;
+}
+
+thead {
+    background-color: #0a3d62;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: normal; /* Cho phép xuống dòng */
+    word-break: break-word; /* Đảm bảo xuống dòng khi cần */
+}
+
+.table-container {
+    overflow-x: auto; /* Cuộn ngang khi cần */
+}
+
+/* Định dạng các hàng xen kẽ */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+
+/* Điều chỉnh độ rộng từng cột */
+th:nth-child(1), td:nth-child(1) {
+    width: 50px;
+}
+/* STT */
+th:nth-child(2), td:nth-child(2) {
+    width: 85px;
+}
+/* MSSV */
+th:nth-child(3), td:nth-child(3) {
+    width: 140px;
+}
+/* Họ và tên */
+th:nth-child(4), td:nth-child(4) {
+    width: 90px;
+}
+/* Ngày sinh */
+th:nth-child(5), td:nth-child(5) {
+    width: 50px;
+}
+/* Giới tính */
+th:nth-child(6), td:nth-child(6) {
+    width: 150px;
+}
+/* Khoa */
+th:nth-child(7), td:nth-child(7) {
+    width: 60px;
+}
+/* Khóa */
+th:nth-child(8), td:nth-child(8) {
+    width: 80px;
+}
+/* Chương trình */
+th:nth-child(9), td:nth-child(9) {
+    width: 150px;
+}
+/* Địa chỉ */
+th:nth-child(10), td:nth-child(10) {
+    width: 150px;
+}
+/* Email */
+th:nth-child(11), td:nth-child(11) {
+    width: 100px;
+}
+/* SDT */
+th:nth-child(12), td:nth-child(12) {
+    width: 80px;
+}
+/* Tình trạng */
+th:nth-child(13), td:nth-child(13) {
+    width: 150px;
+    white-space: nowrap;
+}
+/* Thao tác */
+
+
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+
+.btn-delete, .btn-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+}
+
+.btn-delete {
+    background-color: red;
+    color: white;
+}
+
+.btn-edit {
+    background-color: blue;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: darkred;
+}
+
+.btn-edit:hover {
+    background-color: darkblue;
+}
+
+/* Đảm bảo 2 nút không xuống dòng */
+td > button {
+    margin-right: 5px;
+}
+
+/* Định dạng icon */
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pagination button {
+    margin: 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
