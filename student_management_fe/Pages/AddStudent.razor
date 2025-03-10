@@ -1,14 +1,9 @@
 ﻿@page "/add_student"
 
-<div class="overlay">
-    <div class="popup">
-        <h2>Thêm sinh viên</h2>
+<h2 style="text-align: center;">Thêm sinh viên</h2>
 
-        <div class="form-group">
-            <label>MSSV:</label>
-            <input type="text" @bind="Student.StudentId" />
-        </div>
-
+<div class="form-container">
+    <div class="form">
         <div class="form-group">
             <label>Họ và tên:</label>
             <input type="text" @bind="Student.FullName" />
@@ -72,10 +67,13 @@
             </select>
         </div>
 
-        <button class="btn btn-success" @onclick="Add">Lưu</button>
-        <button class="btn btn-danger" @onclick="CloseOverlay">Đóng</button>
+        <div style="text-align: center;">
+            <button class="btn btn-success" @onclick="Add">Lưu</button>
+            <button class="btn btn-danger" @onclick="CloseOverlay">Đóng</button>
+        </div>
     </div>
 </div>
+
 
 <style>
 
@@ -103,11 +101,21 @@
         max-width: 400px; /* Giới hạn độ rộng input */
     }
 
-    .popup {
-        width: 800px; /* Tăng chiều rộng popup */
-        max-height: 80vh; /* Giới hạn chiều cao và thêm scroll */
-        overflow-y: auto;
+    .form-container {
+        display: flex;
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        width: 100%;
     }
+
+    .form {
+        width: 50%; /* Điều chỉnh độ rộng form */
+        max-width: 600px; /* Giới hạn chiều rộng tối đa */
+        background: #fff; /* Đặt nền trắng */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
 
 
     .btn {
@@ -118,33 +126,4 @@
     }
 </style>
 
-@code {
-    private StudentModel Student = new StudentModel();
-    [Inject] private NavigationManager Navigation { get; set; }
 
-    private void CloseOverlay()
-    {
-        Navigation.NavigateTo("/", forceLoad: false);
-    }
-
-    private void Add()
-    {
-        Console.WriteLine($"Thêm sinh viên: {Student.FullName} - {Student.StudentId}");
-        CloseOverlay();
-    }
-
-    public class StudentModel
-    {
-        public string StudentId { get; set; }
-        public string FullName { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Gender { get; set; }
-        public string Faculty { get; set; }
-        public string Course { get; set; }
-        public string Program { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Status { get; set; }
-    }
-}
