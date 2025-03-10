@@ -4,16 +4,10 @@ namespace student_management_fe.Pages;
 
 public partial class AddStudent
 {
-    private StudentModel Student = new StudentModel();
-    [Inject] private NavigationManager Navigation { get; set; }
-
-    private void CloseOverlay()
-    {
-        Navigation.NavigateTo("/", forceLoad: false);
-    }
+    private StudentModel NewStudent = new StudentModel();
 
     private void Add()
     {
-
+        // Logic thêm sinh viên vào database hoặc API
     }
 }

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\UpdateStudent.razor.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Pages\AddStudent.razor.cs" />
   </ItemGroup>
 

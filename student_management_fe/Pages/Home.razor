@@ -8,6 +8,7 @@
 Welcome to your new app.
 
 <button class="btn btn-primary" @onclick="OpenAddStudent">Thêm sinh viên</button>
+<button class="btn btn-primary" @onclick="OpenUpdateStudent">Cập nhật sinh viên</button>
 
 @code {
     [Inject] private NavigationManager Navigation { get; set; }
@@ -15,5 +16,10 @@ Welcome to your new app.
     private void OpenAddStudent()
     {
         Navigation.NavigateTo("/add_student", forceLoad: false);
+    }
+
+    private void OpenUpdateStudent()
+    {
+        Navigation.NavigateTo("/update_student", forceLoad: false);
     }
 }
