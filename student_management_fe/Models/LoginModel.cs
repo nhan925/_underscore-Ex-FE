@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace student_management_fe.Models
-{
-    public class LoginModel
-    {
-        [Required(ErrorMessage = "Tên đăng nhập không được để trống.")]
-        public string Username { get; set; } = "";
+namespace student_management_fe.Models;
 
-        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
-        public string Password { get; set; } = "";
-    }
+public class LoginModel
+{
+    [Required(ErrorMessage = "Tên đăng nhập không được để trống.")]
+    public string Username { get; set; } = "";
+
+    [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+    public string Password { get; set; } = "";
 }
