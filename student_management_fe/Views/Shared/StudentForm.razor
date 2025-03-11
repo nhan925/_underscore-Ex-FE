@@ -128,8 +128,8 @@
     public string ButtonText { get; set; }
 
     private void Submit() {
-        ValidateAndSave();
-        MudDialog.Close(DialogResult.Ok(true));
+        if (ValidateAndSave())
+            MudDialog.Close(DialogResult.Ok(true));
     }
 
     private void Cancel() => MudDialog.Cancel();

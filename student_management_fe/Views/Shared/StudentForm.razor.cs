@@ -106,7 +106,7 @@ public partial class StudentForm
     }
 
 
-    private void ValidateAndSave()
+    private bool ValidateAndSave()
     {
         ValidationErrors.Clear();
 
@@ -124,10 +124,10 @@ public partial class StudentForm
         if (ValidationErrors.Count > 0)
         {
             StateHasChanged();
-            return;
+            return false;
         }
 
-        //await OnSave.InvokeAsync();
+        return true;
     }
 
 }
