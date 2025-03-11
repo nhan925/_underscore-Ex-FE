@@ -33,21 +33,27 @@
 
         <div class="form-group">
             <label>Giới tính:</label>
-            <select @bind="Student.Gender">
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-                <option value="Khác">Khác</option>
-            </select>
+            <div class="form-input">
+                <select @bind="Student.Gender">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </select>
+                <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Gender))</span>
+            </div>
         </div>
 
         <div class="form-group">
             <label>Khoa:</label>
-            <select @bind="Student.FacultyId">
-                <option value=1>Công nghệ thông tin</option>
-                <option value=2>Kinh tế</option>
-                <option value=3>Quản trị kinh doanh</option>
-                <option value=4>Kỹ thuật điện tử</option>
-            </select>
+            <div class="form-input">
+                <select @bind="Student.FacultyId">
+                    <option value=1>Công nghệ thông tin</option>
+                    <option value=2>Kinh tế</option>
+                    <option value=3>Quản trị kinh doanh</option>
+                    <option value=4>Kỹ thuật điện tử</option>
+                </select>
+                <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.FacultyId))</span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -61,7 +67,11 @@
 
         <div class="form-group">
             <label>Chương trình:</label>
-            <input type="text" @bind="Student.Program" />
+            <div class="form-input">
+                <input type="text" @bind="Student.Program"
+                                   @onblur="() => ValidateField(nameof(Student.Program), Student.Program)" />
+                <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Program))</span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -93,15 +103,27 @@
 
         <div class="form-group">
             <label>Tình trạng sinh viên:</label>
-            <select @bind="Student.StatusId">
-                <option value=1>Đang học</option>
-                <option value=2>Tốt nghiệp</option>
-                <option value=3>Bảo lưu</option>
-            </select>
+            <div class="form-input">
+                <select @bind="Student.StatusId">
+                    <option value=1>Đang học</option>
+                    <option value=2>Tốt nghiệp</option>
+                    <option value=3>Bảo lưu</option>
+                </select>
+                <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.StatusId))</span>
+            </div>
         </div>
 
         <div style="text-align: center;">
-            <button class="btn btn-success" @onclick="ValidateAndSave">@SaveButtonText</button>
+            <button class="btn btn-success" @onclick="ValidateAndSave" disabled="@IsSaving">
+                @if (IsSaving)
+                {
+                    <span>Đang lưu...</span>
+                }
+                else
+                {
+                    <span>@SaveButtonText</span>
+                }
+            </button>
             <button class="btn btn-danger" @onclick="CloseOverlay">Đóng</button>
         </div>
     </div>

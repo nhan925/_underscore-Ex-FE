@@ -12,6 +12,7 @@ namespace student_management_fe.Pages
         [Parameter] public string Title { get; set; } = "Thêm sinh viên";
         [Parameter] public string SaveButtonText { get; set; } = "Lưu";
         [Parameter] public bool IsUpdateMode { get; set; } = false;
+        [Parameter] public bool IsSaving { get; set; } = false;
 
         [Inject] private NavigationManager Navigation { get; set; }
         private string FullNameError = "";
@@ -20,8 +21,9 @@ namespace student_management_fe.Pages
         private string BirthDateError = "";
         private string IntakeYearError = "";
         private bool IsInvalid = false;
+        
 
-        private void CloseOverlay()
+        public void CloseOverlay()
         {
             Navigation.NavigateTo("/", forceLoad: false);
         }
@@ -72,6 +74,29 @@ namespace student_management_fe.Pages
                     else if (!System.Text.RegularExpressions.Regex.IsMatch(value.ToString(), @"^\d{10}$"))
                         errorMessage = "Số điện thoại phải có 10 chữ số.";
                     break;
+
+                case nameof(Student.Gender):
+                    if (string.IsNullOrWhiteSpace(value?.ToString()))
+                        errorMessage = "Giới tính không được để trống.";
+                    break;
+
+                
+                case nameof(Student.FacultyId):
+                    if (value == null)
+                        errorMessage = "Khoa không được để trống.";
+                    break;
+
+                
+                case nameof(Student.Program):
+                    if (string.IsNullOrWhiteSpace(value?.ToString()))
+                        errorMessage = "Chương trình học không được để trống.";
+                    break;
+
+                
+                case nameof(Student.StatusId):
+                    if (value == null)
+                        errorMessage = "Trạng thái sinh viên không được để trống.";
+                    break;
             }
 
             if (!string.IsNullOrEmpty(errorMessage))
@@ -93,6 +118,10 @@ namespace student_management_fe.Pages
             ValidateField(nameof(Student.IntakeYear), Student.IntakeYear);
             ValidateField(nameof(Student.Email), Student.Email);
             ValidateField(nameof(Student.PhoneNumber), Student.PhoneNumber);
+            ValidateField(nameof(Student.Gender), Student.Gender);
+            ValidateField(nameof(Student.FacultyId), Student.FacultyId);
+            ValidateField(nameof(Student.Program), Student.Program);
+            ValidateField(nameof(Student.StatusId), Student.StatusId);
 
             if (ValidationErrors.Count > 0)
             {

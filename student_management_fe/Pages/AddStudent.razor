@@ -1,4 +1,4 @@
 ﻿@page "/add_student"
 
-<StudentForm Student="NewStudent" Title="Thêm sinh viên" SaveButtonText="Lưu"
-             OnSave="Add" IsUpdateMode="false" />
+<StudentForm @ref="StudentFormRef" Student="NewStudent" Title="Thêm sinh viên" SaveButtonText="Lưu"
+             OnSave="Add" IsUpdateMode="false" IsSaving="IsSaving"/>
