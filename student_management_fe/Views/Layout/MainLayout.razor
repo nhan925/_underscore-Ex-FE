@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<div class="page">
+    <AuthorizeView>
+        <Authorized>
+            @if (!NavManager.Uri.Contains("/login"))
+            {
+                <div class="sidebar">
+                    <NavMenu />
+                </div>
+                <main>
+                    <article class="content px-4">
+                        @Body
+                    </article>
+                </main>
+            }
+        </Authorized>
+    </AuthorizeView>
+
+    
+</div>
+
+@code {
+    @inject NavigationManager NavManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var isAuthenticated = authState.User.Identity?.IsAuthenticated == true;
+
+        if (!isAuthenticated && !Navigation.Uri.Contains("/login")) // Avoid infinite loop
+        {
+            Navigation.NavigateTo("/login", true);
+        }
+    }
+}
+
+

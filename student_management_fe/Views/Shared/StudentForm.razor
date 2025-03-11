@@ -1,0 +1,137 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div class="form-container">
+            <div class="form">
+                @if (IsUpdateMode)
+                {
+                    <div class="form-group">
+                        <label>MSSV:</label>
+                        <input type="number" @bind="Student.Id" disabled />
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <div class="form-input">
+                        <input type="text" @bind="Student.FullName"
+                        @onblur="() => ValidateField(nameof(Student.FullName), Student.FullName)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.FullName))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ngày sinh:</label>
+                    <div class="form-input">
+                        <input type="date" @bind="Student.DateOfBirth"
+                        @onblur="() => ValidateField(nameof(Student.DateOfBirth), Student.DateOfBirth)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.DateOfBirth))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Giới tính:</label>
+                    <div class="form-input">
+                        <select @bind="Student.Gender">
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Gender))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Khoa:</label>
+                    <div class="form-input">
+                        <select @bind="Student.FacultyId">
+                            @foreach (var faculty in Faculties)
+                            {
+                                <option value="@faculty.Id">@faculty.Name</option>
+                            })
+                        </select>
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.FacultyId))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Khóa:</label>
+                    <div class="form-input">
+                        <input type="number" @bind="Student.IntakeYear"
+                        @onblur="() => ValidateField(nameof(Student.IntakeYear), Student.IntakeYear)" /> 
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.IntakeYear))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Chương trình:</label>
+                    <div class="form-input">
+                        <input type="text" @bind="Student.Program"
+                        @onblur="() => ValidateField(nameof(Student.Program), Student.Program)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Program))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Địa chỉ:</label>
+                    <div class="form-input">
+                        <input type="text" @bind="Student.Address"
+                        @onblur="() => ValidateField(nameof(Student.Address), Student.Address)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Address))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <div class="form-input">
+                        <input type="email" @bind="Student.Email"
+                        @onblur="() => ValidateField(nameof(Student.Email), Student.Email)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.Email))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <div class="form-input">
+                        <input type="tel" @bind="Student.PhoneNumber"
+                        @onblur="() => ValidateField(nameof(Student.PhoneNumber), Student.PhoneNumber)" />
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.PhoneNumber))</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tình trạng sinh viên:</label>
+                    <div class="form-input">
+                        <select @bind="Student.StatusId">
+                            @foreach (var status in StudentStatuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            })
+                        </select>
+                        <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.StatusId))</span>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Hủy</MudButton>
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit">@ButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; }
+
+    private void Submit() {
+        ValidateAndSave();
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
+

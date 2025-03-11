@@ -1,0 +1,209 @@
+﻿/* General styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7fc;
+    margin: 20px;
+}
+
+/* Title */
+h3 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #043C70;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+    .search-bar input {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+        .search-bar input:focus {
+            border-color: #2962ff;
+            box-shadow: 0 0 5px rgba(41, 98, 255, 0.2);
+        }
+
+    .search-bar button {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+.btn-search {
+    background-color: #2962ff;
+    color: white;
+}
+
+    .btn-search:hover {
+        background-color: #1e50d8;
+    }
+
+.btn-add {
+    background-color: #28a745;
+    color: white;
+}
+
+    .btn-add:hover {
+        background-color: #218838;
+    }
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #043C70;
+    color: white;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f5ff;
+}
+
+/* Alternating row colors */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Action Buttons */
+.btn-delete, .btn-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+.btn-edit:hover {
+    background-color: #2980b9;
+}
+
+/* Ensure buttons do not wrap */
+td > button {
+    margin-right: 5px;
+}
+
+/* Icons */
+button img {
+    width: 18px;
+    height: 18px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .pagination button {
+        margin: 5px;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .pagination button:hover {
+            background-color: #eaeaea;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .btn-delete, .btn-edit {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .pagination button {
+        padding: 6px 10px;
+    }
+}
+

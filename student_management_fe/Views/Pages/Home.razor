@@ -1,0 +1,78 @@
+﻿@page "/"
+
+@inject NavigationManager Navigation
+@using System.Collections.Generic
+
+<h3>Danh sách sinh viên</h3>
+
+<div class="search-bar">
+    <input type="text" placeholder="Nhập MSSV" @oninput="e => searchText = ((ChangeEventArgs)e).Value.ToString()" @onkeydown="HandleKeyPressSearch" />
+    
+    <button class="btn-search" @onclick="SearchStudents">
+        <img src="/Search.png" alt="Search Icon" class="icon" />
+        Tìm kiếm
+    </button>
+
+    <button class="btn-add" @onclick="AddStudent">
+        <img src="/Plus.png" alt="Add Icon" class="icon" />
+        Thêm mới
+    </button>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>MSSV</th>
+                <th>Họ và tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Khoa</th>
+                <th>Khóa</th>
+                <th>Chương trình</th>
+                <th>Địa chỉ</th>
+                <th>Email</th>
+                <th>SDT</th>
+                <th>Tình trạng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var index = 0; index < students.Count; index++)
+            {
+                var student = students[index];
+                var formattedDob = student.DateOfBirth.Value.ToString("dd/MM/yyyy");
+                <tr>
+                    <td>@(index + 1 + pageSize * (currentPage - 1))</td>
+                    <td>@student.Id</td>
+                    <td>@student.FullName</td>
+                    <td>@formattedDob</td>
+                    <td>@student.Gender</td>
+                    <td>@ConvertIdToFacultyName(student.FacultyId)</td>
+                    <td>@student.IntakeYear</td>
+                    <td>@student.Program</td>
+                    <td>@student.Address</td>
+                    <td>@student.Email</td>
+                    <td>@student.PhoneNumber</td>
+                    <td>@ConvertIdToStudentStatusName(student.StatusId)</td>
+                    <td>
+                        <button class="btn-delete" @onclick="() => DeleteStudent(student.Id)">
+                            <img src="/Delete.png" alt="Delete Icon" class="icon" />
+                        </button>
+                        <button class="btn-edit" @onclick="() => EditStudent(student.Id)">
+                            <img src="/Edit.png" alt="Edit Icon" class="icon" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <button class="btn-prev" @onclick="PreviousPage" disabled="@(currentPage <= 1)">Trước</button>
+    <span>Trang @currentPage / @totalPages</span>
+    <button class="btn-next" @onclick="NextPage" disabled="@(currentPage >= totalPages)">Sau</button>
+</div>
+
