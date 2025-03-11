@@ -32,6 +32,10 @@
                     <label>Giới tính:</label>
                     <div class="form-input">
                         <select @bind="Student.Gender">
+                            @if (String.IsNullOrEmpty(Student.Gender))
+                            {
+                                Student.Gender = "Nam";
+                            }
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
                             <option value="Khác">Khác</option>
@@ -44,6 +48,10 @@
                     <label>Khoa:</label>
                     <div class="form-input">
                         <select @bind="Student.FacultyId">
+                            @if (!Student.FacultyId.HasValue && Faculties.Any())
+                            {
+                                Student.FacultyId = Faculties.First().Id;
+                            }
                             @foreach (var faculty in Faculties)
                             {
                                 <option value="@faculty.Id">@faculty.Name</option>
@@ -102,10 +110,14 @@
                     <label>Tình trạng sinh viên:</label>
                     <div class="form-input">
                         <select @bind="Student.StatusId">
+                            @if (!Student.StatusId.HasValue && StudentStatuses.Any())
+                            {
+                                Student.StatusId = StudentStatuses.First().Id;
+                            }
                             @foreach (var status in StudentStatuses)
                             {
                                 <option value="@status.Id">@status.Name</option>
-                            })
+                            }
                         </select>
                         <span class="error">@ValidationErrors.GetValueOrDefault(nameof(Student.StatusId))</span>
                     </div>
