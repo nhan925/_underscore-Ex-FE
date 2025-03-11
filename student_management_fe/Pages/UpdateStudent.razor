@@ -1,0 +1,4 @@
+﻿@page "/update_student/{studentid:int}"
+
+<StudentForm @ref="StudentFormRef" Student="ExistingStudent" Title="Cập nhật sinh viên" SaveButtonText="Cập nhật"
+             OnSave="Update" IsUpdateMode="true" IsSaving="IsSaving"/>

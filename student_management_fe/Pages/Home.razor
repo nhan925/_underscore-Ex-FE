@@ -1,9 +1,12 @@
 ﻿@page "/"
+
 @inject NavigationManager Navigation
 @using System.Collections.Generic
 
 
+
 <h3>Danh sách sinh viên</h3>
+
 
 <div class="search-bar">
     <input type="text" placeholder="Nhập tên hoặc MSSV" @bind="searchText" />
@@ -73,3 +76,4 @@
     <span>Trang @currentPage / @totalPages</span>
     <button class="btn-next" @onclick="NextPage" disabled="@(currentPage == totalPages)">Sau</button>
 </div>
+
