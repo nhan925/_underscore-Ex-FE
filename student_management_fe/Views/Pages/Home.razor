@@ -6,7 +6,7 @@
 <h3>Danh sách sinh viên</h3>
 
 <div class="search-bar">
-    <input type="text" placeholder="Nhập MSSV" @oninput="e => searchText = ((ChangeEventArgs)e).Value.ToString()" @onkeydown="HandleKeyPressSearch" />
+    <input type="text" placeholder="Nhập tên hoặc MSSV" @oninput="e => searchText = ((ChangeEventArgs)e).Value.ToString()" @onkeydown="HandleKeyPressSearch" />
     
     <button class="btn-search" @onclick="SearchStudents">
         <img src="/Search.png" alt="Search Icon" class="icon" />
@@ -72,7 +72,7 @@
 
 <div class="pagination">
     <button class="btn-prev" @onclick="PreviousPage" disabled="@(currentPage <= 1)">Trước</button>
-    <span>Trang @currentPage / @totalPages</span>
+    <span>Trang @(totalPages > 0 ? currentPage : 0) / @totalPages</span>
     <button class="btn-next" @onclick="NextPage" disabled="@(currentPage >= totalPages)">Sau</button>
 </div>
 
