@@ -3,6 +3,7 @@ using student_management_fe.Models;
 namespace student_management_fe.Pages;
 public partial class UpdateStudent
 {
+    [Parameter] public int StudentID { get; set; }
     private StudentModel ExistingStudent = new StudentModel();
     private StudentForm? StudentFormRef;
     private bool IsSaving = false;
@@ -14,7 +15,7 @@ public partial class UpdateStudent
             //ExistingStudent = await StudentService.GetStudentByIdAsync(StudentId) ?? new StudentModel();
             ExistingStudent = new StudentModel
             {
-                StudentId = 1,
+                StudentId = StudentID,
                 FullName = "Nguyễn Văn A",
                 BirthDate = new DateTime(2002, 5, 20),
                 Gender = "Nam",
