@@ -31,7 +31,7 @@ public partial class Home
         {
             if (totalPages == 0)
             {
-                return 0;
+                return 1;
             }
 
             return _currentPage;
