@@ -1,25 +1,79 @@
 ﻿@page "/"
-@inject NavigationManager navigationManager
 
-<PageTitle>Home</PageTitle>
+@inject NavigationManager Navigation
+@using System.Collections.Generic
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-<button class="btn btn-primary" @onclick="OpenAddStudent">Thêm sinh viên</button>
-<button class="btn btn-primary" @onclick="OpenUpdateStudent">Cập nhật sinh viên</button>
+<h3>Danh sách sinh viên</h3>
 
-@code {
-    [Inject] private NavigationManager Navigation { get; set; }
 
-    private void OpenAddStudent()
-    {
-        Navigation.NavigateTo("/add_student", forceLoad: false);
-    }
+<div class="search-bar">
+    <input type="text" placeholder="Nhập tên hoặc MSSV" @bind="searchText" />
+    <button class="btn-search" @onclick="SearchStudents">
+        <img src="/Search.png" alt="Search Icon" class="icon" />
+        Tìm kiếm
+    </button>
 
-    private void OpenUpdateStudent()
-    {
-        Navigation.NavigateTo("/update_student/456", forceLoad: false);
-    }
-}
+    <button class="btn-add" @onclick="AddStudent">
+        <img src="/Plus.png" alt="Add Icon" class="icon" />
+        Thêm mới
+    </button>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>MSSV</th>
+                <th>Họ và tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Khoa</th>
+                <th>Khóa</th>
+                <th>Chương trình</th>
+                <th>Địa chỉ</th>
+                <th>Email</th>
+                <th>SDT</th>
+                <th>Tình trạng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var index = 0; index < PaginatedStudents.Count; index++)
+            {
+                var student = PaginatedStudents[index];
+                <tr>
+                    <td>@(index + 1)</td>
+                    <td>@student.StudentId</td>
+                    <td>@student.FullName</td>
+                    <td>@student.BirthDate</td>
+                    <td>@student.Gender</td>
+                    <td>@student.Faculty</td>
+                    <td>@student.IntakeYear</td>
+                    <td>@student.Program</td>
+                    <td>@student.Address</td>
+                    <td>@student.Email</td>
+                    <td>@student.PhoneNumber</td>
+                    <td>@student.Status</td>
+                    <td>
+                        <button class="btn-delete" @onclick="() => DeleteStudent(student.StudentId)">
+                            <img src="/Delete.png" alt="Delete Icon" class="icon" />
+                        </button>
+                        <button class="btn-edit" @onclick="() => EditStudent(student.StudentId)">
+                            <img src="/Edit.png" alt="Edit Icon" class="icon" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <button class="btn-prev" @onclick="PreviousPage" disabled="@(currentPage == 1)">Trước</button>
+    <span>Trang @currentPage / @totalPages</span>
+    <button class="btn-next" @onclick="NextPage" disabled="@(currentPage == totalPages)">Sau</button>
+</div>
+
