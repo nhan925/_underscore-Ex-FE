@@ -1,5 +1,4 @@
 ﻿@page "/"
-
 @inject NavigationManager Navigation
 @using System.Collections.Generic
 
@@ -30,7 +29,7 @@
                 <th>Giới tính</th>
                 <th>Khoa</th>
                 <th>Khóa</th>
-                <th>Chương trình</th>
+                @* <th>Chương trình</th> *@
                 <th>Địa chỉ</th>
                 <th>Email</th>
                 <th>SDT</th>
@@ -51,7 +50,7 @@
                     <td>@student.Gender</td>
                     <td>@ConvertIdToFacultyName(student.FacultyId)</td>
                     <td>@student.IntakeYear</td>
-                    <td>@student.Program</td>
+                    @* <td>@student.Program</td> *@
                     <td>@student.Address</td>
                     <td>@student.Email</td>
                     <td>@student.PhoneNumber</td>

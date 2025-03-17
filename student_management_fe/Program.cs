@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
+using Radzen;
 using student_management_fe.Authentication;
 using student_management_fe.Services;
 
@@ -26,7 +27,10 @@ public class Program
         builder.Services.AddScoped<StudentServices>();
         builder.Services.AddScoped<StudentStatusService>();
         builder.Services.AddScoped<FacultyService>();
+        builder.Services.AddScoped<ProgramService>();
+        builder.Services.AddScoped<DialogService>();
         builder.Services.AddMudServices();
+        builder.Services.AddRadzenComponents();
 
         await builder.Build().RunAsync();
     }
