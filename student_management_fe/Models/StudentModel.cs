@@ -30,11 +30,8 @@ public class StudentModel
     [CustomValidation(typeof(StudentModel), nameof(ValidateIntakeYear))]
     public int? IntakeYear { get; set; }
 
-    //[Required(ErrorMessage = "Chương trình học không được để trống.")]
-    //public int? ProgramId { get; set; }
-
     [Required(ErrorMessage = "Chương trình học không được để trống.")]
-    public string? Program { get; set; }
+    public int? ProgramId { get; set; }
 
     [Required(ErrorMessage = "Địa chỉ không được để trống.")]
     [StringLength(200, ErrorMessage = "Địa chỉ không được dài quá 200 ký tự.")]

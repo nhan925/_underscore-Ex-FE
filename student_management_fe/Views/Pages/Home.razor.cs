@@ -74,7 +74,7 @@ public partial class Home
         await LoadStudents();
         faculties = await _facultyService.GetFaculties();
         studentStatuses = await _studentStatusService.GetStudentStatuses();
-        //programs = await _programService.GetPrograms(); 
+        programs = await _programService.GetPrograms(); 
 
 
     }
@@ -134,7 +134,7 @@ public partial class Home
             { "Student", newStudent },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatuses },
-            //{ "Programs", programs   }
+            { "Programs", programs   }
         };
         var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
         if (result)
