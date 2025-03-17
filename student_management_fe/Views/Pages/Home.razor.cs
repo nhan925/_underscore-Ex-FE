@@ -22,7 +22,7 @@ public partial class Home
     private ISnackbar Snackbar { get; set; } = default!;
 
     private string? searchText;
-    private List<StudentModel> students = new List<StudentModel>();
+
 
     private int _currentPage = 1;
     private int currentPage
@@ -49,24 +49,34 @@ public partial class Home
     private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
     private int totalCount { get; set; } = 100;
 
-    private List<Faculty> faculties = new List<Faculty>();
-    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private bool showFilter = false;
+    private IEnumerable<String> selectedFaculties = new HashSet<String>();
 
-    private readonly StudentServices _studentServices;
+    private List<Faculty> faculties = new List<Faculty>();
+    private List<StudyProgram> programs = new List<StudyProgram>();
+    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private List<StudentHomePageModel> students = new List<StudentHomePageModel>();
+
     private readonly FacultyService _facultyService;
+    private readonly StudyProgramService _programService;
     private readonly StudentStatusService _studentStatusService;
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService)
+    private readonly StudentServices _studentServices;
+
+    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
+        _programService = studyProgramService;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadStudents();
-        faculties = await _facultyService.GetFaculties();
-        studentStatuses = await _studentStatusService.GetStudentStatuses();
+        await GenerateMockStudents(30);
+        //await LoadStudents();
+        //faculties = await _facultyService.GetFaculties();
+        //studentStatuses = await _studentStatusService.GetStudentStatuses();
+
     }
 
     private string ConvertIdToFacultyName(int? id)
@@ -75,17 +85,85 @@ public partial class Home
         return faculty?.Name ?? "";
     }
 
+    private string ConvertIdToStudyProgramName(int? id)
+    {
+        var program = programs.FirstOrDefault(x => x.Id == id);
+        return program?.Name ?? "";
+
+    }
+
     private string ConvertIdToStudentStatusName(int? id)
     {
         var studentStatus = studentStatuses.FirstOrDefault(x => x.Id == id);
         return studentStatus?.Name ?? "";
     }
 
+
+    private async Task GenerateMockStudents(int n)
+    {
+        var random = new Random();
+
+        // Dữ liệu mẫu cho faculty, program, status
+        faculties = new List<Faculty>
+        {
+            new Faculty { Id = 1, Name = "Information Technology" },
+            new Faculty { Id = 2, Name = "Business Administration" },
+            new Faculty { Id = 3, Name = "Electrical Engineering" }
+        };
+
+        programs = new List<StudyProgram>
+        {
+            new StudyProgram { Id = 1, Name = "Computer Science" },
+            new StudyProgram { Id = 2, Name = "Software Engineering" },
+            new StudyProgram { Id = 3, Name = "Business Management" }
+        };
+
+        studentStatuses = new List<StudentStatus>
+        {
+            new StudentStatus { Id = 1, Name = "Active" },
+            new StudentStatus { Id = 2, Name = "Graduated" },
+            new StudentStatus { Id = 3, Name = "Dropped Out" }
+        };
+
+        students = new List<StudentHomePageModel>();
+
+        for (int i = 0; i < n; i++)
+        {
+            var id = (22010000 + i + 1).ToString();
+            var gender = random.Next(0, 2) == 0 ? "Male" : "Female";
+            var dob = new DateTime(random.Next(1999, 2005), random.Next(1, 13), random.Next(1, 28));
+            var facultyId = faculties[random.Next(faculties.Count)].Id;
+            var programId = programs[random.Next(programs.Count)].Id;
+            var statusId = studentStatuses[random.Next(studentStatuses.Count)].Id;
+
+            students.Add(new StudentHomePageModel
+            {
+                Id = id,
+                FullName = $"Student {i + 1}",
+                DateOfBirth = dob,
+                Gender = gender,
+                FacultyId = facultyId,
+                IntakeYear = random.Next(2018, 2024),
+                ProgramId = programId,
+                StatusId = statusId
+            });
+        }
+
+        await Task.CompletedTask;
+    }
+
+
+
+
     private async Task LoadStudents(string? search = null)
     {
-        var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
-        students = result.Items;
-        totalCount = result.TotalCount;
+        //Fix api
+
+        //var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
+        //students = result.Items;
+        //totalCount = result.TotalCount;
+
+
     }
 
     private async Task SearchStudents()
@@ -96,6 +174,10 @@ public partial class Home
         }
 
         currentPage = 1;
+
+        Console.WriteLine($"Search Text: {searchText}");
+        Console.WriteLine($"Faculties Filter: {string.Join(",", selectedFaculties)}");
+
         await LoadStudents(searchText);
     }
 
@@ -204,7 +286,25 @@ public partial class Home
         }
     }
 
+    private void ToggleFilter()
+    {
+        showFilter = !showFilter;
+    }
 
+    private async Task OnRowClick(TableRowClickEventArgs<StudentHomePageModel> e)
+    {
+        var studentId = e.Item.Id;
+        Console.WriteLine($"Clicked student ID: {studentId}");
+
+        // Ví dụ show popup
+        await DialogService.ShowMessageBox(
+            "Thông báo",
+            $"Bạn vừa chọn sinh viên có ID: {studentId}",
+            "OK"
+        );
+    }   
+
+    /*
     private async Task NextPage()
     {
         if (currentPage < totalPages)
@@ -221,6 +321,6 @@ public partial class Home
             currentPage--;
             await LoadStudents();
         }
-    }
+    }*/
 
 }

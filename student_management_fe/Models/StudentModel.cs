@@ -16,7 +16,7 @@ public class StudentModel
 
     public int? IntakeYear { get; set; }
 
-    public string? Program { get; set; }
+    public int? Program { get; set; }
 
     public string? Address { get; set; }
 

@@ -35,8 +35,8 @@ public partial class Login
             errorMessage = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.";
             return;
         }
-        
-        if(await _authService.Login(loginModel))
+
+        if (await _authService.Login(loginModel))
         {
             Navigation.NavigateTo("/");
         }

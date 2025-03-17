@@ -2,77 +2,101 @@
 
 @inject NavigationManager Navigation
 @using System.Collections.Generic
+@using MudBlazor
+@using student_management_fe.Models
 
-<h3>Danh sách sinh viên</h3>
+<MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
+    Danh sách sinh viên
+</MudText>
 
-<div class="search-bar">
-    <input type="text" placeholder="Nhập tên hoặc MSSV" @oninput="e => searchText = ((ChangeEventArgs)e).Value.ToString()" @onkeydown="HandleKeyPressSearch" />
-    
-    <button class="btn-search" @onclick="SearchStudents">
-        <img src="/Search.png" alt="Search Icon" class="icon" />
-        Tìm kiếm
-    </button>
+<MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
+    <MudGrid>
+        <MudItem xs="12" sm="8">
+            <MudTextField @bind-Value="searchText"
+                          Placeholder="Nhập tên hoặc MSSV"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          Immediate="true"
+                          Variant="Variant.Outlined"
+                          OnKeyDown="HandleKeyPressSearch"
+                          Class="w-100" />
+        </MudItem>
+        <MudItem xs="12" sm="4" Class="d-flex justify-end">
+            <MudButton Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FilterList" OnClick="ToggleFilter" Class="me-2">
+                Bộ lọc
+            </MudButton>
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchStudents" Class="me-2">
+                Tìm kiếm
+            </MudButton>
+            <MudButton Color="Color.Success" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddStudent" Class="me-2">
+                Thêm mới
+            </MudButton>
+        </MudItem>
+    </MudGrid>
 
-    <button class="btn-add" @onclick="AddStudent">
-        <img src="/Plus.png" alt="Add Icon" class="icon" />
-        Thêm mới
-    </button>
-</div>
+    @if (showFilter)
+    {
+        <MudPaper Class="mt-4 pa-4" Elevation="1" Style="background-color: #f9f9f9;">
+            <MudGrid>
+                <MudItem xs="12" sm="12">
+                    <MudSelect T="string"
+                               Label="Chọn khoa"
+                               @bind-SelectedValues="selectedFaculties"
+                               MultiSelection="true"
+                               Variant="Variant.Outlined"
+                               Clearable="true">
+                        @foreach (var faculty in faculties)
+                        {
+                            <MudSelectItem Value="@faculty.Name">@faculty.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    }
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>MSSV</th>
-                <th>Họ và tên</th>
-                <th>Ngày sinh</th>
-                <th>Giới tính</th>
-                <th>Khoa</th>
-                <th>Khóa</th>
-                <th>Chương trình</th>
-                <th>Địa chỉ</th>
-                <th>Email</th>
-                <th>SDT</th>
-                <th>Tình trạng</th>
-                <th>Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (var index = 0; index < students.Count; index++)
-            {
-                var student = students[index];
-                var formattedDob = student.DateOfBirth.Value.ToString("dd/MM/yyyy");
-                <tr>
-                    <td>@(index + 1 + pageSize * (currentPage - 1))</td>
-                    <td>@student.Id</td>
-                    <td>@student.FullName</td>
-                    <td>@formattedDob</td>
-                    <td>@student.Gender</td>
-                    <td>@ConvertIdToFacultyName(student.FacultyId)</td>
-                    <td>@student.IntakeYear</td>
-                    <td>@student.Program</td>
-                    <td>@student.Address</td>
-                    <td>@student.Email</td>
-                    <td>@student.PhoneNumber</td>
-                    <td>@ConvertIdToStudentStatusName(student.StatusId)</td>
-                    <td>
-                        <button class="btn-delete" @onclick="() => DeleteStudent(student.Id)">
-                            <img src="/Delete.png" alt="Delete Icon" class="icon" />
-                        </button>
-                        <button class="btn-edit" @onclick="() => EditStudent(student.Id)">
-                            <img src="/Edit.png" alt="Edit Icon" class="icon" />
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+</MudPaper>
 
-<div class="pagination">
-    <button class="btn-prev" @onclick="PreviousPage" disabled="@(currentPage <= 1)">Trước</button>
-    <span>Trang @(totalPages > 0 ? currentPage : 0) / @totalPages</span>
-    <button class="btn-next" @onclick="NextPage" disabled="@(currentPage >= totalPages)">Sau</button>
-</div>
+<MudPaper Class="table-container" Elevation="4">
+    <MudTable Items="students" Dense="true" Hover="true" Bordered="true" Striped="true" RowClick="OnRowClick">
+        <HeaderContent>
+            <MudTh Style="text-align: center">STT</MudTh>
+            <MudTh Style="text-align: center">MSSV</MudTh>
+            <MudTh Style="text-align: center">Họ và tên</MudTh>
+            <MudTh Style="text-align: center">Ngày sinh</MudTh>
+            <MudTh Style="text-align: center">Giới tính</MudTh>
+            <MudTh Style="text-align: center" >Khoa</MudTh>
+            <MudTh Style="text-align: center">Khóa</MudTh>
+            <MudTh Style="text-align: center">Chương trình</MudTh>
+            <MudTh Style="text-align: center">Tình trạng</MudTh>
+            <MudTh Style="text-align: center">Thao tác</MudTh>
+        </HeaderContent>
+ 
 
+        <RowTemplate>
+            <MudTd Style="text-align: center" DataLabel="STT">1</MudTd>
+            <MudTd DataLabel="MSSV">@context.Id</MudTd>
+            <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
+            <MudTd DataLabel="Ngày sinh">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Giới tính">@context.Gender</MudTd>
+            <MudTd DataLabel="Khoa">@ConvertIdToFacultyName(context.FacultyId)</MudTd>
+            <MudTd DataLabel="Khóa">@context.IntakeYear</MudTd>
+            <MudTd DataLabel="Chương trình">@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
+            <MudTd DataLabel="Tình trạng">@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudent(context.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudent(context.Id)" />
+            </MudTd>
+        </RowTemplate>
+
+         <NoRecordsContent>
+            <MudText>Không tìm thấy dữ liệu...</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Đang tải...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudPaper>
