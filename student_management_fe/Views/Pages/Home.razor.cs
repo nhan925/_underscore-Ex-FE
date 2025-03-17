@@ -7,6 +7,7 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
+using static MudBlazor.CategoryTypes;
 
 namespace student_management_fe.Views.Pages;
 
@@ -56,6 +57,7 @@ public partial class Home
     private List<StudyProgram> programs = new List<StudyProgram>();
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
     private List<StudentHomePageModel> students = new List<StudentHomePageModel>();
+    private StudentHomePageModel SelectedStudent { get; set; }
 
     private readonly FacultyService _facultyService;
     private readonly StudyProgramService _programService;
@@ -157,12 +159,18 @@ public partial class Home
 
     private async Task LoadStudents(string? search = null)
     {
-        //Fix api
+        //Add API call to get students
 
         //var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
         //students = result.Items;
         //totalCount = result.TotalCount;
 
+
+    }
+
+
+    private async Task ExportToExcel()
+    {
 
     }
 
@@ -220,6 +228,12 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
+    }
+
+    private async Task ImportExcel()
+    {
+        Snackbar.Add("Import Excel clicked!", Severity.Info);
+
     }
 
     private async Task EditStudent(string mssv)
@@ -291,20 +305,15 @@ public partial class Home
         showFilter = !showFilter;
     }
 
-    private async Task OnRowClick(TableRowClickEventArgs<StudentHomePageModel> e)
+
+    private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
     {
-        var studentId = e.Item.Id;
-        Console.WriteLine($"Clicked student ID: {studentId}");
+        Console.WriteLine("Row Clicked");
+        Console.WriteLine(tableRowClickEventArgs.Item.Id);
+        // Open popup full information
+    }
 
-        // Ví dụ show popup
-        await DialogService.ShowMessageBox(
-            "Thông báo",
-            $"Bạn vừa chọn sinh viên có ID: {studentId}",
-            "OK"
-        );
-    }   
 
-    /*
     private async Task NextPage()
     {
         if (currentPage < totalPages)
@@ -321,6 +330,6 @@ public partial class Home
             currentPage--;
             await LoadStudents();
         }
-    }*/
+    }
 
 }

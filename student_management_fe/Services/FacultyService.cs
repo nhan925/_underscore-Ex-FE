@@ -17,4 +17,6 @@ public class FacultyService
         
         return await response.Content.ReadFromJsonAsync<List<Faculty>>() ?? new List<Faculty>();
     }
+
+
 }
