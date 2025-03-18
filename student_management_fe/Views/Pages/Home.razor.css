@@ -206,3 +206,8 @@ button img {
         padding: 6px 10px;
     }
 }
+
+.custom-dialog .ui-dialog-titlebar {
+    font-size: 20px !important;
+    font-weight: bold !important;
+}

@@ -3,11 +3,15 @@
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Components.Authorization
 @using MudBlazor
+@using Radzen
+@using Radzen.Blazor
 
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider /> 
+<RadzenComponents />
+
 <div class="page">
     <AuthorizeView>
         <Authorized>

@@ -8,6 +8,10 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using static MudBlazor.CategoryTypes;
+using static student_management_fe.Views.Pages.Home;
+using static student_management_fe.Views.Shared.StudentForm;
+using Radzen;
+
 
 namespace student_management_fe.Views.Pages;
 
@@ -17,7 +21,7 @@ public partial class Home
     private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
@@ -59,11 +63,11 @@ public partial class Home
     private List<StudentHomePageModel> students = new List<StudentHomePageModel>();
     private StudentHomePageModel SelectedStudent { get; set; }
 
+
     private readonly FacultyService _facultyService;
     private readonly StudyProgramService _programService;
     private readonly StudentStatusService _studentStatusService;
     private readonly StudentServices _studentServices;
-
     public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService)
     {
         _studentServices = studentServices;
@@ -78,7 +82,6 @@ public partial class Home
         //await LoadStudents();
         //faculties = await _facultyService.GetFaculties();
         //studentStatuses = await _studentStatusService.GetStudentStatuses();
-
     }
 
     private string ConvertIdToFacultyName(int? id)
@@ -199,20 +202,25 @@ public partial class Home
 
     private async Task AddStudent()
     {
-        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
-        var newStudent = new StudentModel();
-        var parameters = new DialogParameters<StudentForm>
-        {
-            { x => x.ButtonText, "Thêm" },
-            { x => x.Student, newStudent},
-            { x => x.Faculties, faculties},
-            { x => x.StudentStatuses, studentStatuses}
+
+        var options = new Radzen.DialogOptions(){
+            Resizable = false,
+            Draggable = false,
+            Width = "90vw", 
+            Style = "max-width: 90%;",
+            ContentCssClass= "custom-dialog"
         };
-
-        var dialog = await DialogService.ShowAsync<StudentForm>("Thêm sinh viên", parameters, options);
-        var result = await dialog.Result;
-
-        if (!result.Canceled)
+        var newStudent = new StudentModel(); 
+        var parameters = new Dictionary<string, object>
+        {
+            { "ButtonText", "Lưu" },
+            { "Student", newStudent },
+            { "Faculties", faculties },
+            { "StudentStatuses", studentStatuses },
+            { "StudyPrograms", studyPrograms   }
+        };
+        var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
+        if (result)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -228,6 +236,8 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
+
+        Console.WriteLine($"Dialog closed with result: {result}");
     }
 
     private async Task ImportExcel()
@@ -238,66 +248,66 @@ public partial class Home
 
     private async Task EditStudent(string mssv)
     {
-        var student = await _studentServices.GetStudentById(mssv);
-        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
-        var parameters = new DialogParameters<StudentForm>
-        {
-            { x => x.ButtonText, "Thay đổi" },
-            { x => x.Student, student},
-            { x => x.Faculties, faculties},
-            { x => x.StudentStatuses, studentStatuses}
-        };
+        //var student = await _studentServices.GetStudentById(mssv);
+        //var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
+        //var parameters = new DialogParameters<StudentForm>
+        //{
+        //    { x => x.ButtonText, "Thay đổi" },
+        //    { x => x.Student, student},
+        //    { x => x.Faculties, faculties},
+        //    { x => x.StudentStatuses, studentStatuses}
+        //};
 
-        var dialog = await DialogService.ShowAsync<StudentForm>("Thay đổi thông tin", parameters, options);
-        var result = await dialog.Result;
+        //var dialog = await DialogService.ShowAsync<StudentForm>("Thay đổi thông tin", parameters, options);
+        //var result = await dialog.Result;
 
-        if (!result.Canceled)
-        {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        //if (!result.Canceled)
+        //{
+        //    Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
-            try
-            {
-                await _studentServices.UpdateStudent(student);
-                await LoadStudents();
-                Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
+        //    try
+        //    {
+        //        await _studentServices.UpdateStudent(student);
+        //        await LoadStudents();
+        //        Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Snackbar.Add(ex.Message, Severity.Error);
+        //    }
+        //}
     }
 
     private async Task DeleteStudent(string id)
     {
-        var parameters = new DialogParameters<DeleteConfirmationDialog>
-        {
-            { x => x.ContentText, "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
-            { x => x.ButtonText, "Xóa" },
-            { x => x.Color, Color.Error }
-        };
+        //var parameters = new DialogParameters<DeleteConfirmationDialog>
+        //{
+        //    { x => x.ContentText, "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
+        //    { x => x.ButtonText, "Xóa" },
+        //    { x => x.Color, Color.Error }
+        //};
 
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        //var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-        var dialog = await DialogService.ShowAsync<DeleteConfirmationDialog>("Xác nhận xóa", parameters, options);
-        var result = await dialog.Result;
+        //var dialog = await DialogService.ShowAsync<DeleteConfirmationDialog>("Xác nhận xóa", parameters, options);
+        //var result = await dialog.Result;
 
-        if (!result.Canceled)
-        {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        //if (!result.Canceled)
+        //{
+        //    Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
-            try
-            {
-                await _studentServices.DeleteStudent(id);
-                currentPage = 1;
-                await LoadStudents();
-                Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
+        //    try
+        //    {
+        //        await _studentServices.DeleteStudent(id);
+        //        currentPage = 1;
+        //        await LoadStudents();
+        //        Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Snackbar.Add(ex.Message, Severity.Error);
+        //    }
+        //}
     }
 
     private void ToggleFilter()
@@ -331,5 +341,4 @@ public partial class Home
             await LoadStudents();
         }
     }
-
 }

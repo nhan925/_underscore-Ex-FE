@@ -1,5 +1,5 @@
-﻿
 using student_management_fe.Models;
+
 using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
@@ -13,13 +13,12 @@ public class StudyProgramService
         _authService = authService;
     }
 
-    public async Task<List<Program>> GetPrograms()
+    public async Task<List<StudyProgram>> GetPrograms()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "/api/study_program");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/api/study-program");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        return await response.Content.ReadFromJsonAsync<List<Program>>() ?? new List<Program>();
+        return await response.Content.ReadFromJsonAsync<List<StudyProgram>>() ?? new List<StudyProgram>();
     }
 }
-
 
