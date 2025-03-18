@@ -1,6 +1,6 @@
 ﻿namespace student_management_fe.Models;
 
-public class ProgramModel
+public class StudyProgram
 {
     public int Id { get; set; }
 

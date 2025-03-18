@@ -55,18 +55,18 @@ public partial class Home
 
     private List<Faculty> faculties = new List<Faculty>();
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
-    private List<ProgramModel> programs = new List<ProgramModel>();
+    private List<StudyProgram> studyPrograms = new List<StudyProgram>();
 
     private readonly StudentServices _studentServices;
     private readonly FacultyService _facultyService;
     private readonly StudentStatusService _studentStatusService;
-    private readonly StudyProgramService _programService;
+    private readonly StudyProgramService _studyProgramService;
     public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService programService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
-        _programService = programService;
+        _studyProgramService = programService;
     }
 
     protected override async Task OnInitializedAsync()
@@ -74,7 +74,7 @@ public partial class Home
         await LoadStudents();
         faculties = await _facultyService.GetFaculties();
         studentStatuses = await _studentStatusService.GetStudentStatuses();
-        programs = await _programService.GetPrograms(); 
+        studyPrograms = await _studyProgramService.GetPrograms(); 
 
 
     }
@@ -134,7 +134,7 @@ public partial class Home
             { "Student", newStudent },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatuses },
-            { "Programs", programs   }
+            { "StudyPrograms", studyPrograms   }
         };
         var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
         if (result)

@@ -19,7 +19,7 @@ public partial class StudentForm
     public List<StudentStatus> StudentStatuses { get; set; } = new();
 
     [Parameter]
-    public List<ProgramModel> Programs { get; set; } = new();
+    public List<StudyProgram> StudyPrograms { get; set; } = new();
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
 

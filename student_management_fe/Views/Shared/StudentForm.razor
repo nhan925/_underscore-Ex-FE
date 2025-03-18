@@ -83,7 +83,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.ProgramId"
-                                                Data="@Programs" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
+                                                Data="@StudyPrograms" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
                                 <RadzenDataAnnotationValidator Component="ProgramId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>

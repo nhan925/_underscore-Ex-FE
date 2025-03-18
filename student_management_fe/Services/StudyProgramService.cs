@@ -3,20 +3,20 @@ using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
 
-public class ProgramService
+public class StudyProgramService
 {
     private readonly AuthService _authService;
 
-    public ProgramService(AuthService authService)
+    public StudyProgramService(AuthService authService)
     {
         _authService = authService;
     }
 
-    public async Task<List<ProgramModel>> GetPrograms()
+    public async Task<List<StudyProgram>> GetPrograms()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/study-program");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        return await response.Content.ReadFromJsonAsync<List<ProgramModel>>() ?? new List<ProgramModel>();
+        return await response.Content.ReadFromJsonAsync<List<StudyProgram>>() ?? new List<StudyProgram>();
     }
 }
