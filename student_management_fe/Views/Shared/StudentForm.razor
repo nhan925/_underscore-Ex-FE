@@ -7,7 +7,7 @@
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack>
                 <RadzenFieldset Text="Thông tin chung">
-                    <RadzenStack Gap="2rem" class="rz-p-4 rz-p-lg-6">
+                    <RadzenStack Gap="2.5rem" class="rz-p-4 rz-p-lg-6">
                         @if (IsUpdateMode)
                         {
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
@@ -28,8 +28,8 @@
                                 <RadzenLabel Text="Họ và tên" Component="FullName" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8" >
-                                    <RadzenTextBox Style="width: 100%" Name="FullName" @bind-Value="Student.FullName" />
-                                    <RadzenDataAnnotationValidator Component="FullName" Popup=@popup Style="position: relative" />
+                                <RadzenTextBox Style="width: 100%" Name="FullName" @bind-Value="Student.FullName" />
+                                <RadzenDataAnnotationValidator Component="FullName" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -39,7 +39,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDatePicker Style="width: 100%;" @bind-Value="Student.DateOfBirth"
-                                                  DateFormat="dd/MM/yyyy" Name="DateOfBirth" />
+                                DateFormat="dd/MM/yyyy" Name="DateOfBirth" />
                                 <RadzenDataAnnotationValidator Component="DateOfBirth" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -50,7 +50,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="string" Style="width: 100%;" @bind-Value="Student.Gender"
-                                                Data=@(new List<string> { "Nam", "Nữ", "Khác" }) Name="Gender"/>
+                                Data=@(new List<string> { "Nam", "Nữ", "Khác" }) Name="Gender"/>
                                 <RadzenDataAnnotationValidator Component="Gender" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -61,7 +61,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.FacultyId"
-                                                Data="@Faculties" TextProperty="Name" ValueProperty="Id" Name="FacultyId" />
+                                Data="@Faculties" TextProperty="Name" ValueProperty="Id" Name="FacultyId" />
                                 <RadzenDataAnnotationValidator Component="FacultyId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -72,7 +72,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenNumeric TValue="int?" Style="width: 100%;" @bind-Value="Student.IntakeYear"
-                                               Name="IntakeYear" />
+                                Name="IntakeYear" />
                                 <RadzenDataAnnotationValidator Component="IntakeYear" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -83,7 +83,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.ProgramId"
-                                                Data="@StudyPrograms" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
+                                Data="@StudyPrograms" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
                                 <RadzenDataAnnotationValidator Component="ProgramId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -95,7 +95,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox Style="width: 100%;" Type="email" @bind-Value="Student.Email"
-                                               Name="Email"/>
+                                Name="Email"/>
                                 <RadzenDataAnnotationValidator Component="Email" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -106,7 +106,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox Style="width: 100%;" Type="tel" @bind-Value="Student.PhoneNumber"
-                                               Name="PhoneNumber" />
+                                Name="PhoneNumber" />
                                 <RadzenDataAnnotationValidator Component="PhoneNumber" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -117,7 +117,17 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.StatusId"
-                                                Data="@StudentStatuses" TextProperty="Name" ValueProperty="Id" Name="StatusId" />
+                                Data="@StudentStatuses" TextProperty="Name" ValueProperty="Id" Name="StatusId" />
+                                <RadzenDataAnnotationValidator Component="StatusId" Popup=@popup Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Quốc tịch" Component="StatusId" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+								<RadzenTextBox Style="width: 100%;" @bind-Value="Student.Nationality" Name="Nationality" />
                                 <RadzenDataAnnotationValidator Component="StatusId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -126,23 +136,130 @@
             </RadzenStack>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
-            <RadzenFieldset Text="Địa chỉ">
-            <RadzenTabs SelectedIndex="0">
-                <Tabs>
-                    <RadzenTabsItem Text="Thường trú">
-                       <AddressForm @bind-Value="PermanentAddress" OnAddressUpdated="HandleAddressUpdate" />
-                    </RadzenTabsItem>
+            <RadzenStack Gap="1rem">
+                <RadzenFieldset Text="Địa chỉ">
+                    <RadzenTabs SelectedIndex="0">
+                        <Tabs>
+                            <RadzenTabsItem Text="Thường trú">
+                                <AddressForm @bind-Value="PermanentAddress" OnAddressUpdated="HandleAddressUpdate" />
+                            </RadzenTabsItem>
 
-                    <RadzenTabsItem Text="Tạm trú">
-                       <AddressForm @bind-Value="TemporaryAddress" OnAddressUpdated="HandleAddressUpdate" />
-                    </RadzenTabsItem>
+                            <RadzenTabsItem Text="Tạm trú">
+                                <AddressForm @bind-Value="TemporaryAddress" OnAddressUpdated="HandleAddressUpdate" />
+                            </RadzenTabsItem>
 
-                    <RadzenTabsItem Text="Nhận thư">
-                       <AddressForm @bind-Value="MailingAddress" OnAddressUpdated="HandleAddressUpdate" />
-                    </RadzenTabsItem>
-                </Tabs>
-            </RadzenTabs>
-            </RadzenFieldset>
+                            <RadzenTabsItem Text="Nhận thư">
+                                <AddressForm @bind-Value="MailingAddress" OnAddressUpdated="HandleAddressUpdate" />
+                            </RadzenTabsItem>
+                        </Tabs>
+                    </RadzenTabs>
+                </RadzenFieldset>
+                <RadzenFieldset Text="Giấy chứng minh nhân thân">
+                    <RadzenStack Gap="2rem">
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Loại giấy tờ" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenDropDown TValue="string" Style="width: 100%;"
+                                @bind-Value="IdentityInfo.Type"
+                                Data=@(new List<KeyValuePair<string, string>>
+                                                {
+                                                new("cmnd", "Chứng minh nhân dân (CMND)"),
+                                                new("cccd", "Căn cước công dân (CCCD)"),
+                                                new("passport", "Hộ chiếu (Passport)")
+                                                })
+                                TextProperty="Value" ValueProperty="Key" Name="Type" />
+                                <RadzenDataAnnotationValidator Component="Type" Popup="@popup" Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Số giấy tờ" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="IdentityInfo.Number" Name="Number" />
+                                <RadzenDataAnnotationValidator Component="Number" Popup="@popup" Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Ngày cấp" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenDatePicker Style="width: 100%;" @bind-Value="IdentityInfo.DateOfIssue"
+                                DateFormat="dd/MM/yyyy" Name="DateOfIssue" />
+                                <RadzenDataAnnotationValidator Component="DateOfIssue" Popup="@popup" Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Nơi cấp" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="IdentityInfo.PlaceOfIssue" Name="PlaceOfIssue" />
+                                <RadzenDataAnnotationValidator Component="PlaceOfIssue" Popup="@popup" Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+
+                        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Ngày hết hạn" />
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenDatePicker Style="width: 100%;" @bind-Value="IdentityInfo.ExpiryDate"
+                                DateFormat="dd/MM/yyyy" Name="ExpiryDate" />
+                                <RadzenDataAnnotationValidator Component="ExpiryDate" Popup="@popup" Style="position: relative" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                        @if (IdentityInfo.Type == "cccd")
+                        {
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Có gắn chip" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDropDown TValue="string" Style="width: 100%;"
+                                                    @bind-Value="AdditionalInfoModel.HasChip"
+                                                    Data=@(new List<KeyValuePair<string, string>>
+                                                                {
+                                                                new("yes", "Có"),
+                                                                new("no", "Không")
+                                                                })
+                                                    TextProperty="Value" ValueProperty="Key" Name="HasChip"/>
+                                    <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        }
+                        @if (IdentityInfo.Type == "passport")
+                        {
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Quốc gia cấp" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox style="width: 100%" @bind-Value="AdditionalInfoModel.CountryOfIssue" Name="CountryOfIssue"/>
+                                    <RadzenDataAnnotationValidator Component="CountryOfIssue" Popup="@popup" Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Ghi chú" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox style="width: 100%" @bind-Value="AdditionalInfoModel.Note" Name="Note"/>
+                                    <RadzenDataAnnotationValidator Component="Note" Popup="@popup" Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        }
+
+                    </RadzenStack>
+                </RadzenFieldset>
+            </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
 
@@ -152,8 +269,3 @@
     </RadzenStack>
 </RadzenTemplateForm>
 
- @code{
-    private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
-    private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
-    private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
- }

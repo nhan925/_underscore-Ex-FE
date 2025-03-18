@@ -35,20 +35,17 @@ public class StudentModel
     [CustomValidation(typeof(StudentModel), nameof(ValidateIntakeYear))]
     public int? IntakeYear { get; set; }
 
-    public int? Program { get; set; }
 
     [Required(ErrorMessage = "Chương trình học không được để trống.")]
     public int? ProgramId { get; set; }
 
 
-    //[Required(ErrorMessage = "Địa chỉ không được để trống.")]
-    //[StringLength(200, ErrorMessage = "Địa chỉ không được dài quá 200 ký tự.")]
-    //public string? Address { get; set; }
-
     [Required(ErrorMessage = "Danh sách địa chỉ không được để trống.")]
     [CustomValidation(typeof(StudentModel), nameof(ValidateAddresses))]
     public List<Address> Addresses { get; set; }
 
+    [Required(ErrorMessage = "Giấy chứng minh nhân thân không được để trống.")]
+    public IdentityInfo IdentityInfo { get; set; }
 
     [Required(ErrorMessage = "Email không được để trống.")]
     [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
@@ -63,7 +60,10 @@ public class StudentModel
     [Required(ErrorMessage = "Trạng thái sinh viên không được để trống.")]
     public int? StatusId { get; set; }
 
-    
+    [Required(ErrorMessage = "Quốc tịch không được để trống.")]
+    public string? Nationality { get; set; }
+
+
     public static ValidationResult ValidateDateOfBirth(DateTime? date, ValidationContext context)
     {
         if (date.HasValue && date.Value > DateTime.Now)
