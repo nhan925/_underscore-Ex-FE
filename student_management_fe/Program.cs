@@ -26,6 +26,7 @@ public class Program
         builder.Services.AddScoped<AuthService>();
         builder.Services.AddScoped<StudentServices>();
         builder.Services.AddScoped<StudentStatusService>();
+        builder.Services.AddScoped<StudyProgramService>();
         builder.Services.AddScoped<FacultyService>();
         builder.Services.AddScoped<StudyProgramService>();
         builder.Services.AddScoped<DialogService>();

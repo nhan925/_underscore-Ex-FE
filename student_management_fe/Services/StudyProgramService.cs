@@ -1,4 +1,5 @@
-﻿using student_management_fe.Models;
+using student_management_fe.Models;
+
 using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
@@ -20,3 +21,4 @@ public class StudyProgramService
         return await response.Content.ReadFromJsonAsync<List<StudyProgram>>() ?? new List<StudyProgram>();
     }
 }
+

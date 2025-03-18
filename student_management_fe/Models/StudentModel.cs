@@ -35,6 +35,7 @@ public class StudentModel
     [CustomValidation(typeof(StudentModel), nameof(ValidateIntakeYear))]
     public int? IntakeYear { get; set; }
 
+    public int? Program { get; set; }
 
     [Required(ErrorMessage = "Chương trình học không được để trống.")]
     public int? ProgramId { get; set; }
