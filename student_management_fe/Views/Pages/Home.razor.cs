@@ -58,7 +58,7 @@ public partial class Home
     private IEnumerable<String> selectedFaculties = new HashSet<String>();
 
     private List<Faculty> faculties = new List<Faculty>();
-    private List<StudyProgram> programs = new List<StudyProgram>();
+    private List<StudyProgram> studyPrograms = new List<StudyProgram>();
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
     private List<StudentHomePageModel> students = new List<StudentHomePageModel>();
     private StudentHomePageModel SelectedStudent { get; set; }
@@ -92,7 +92,7 @@ public partial class Home
 
     private string ConvertIdToStudyProgramName(int? id)
     {
-        var program = programs.FirstOrDefault(x => x.Id == id);
+        var program = studyPrograms.FirstOrDefault(x => x.Id == id);
         return program?.Name ?? "";
 
     }
@@ -116,7 +116,7 @@ public partial class Home
             new Faculty { Id = 3, Name = "Electrical Engineering" }
         };
 
-        programs = new List<StudyProgram>
+        studyPrograms = new List<StudyProgram>
         {
             new StudyProgram { Id = 1, Name = "Computer Science" },
             new StudyProgram { Id = 2, Name = "Software Engineering" },
@@ -138,7 +138,7 @@ public partial class Home
             var gender = random.Next(0, 2) == 0 ? "Male" : "Female";
             var dob = new DateTime(random.Next(1999, 2005), random.Next(1, 13), random.Next(1, 28));
             var facultyId = faculties[random.Next(faculties.Count)].Id;
-            var programId = programs[random.Next(programs.Count)].Id;
+            var programId = studyPrograms[random.Next(studyPrograms.Count)].Id;
             var statusId = studentStatuses[random.Next(studentStatuses.Count)].Id;
 
             students.Add(new StudentHomePageModel

@@ -16,18 +16,18 @@
                           Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search"
                           Immediate="true"
-                          Variant="Variant.Outlined"
+                          Variant="MudBlazor.Variant.Outlined"
                           OnKeyDown="HandleKeyPressSearch"
                           Class="w-100" />
         </MudItem>
         <MudItem xs="12" sm="12" Class="d-flex justify-end">
-            <MudButton Color="Color.Secondary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FilterList" OnClick="ToggleFilter" Class="me-2">
+            <MudButton Color="Color.Secondary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FilterList" OnClick="ToggleFilter" Class="me-2">
                 Bộ lọc
             </MudButton>
-            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchStudents" Class="me-2">
+            <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchStudents" Class="me-2">
                 Tìm kiếm
             </MudButton>
-            <MudMenu Label="Thêm mới" Color="Color.Success" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Class="me-2">
+            <MudMenu Label="Thêm mới" Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Class="me-2">
 
                 <MudMenuItem OnClick="AddStudent">
                     Thêm sinh viên
@@ -38,7 +38,7 @@
 
             </MudMenu>
           
-            <MudButton Color="Color.Info" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" OnClick="ExportToExcel" Class="me-2">
+            <MudButton Color="Color.Info" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" OnClick="ExportToExcel" Class="me-2">
                 Xuất Excel
             </MudButton>
         </MudItem>
@@ -53,7 +53,7 @@
                                Label="Chọn khoa"
                                @bind-SelectedValues="selectedFaculties"
                                MultiSelection="true"
-                               Variant="Variant.Outlined"
+                               Variant="MudBlazor.Variant.Outlined"
                                Clearable="true">
                         @foreach (var faculty in faculties)
                         {
@@ -110,7 +110,7 @@
 
 <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-4 mb-4">
     <MudItem>
-        <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack">
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack">
             Trước
         </MudButton>
     </MudItem>
@@ -122,7 +122,7 @@
     </MudItem>
 
     <MudItem>
-        <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="NextPage" Disabled="@(currentPage >= totalPages)" EndIcon="@Icons.Material.Filled.ArrowForward">
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="NextPage" Disabled="@(currentPage >= totalPages)" EndIcon="@Icons.Material.Filled.ArrowForward">
             Sau
         </MudButton>
     </MudItem>

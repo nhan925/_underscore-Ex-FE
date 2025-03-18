@@ -1,0 +1,54 @@
+﻿@using System.Text.Json
+@using System.ComponentModel.DataAnnotations
+
+<RadzenStack>
+    <RadzenRow AlignItems="Radzen.AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="4">
+            <RadzenLabel Text="Số nhà/Tên đường" Component="Other" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="8">
+            <RadzenTextBox Style="width: 100%" Name="Other" @bind-Value="Value.Other" Change="ValidateAndUpdate" />
+            <RadzenDataAnnotationValidator Component="Other" Popup=@popup Style="position: relative" />
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow AlignItems="Radzen.AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="4">
+            <RadzenLabel Text="Phường/Xã" Component="Village" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="8">
+            <RadzenTextBox Style="width: 100%" Name="Village" @bind-Value="Value.Village" Change="ValidateAndUpdate" />
+			<RadzenDataAnnotationValidator Component="Village" Popup=@popup Style="position: relative" />
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow AlignItems="Radzen.AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="4">
+            <RadzenLabel Text="Quận/Huyện" Component="District" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="8">
+            <RadzenTextBox Style="width: 100%" Name="District" @bind-Value="Value.District" Change="ValidateAndUpdate" />
+			<RadzenDataAnnotationValidator Component="District" Popup=@popup Style="position: relative" />
+            </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow AlignItems="Radzen.AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="4">
+            <RadzenLabel Text="Tỉnh/Thành phố" Component="City" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="8">
+            <RadzenTextBox Style="width: 100%" Name="City" @bind-Value="Value.City" Change="ValidateAndUpdate" />
+			<RadzenDataAnnotationValidator Component="City" Popup=@popup Style="position: relative" />
+            </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow AlignItems="Radzen.AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="4">
+            <RadzenLabel Text="Quốc gia" Component="Country" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="8">
+            <RadzenTextBox Style="width: 100%" Name="Country" @bind-Value="Value.Country" Change="ValidateAndUpdate" />
+			<RadzenDataAnnotationValidator Component="Country" Popup=@popup Style="position: relative" />
+		</RadzenColumn>
+	</RadzenRow>
+</RadzenStack>

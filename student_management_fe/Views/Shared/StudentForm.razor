@@ -125,6 +125,25 @@
                 </RadzenFieldset>
             </RadzenStack>
         </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenFieldset Text="Địa chỉ">
+            <RadzenTabs SelectedIndex="0">
+                <Tabs>
+                    <RadzenTabsItem Text="Thường trú">
+                       <AddressForm @bind-Value="PermanentAddress" OnAddressUpdated="HandleAddressUpdate" />
+                    </RadzenTabsItem>
+
+                    <RadzenTabsItem Text="Tạm trú">
+                       <AddressForm @bind-Value="TemporaryAddress" OnAddressUpdated="HandleAddressUpdate" />
+                    </RadzenTabsItem>
+
+                    <RadzenTabsItem Text="Nhận thư">
+                       <AddressForm @bind-Value="MailingAddress" OnAddressUpdated="HandleAddressUpdate" />
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+            </RadzenFieldset>
+        </RadzenColumn>
     </RadzenRow>
 
     <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
@@ -132,3 +151,9 @@
         <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Radzen.Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
     </RadzenStack>
 </RadzenTemplateForm>
+
+ @code{
+    private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
+    private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
+    private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
+ }

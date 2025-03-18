@@ -41,9 +41,13 @@ public class StudentModel
     public int? ProgramId { get; set; }
 
 
-    [Required(ErrorMessage = "Địa chỉ không được để trống.")]
-    [StringLength(200, ErrorMessage = "Địa chỉ không được dài quá 200 ký tự.")]
-    public string? Address { get; set; }
+    //[Required(ErrorMessage = "Địa chỉ không được để trống.")]
+    //[StringLength(200, ErrorMessage = "Địa chỉ không được dài quá 200 ký tự.")]
+    //public string? Address { get; set; }
+
+    [Required(ErrorMessage = "Danh sách địa chỉ không được để trống.")]
+    [CustomValidation(typeof(StudentModel), nameof(ValidateAddresses))]
+    public List<Address> Addresses { get; set; }
 
 
     [Required(ErrorMessage = "Email không được để trống.")]
@@ -74,6 +78,17 @@ public class StudentModel
         if (year.HasValue && year.Value > DateTime.Now.Year)
         {
             return new ValidationResult("Khóa học không thể lớn hơn năm hiện tại.");
+        }
+        return ValidationResult.Success;
+    }
+
+    public static ValidationResult ValidateAddresses(List<Address> value, ValidationContext validationContext)
+    {
+
+        bool hasThuongTru = value.Any(a => a.Type == "thuong_tru");
+        if (!hasThuongTru)
+        {
+            return new ValidationResult("Danh sách địa chỉ phải có ít nhất một địa chỉ thường trú.");
         }
         return ValidationResult.Success;
     }
