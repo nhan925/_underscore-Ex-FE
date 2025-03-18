@@ -29,7 +29,8 @@ public class Program
         builder.Services.AddScoped<StudyProgramService>();
         builder.Services.AddScoped<FacultyService>();
         builder.Services.AddScoped<StudyProgramService>();
-        builder.Services.AddScoped<DialogService>();
+        builder.Services.AddScoped<Radzen.DialogService>();
+        builder.Services.AddScoped<MudBlazor.DialogService> ();
         builder.Services.AddMudServices();
         builder.Services.AddRadzenComponents();
 

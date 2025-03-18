@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 
 
-<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@ValidateAndSubmit" InvalidSubmit=@OnInvalidSubmit>
     <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack>
@@ -153,6 +153,12 @@
                             </RadzenTabsItem>
                         </Tabs>
                     </RadzenTabs>
+                    @if (ShowAddressError)
+                    {
+                        <div style="color: red; font-weight: bold; margin-top: 10px;">
+                            Địa chỉ thường trú không được để trống
+                        </div>
+                    }
                 </RadzenFieldset>
                 <RadzenFieldset Text="Giấy chứng minh nhân thân">
                     <RadzenStack Gap="2rem">

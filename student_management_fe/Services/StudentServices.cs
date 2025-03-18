@@ -14,7 +14,7 @@ public class StudentServices
         _authService = authService;
     }
 
-    public async Task<PagedResult<StudentModel>> GetAllStudents(int page, int pageSize, string? search = null)
+    public async Task<PagedResult<StudentHomePageModel>> GetAllStudents(int page, int pageSize, string? search = null)
     {
         string apiEndpoint = $"/api/student?page={page}&pageSize={pageSize}";
         if (!string.IsNullOrEmpty(search))
@@ -31,8 +31,8 @@ public class StudentServices
         }
 
         // Deserialize response content into the object
-        var result = await response.Content.ReadFromJsonAsync<PagedResult<StudentModel>>();
-        return result ?? new PagedResult<StudentModel>(); 
+        var result = await response.Content.ReadFromJsonAsync<PagedResult<StudentHomePageModel>>();
+        return result ?? new PagedResult<StudentHomePageModel>(); 
     }
 
     public async Task DeleteStudent(string id)

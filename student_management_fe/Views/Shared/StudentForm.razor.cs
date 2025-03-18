@@ -9,7 +9,12 @@ namespace student_management_fe.Views.Shared;
 
 public partial class StudentForm
 {
-    [Parameter] public StudentModel Student { get; set; } = new StudentModel();
+    [Parameter]
+    public StudentModel Student { get; set; } = new StudentModel
+    {
+        Addresses = new List<Address>(),
+        IdentityInfo = new IdentityInfo()
+    };
     //[Parameter] public EventCallback OnSave { get; set; }
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -58,9 +63,17 @@ public partial class StudentForm
         if (Student != null && Student.IdentityInfo != null)
         {
             IdentityInfo = Student.IdentityInfo;
-            AdditionalInfoModel.CountryOfIssue = IdentityInfo.AdditionalInfo?["country_of_issue"];
-            AdditionalInfoModel.HasChip = IdentityInfo.AdditionalInfo?["has_chip"];
-            AdditionalInfoModel.Note = IdentityInfo.AdditionalInfo?["note"];
+
+            if (IdentityInfo.AdditionalInfo != null)
+            {
+                IdentityInfo.AdditionalInfo.TryGetValue("country_of_issue", out var country);
+                IdentityInfo.AdditionalInfo.TryGetValue("has_chip", out var hasChip);
+                IdentityInfo.AdditionalInfo.TryGetValue("note", out var note);
+
+                AdditionalInfoModel.CountryOfIssue = country;
+                AdditionalInfoModel.HasChip = hasChip;
+                AdditionalInfoModel.Note = note;
+            }
         }
     }
 
@@ -113,12 +126,25 @@ public partial class StudentForm
         }
     }
 
+    private void ValidateAndSubmit()
+    {
+        
+        if (Student.Addresses == null || !Student.Addresses.Any(a => a.Type == "thuong_tru"))
+        {
+            ShowAddressError = true;
+            return; 
+        }
+       
+        ShowAddressError = false;
+        HandleIdentityInfoUpdate(IdentityInfo);
+        OnSubmit(Student);
+    }
+
+    private bool ShowAddressError { get; set; } = false;
+
     void OnSubmit(StudentModel student)
     {
-        //student.Addresses = new List<Address> { PermanentAddress, TemporaryAddress, MailingAddress };
-        HandleIdentityInfoUpdate(IdentityInfo);
         DialogService.Close(true);
-        
     }
 
     void OnInvalidSubmit(FormInvalidSubmitEventArgs args)

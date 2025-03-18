@@ -24,10 +24,13 @@ public partial class Home
     private Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject]
+    private MudBlazor.DialogService MudDialogService { get; set; } = default!;
+
+    [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
     private string? searchText;
-
+    public bool? IsConfirmed { get; set; }
 
     private int _currentPage = 1;
     private int currentPage
@@ -65,7 +68,7 @@ public partial class Home
 
 
     private readonly FacultyService _facultyService;
-    private readonly StudyProgramService _programService;
+    private readonly StudyProgramService _studyProgramService;
     private readonly StudentStatusService _studentStatusService;
     private readonly StudentServices _studentServices;
     public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService)
@@ -73,15 +76,15 @@ public partial class Home
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
-        _programService = studyProgramService;
+        _studyProgramService = studyProgramService;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await GenerateMockStudents(30);
-        //await LoadStudents();
-        //faculties = await _facultyService.GetFaculties();
-        //studentStatuses = await _studentStatusService.GetStudentStatuses();
+        await LoadStudents();
+        faculties = await _facultyService.GetFaculties();
+        studentStatuses = await _studentStatusService.GetStudentStatuses();
+        studyPrograms = await _studyProgramService.GetPrograms();
     }
 
     private string ConvertIdToFacultyName(int? id)
@@ -103,72 +106,13 @@ public partial class Home
         return studentStatus?.Name ?? "";
     }
 
-
-    private async Task GenerateMockStudents(int n)
-    {
-        var random = new Random();
-
-        // Dữ liệu mẫu cho faculty, program, status
-        faculties = new List<Faculty>
-        {
-            new Faculty { Id = 1, Name = "Information Technology" },
-            new Faculty { Id = 2, Name = "Business Administration" },
-            new Faculty { Id = 3, Name = "Electrical Engineering" }
-        };
-
-        studyPrograms = new List<StudyProgram>
-        {
-            new StudyProgram { Id = 1, Name = "Computer Science" },
-            new StudyProgram { Id = 2, Name = "Software Engineering" },
-            new StudyProgram { Id = 3, Name = "Business Management" }
-        };
-
-        studentStatuses = new List<StudentStatus>
-        {
-            new StudentStatus { Id = 1, Name = "Active" },
-            new StudentStatus { Id = 2, Name = "Graduated" },
-            new StudentStatus { Id = 3, Name = "Dropped Out" }
-        };
-
-        students = new List<StudentHomePageModel>();
-
-        for (int i = 0; i < n; i++)
-        {
-            var id = (22010000 + i + 1).ToString();
-            var gender = random.Next(0, 2) == 0 ? "Male" : "Female";
-            var dob = new DateTime(random.Next(1999, 2005), random.Next(1, 13), random.Next(1, 28));
-            var facultyId = faculties[random.Next(faculties.Count)].Id;
-            var programId = studyPrograms[random.Next(studyPrograms.Count)].Id;
-            var statusId = studentStatuses[random.Next(studentStatuses.Count)].Id;
-
-            students.Add(new StudentHomePageModel
-            {
-                Id = id,
-                FullName = $"Student {i + 1}",
-                DateOfBirth = dob,
-                Gender = gender,
-                FacultyId = facultyId,
-                IntakeYear = random.Next(2018, 2024),
-                ProgramId = programId,
-                StatusId = statusId
-            });
-        }
-
-        await Task.CompletedTask;
-    }
-
-
-
-
     private async Task LoadStudents(string? search = null)
     {
         //Add API call to get students
 
-        //var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
-        //students = result.Items;
-        //totalCount = result.TotalCount;
-
-
+        var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
+        students = result.Items;
+        totalCount = result.TotalCount;
     }
 
 
@@ -210,7 +154,11 @@ public partial class Home
             Style = "max-width: 90%;",
             ContentCssClass= "custom-dialog"
         };
-        var newStudent = new StudentModel(); 
+        var newStudent = new StudentModel
+        {
+            Addresses = new List<Address>(),
+            IdentityInfo = new IdentityInfo()
+        };
         var parameters = new Dictionary<string, object>
         {
             { "ButtonText", "Lưu" },
@@ -220,7 +168,7 @@ public partial class Home
             { "StudyPrograms", studyPrograms   }
         };
         var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
-        if (result)
+        if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -236,7 +184,7 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
-
+ 
         Console.WriteLine($"Dialog closed with result: {result}");
     }
 
@@ -248,66 +196,73 @@ public partial class Home
 
     private async Task EditStudent(string mssv)
     {
-        //var student = await _studentServices.GetStudentById(mssv);
-        //var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
-        //var parameters = new DialogParameters<StudentForm>
-        //{
-        //    { x => x.ButtonText, "Thay đổi" },
-        //    { x => x.Student, student},
-        //    { x => x.Faculties, faculties},
-        //    { x => x.StudentStatuses, studentStatuses}
-        //};
+        var student = await _studentServices.GetStudentById(mssv);
 
-        //var dialog = await DialogService.ShowAsync<StudentForm>("Thay đổi thông tin", parameters, options);
-        //var result = await dialog.Result;
+        var options = new Radzen.DialogOptions()
+        {
+            Resizable = false,
+            Draggable = false,
+            Width = "90vw",
+            Style = "max-width: 90%;",
+            ContentCssClass = "custom-dialog"
+        };
+        var parameters = new Dictionary<string, object>
+        {
+            { "ButtonText", "Cập nhật" },
+            { "Student", student },
+            { "Faculties", faculties },
+            { "StudentStatuses", studentStatuses },
+            { "StudyPrograms", studyPrograms   }
+        };
 
-        //if (!result.Canceled)
-        //{
-        //    Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        var result = await DialogService.OpenAsync<StudentForm>("Cập nhật thông tin sinh viên", parameters, options);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
-        //    try
-        //    {
-        //        await _studentServices.UpdateStudent(student);
-        //        await LoadStudents();
-        //        Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Snackbar.Add(ex.Message, Severity.Error);
-        //    }
-        //}
+            try
+            {
+                await _studentServices.UpdateStudent(student);
+                await LoadStudents();
+                Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
     private async Task DeleteStudent(string id)
     {
-        //var parameters = new DialogParameters<DeleteConfirmationDialog>
-        //{
-        //    { x => x.ContentText, "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
-        //    { x => x.ButtonText, "Xóa" },
-        //    { x => x.Color, Color.Error }
-        //};
+        var parameters = new Dictionary<string, object>
+    {
+        { "ContentText", "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
+        { "ButtonText", "Xóa" }
+    };
 
-        //var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+            "Xác nhận xóa", parameters
+        );
 
-        //var dialog = await DialogService.ShowAsync<DeleteConfirmationDialog>("Xác nhận xóa", parameters, options);
-        //var result = await dialog.Result;
+        Console.WriteLine($"Dialog result: {result}");
 
-        //if (!result.Canceled)
-        //{
-        //    Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
-        //    try
-        //    {
-        //        await _studentServices.DeleteStudent(id);
-        //        currentPage = 1;
-        //        await LoadStudents();
-        //        Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Snackbar.Add(ex.Message, Severity.Error);
-        //    }
-        //}
+            try
+            {
+                await _studentServices.DeleteStudent(id);
+                currentPage = 1;
+                await LoadStudents();
+                Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
     private void ToggleFilter()
