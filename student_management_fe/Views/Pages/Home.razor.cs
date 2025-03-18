@@ -60,8 +60,8 @@ public partial class Home
     private readonly StudentServices _studentServices;
     private readonly FacultyService _facultyService;
     private readonly StudentStatusService _studentStatusService;
-    private readonly ProgramService _programService;
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, ProgramService programService)
+    private readonly StudyProgramService _programService;
+    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService programService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
