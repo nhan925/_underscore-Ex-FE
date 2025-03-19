@@ -32,15 +32,22 @@
                 <MudMenuItem OnClick="AddStudent">
                     Thêm sinh viên
                 </MudMenuItem>
-                <MudMenuItem OnClick="ImportExcel">
+                <MudMenuItem OnClick="@(() => ImportFile(".xlsx"))">
                     Nhập từ Excel
                 </MudMenuItem>
-
+                <MudMenuItem OnClick="@(() => ImportFile(".json"))">
+                    Nhập từ JSON
+                </MudMenuItem>
             </MudMenu>
           
-            <MudButton Color="Color.Info" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" OnClick="ExportToExcel" Class="me-2">
-                Xuất Excel
-            </MudButton>
+            <MudMenu Label="Xuất File" Color="Color.Info" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" Class="me-2">
+                <MudMenuItem OnClick="@(() => ExportFile(".xlsx"))">
+                    Xuất file Excel
+                </MudMenuItem>
+                <MudMenuItem OnClick="@(() => ExportFile(".json"))">
+                    Xuất file JSON
+                </MudMenuItem>
+            </MudMenu>
         </MudItem>
     </MudGrid>
 

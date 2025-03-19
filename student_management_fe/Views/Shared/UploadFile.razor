@@ -1,0 +1,156 @@
+﻿@using MudBlazor
+@using FluentValidation
+@inject Radzen.DialogService DialogService
+@inject ISnackbar Snackbar
+
+<MudStack Style="width: 100%">
+    <MudForm Model="@_model"
+    @bind-IsValid="_isValid"
+    @bind-IsTouched="_isTouched"
+    Validation="@_validationRules.ValidateValue">
+        <MudItem xs="12">
+            <MudFileUpload T="IReadOnlyList<IBrowserFile>"
+            @ref="@_fileUpload"
+            @bind-Files="_model.Files"
+            For="@(() => _model.Files)"
+            AppendMultipleFiles
+            Hidden="@false"
+            InputClass="absolute mud-width-full mud-height-full overflow-hidden z-10"
+            InputStyle="opacity:0"
+            ErrorText="@string.Empty"
+            tabindex="-1"
+            @ondrop="@ClearDragClass"
+            @ondragenter="@SetDragClass"
+            @ondragleave="@ClearDragClass"
+            @ondragend="@ClearDragClass">
+                <ActivatorContent>
+                    <MudPaper Height="300px"
+                    Outlined="true"
+                    Class="@_dragClass">
+                        <MudText Typo="Typo.h6">
+                            Kéo và thả File hoặc nhấn chọn
+                        </MudText>
+                        @foreach (var file in _model.Files?.Select(file => file.Name) ?? Enumerable.Empty<string>())
+                        {
+                            <MudChip T="string" Color="Color.Dark" Text="@file" />
+                        }
+                    </MudPaper>
+                </ActivatorContent>
+            </MudFileUpload>
+            <MudToolBar Gutters="@false"
+            Class="relative d-flex justify-end gap-4">
+                <MudButton Color="Color.Primary"
+                OnClick="@OpenFilePickerAsync"
+                Variant="MudBlazor.Variant.Filled">
+                    Chọn tệp
+                </MudButton>
+                <MudButton Color="Color.Primary"
+                Disabled="@(!_isValid || !_isTouched || _model.Files is null || !_model.Files.Any())"
+                OnClick="@UploadFiles"
+                Variant="MudBlazor.Variant.Filled">
+                    Tải lên
+                </MudButton>
+                <MudButton Color="Color.Error"
+                Disabled="@(_model.Files is null || !_model.Files.Any())"
+                OnClick="@ClearAsync"
+                Variant="MudBlazor.Variant.Filled">
+                    Xóa
+                </MudButton>
+            </MudToolBar>
+        </MudItem>
+        @* <MudItem>
+            @if (_fileUpload?.ValidationErrors.Any() ?? false)
+            {
+                <MudText Color="Color.Error"
+                Typo="@Typo.caption">
+                    @_fileUpload?.ValidationErrors[0]
+                </MudText>
+            }
+        </MudItem> *@
+    </MudForm>
+</MudStack>
+
+@code {
+    [Parameter] public string[] AllowedExtensions { get; set; } = new string[] { };
+    #nullable enable
+
+    public class Model
+    {
+        public IReadOnlyList<IBrowserFile>? Files { get; set; } = new List<IBrowserFile>();
+    }
+
+    private Model _model = new();
+    private ModelFluentValidator _validationRules;
+
+    protected override void OnInitialized()
+    {
+        _validationRules = new ModelFluentValidator(AllowedExtensions);
+    }
+
+    private MudFileUpload<IReadOnlyList<IBrowserFile>>? _fileUpload;
+    private bool _isValid;
+    private bool _isTouched;
+    private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full";
+    private string _dragClass = DefaultDragClass;
+
+    private async Task UploadFiles()
+    {
+        if (_model.Files == null || !_model.Files.Any())
+        {
+            Snackbar.Add("Vui lòng chọn ít nhất một tệp.", MudBlazor.Severity.Warning);
+            return;
+        }
+
+        // Kiểm tra kích thước file < 5MB
+        if (_model.Files.Any(file => file.Size > 5 * 1024 * 1024))
+        {
+            Snackbar.Add("Một hoặc nhiều tệp có kích thước lớn hơn 5MB!", MudBlazor.Severity.Warning);
+            return;
+        }
+
+        // Kiểm tra định dạng file
+        if (_model.Files.Any(file => !AllowedExtensions.Contains(Path.GetExtension(file.Name).ToLower())))
+        {
+            Snackbar.Add($"Chỉ chấp nhận các tệp có định dạng: {string.Join(", ", AllowedExtensions)}.", MudBlazor.Severity.Warning);
+            return;
+        }
+
+        DialogService.Close(_model.Files);
+    }
+
+
+    private void SetDragClass()
+        => _dragClass = $"{DefaultDragClass} mud-border-primary";
+
+    private void ClearDragClass()
+        => _dragClass = DefaultDragClass;
+
+    private Task OpenFilePickerAsync()
+        => _fileUpload?.OpenFilePickerAsync() ?? Task.CompletedTask;
+
+    private Task ClearAsync()
+        => _fileUpload?.ClearAsync() ?? Task.CompletedTask;
+
+    public class ModelFluentValidator : AbstractValidator<Model>
+    {
+        private readonly string[] _allowedExtensions;
+
+        public ModelFluentValidator(string[] allowedExtensions)
+        {
+            _allowedExtensions = allowedExtensions;
+            RuleFor(x => x.Files)
+                .NotEmpty()
+                .WithMessage("Phải có ít nhất 1 tệp tin.")
+                .Must(files => files.All(f => f.Size <= 5 * 1024 * 1024))
+                .WithMessage("Mỗi tệp tin phải nhỏ hơn 5MB.")
+                .Must(files => files.All(f => _allowedExtensions.Contains(Path.GetExtension(f.Name).ToLower())))
+                .WithMessage($"File không hợp lệ");
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<Model>.CreateWithOptions((Model)model, x => x.IncludeProperties(propertyName)));
+            return result.IsValid ? Array.Empty<string>() : result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
+}

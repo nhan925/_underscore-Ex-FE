@@ -11,6 +11,7 @@ using static MudBlazor.CategoryTypes;
 using static student_management_fe.Views.Pages.Home;
 using static student_management_fe.Views.Shared.StudentForm;
 using Radzen;
+using Microsoft.AspNetCore.Components.Forms;
 
 
 namespace student_management_fe.Views.Pages;
@@ -115,12 +116,6 @@ public partial class Home
         totalCount = result.TotalCount;
     }
 
-
-    private async Task ExportToExcel()
-    {
-
-    }
-
     private async Task SearchStudents()
     {
         if (String.IsNullOrEmpty(searchText))
@@ -188,12 +183,6 @@ public partial class Home
         Console.WriteLine($"Dialog closed with result: {result}");
     }
 
-    private async Task ImportExcel()
-    {
-        Snackbar.Add("Import Excel clicked!", Severity.Info);
-
-    }
-
     private async Task EditStudent(string mssv)
     {
         var student = await _studentServices.GetStudentById(mssv);
@@ -212,7 +201,8 @@ public partial class Home
             { "Student", student },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatuses },
-            { "StudyPrograms", studyPrograms   }
+            { "StudyPrograms", studyPrograms   },
+            { "IsUpdateMode", true }
         };
 
         var result = await DialogService.OpenAsync<StudentForm>("Cập nhật thông tin sinh viên", parameters, options);
@@ -262,6 +252,67 @@ public partial class Home
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
+        }
+    }
+
+    private async Task ImportFile(string format)
+    {
+        DialogService.Close(); // Đóng dialog hiện tại nếu có
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "AllowedExtensions", new string[] { format } }
+        };
+
+        var result = await DialogService.OpenAsync<UploadFile>(
+            $"Thêm sinh viên từ file {GetFileFormat(format)}",
+            parameters,
+            new Radzen.DialogOptions() { Width = "600px", CloseDialogOnOverlayClick = false }
+        );
+
+        if (result is IReadOnlyList<IBrowserFile> files && files.Any())
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                foreach (var file in files)
+                {
+                    var sendFormat = GetFileFormat(format);
+                    await _studentServices.UploadFiles(file, sendFormat);
+                }
+                currentPage = 1;
+                await LoadStudents();
+                Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
+
+    private string GetFileFormat(string extension)
+    {
+        return extension.ToLower() switch
+        {
+            ".xlsx" => "excel",
+            ".json" => "json",
+            _ => "unknown" 
+        };
+    }
+
+
+    private async Task ExportFile(string format)
+    {
+        try
+        {
+            var sendFormat = GetFileFormat(format);
+            await _studentServices.DownloadFile(sendFormat);
+            Snackbar.Add(" Xuất file thành công", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
         }
     }
 
