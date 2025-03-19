@@ -133,8 +133,12 @@ public partial class Home
             searchText = null;
         }
 
+        Console.WriteLine("Selected Faculties:");
+        foreach (var faculty in selectedFaculties)
+        {
+            Console.WriteLine($"- {faculty}");
+        }
         currentPage = 1;
-
         var selectedFacultyIds = faculties
             .Where(faculty => selectedFaculties.Contains(faculty.Name))
             .Select(faculty => faculty.Id)
@@ -144,7 +148,16 @@ public partial class Home
             FacultyIds = selectedFacultyIds
         };
         Console.WriteLine($"Faculties Filter: {string.Join(",", filter.FacultyIds)}");
+
         await LoadStudents(searchText, filter);
+    }
+
+    private async Task OnClear()
+    {
+        selectedFaculties = new HashSet<string>();
+        searchText = null;
+        currentPage = 1;
+        await LoadStudents();
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)
