@@ -70,7 +70,7 @@ public partial class StudyProgramManagement
         tempStudyPrograms = studyPrograms;
     }
 
-    private async Task SearchStudyProgram()
+    private void SearchStudyProgram()
     {
         if (String.IsNullOrEmpty(searchText))
         {
@@ -83,11 +83,11 @@ public partial class StudyProgramManagement
         }
     }
 
-    private async Task HandleKeyPressSearch(KeyboardEventArgs e)
+    private void HandleKeyPressSearch(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
-            await LoadStudyPrograms();
+            SearchStudyProgram();
         }
     }
 
@@ -146,21 +146,21 @@ public partial class StudyProgramManagement
     }
 
 
-    private async Task NextPage()
-    {
-        if (currentPage < totalPages)
-        {
-            currentPage++;
-            await LoadStudyPrograms();
-        }
-    }
+    //private async Task NextPage()
+    //{
+    //    if (currentPage < totalPages)
+    //    {
+    //        currentPage++;
+    //        await LoadStudyPrograms();
+    //    }
+    //}
 
-    private async Task PreviousPage()
-    {
-        if (currentPage > 1)
-        {
-            currentPage--;
-            await LoadStudyPrograms();
-        }
-    }
+    //private async Task PreviousPage()
+    //{
+    //    if (currentPage > 1)
+    //    {
+    //        currentPage--;
+    //        await LoadStudyPrograms();
+    //    }
+    //}
 }

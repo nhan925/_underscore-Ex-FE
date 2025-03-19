@@ -40,11 +40,6 @@
             <MudToolBar Gutters="@false"
             Class="relative d-flex justify-end gap-4">
                 <MudButton Color="Color.Primary"
-                    OnClick="@OpenFilePickerAsync"
-                    Variant="MudBlazor.Variant.Filled">
-                        Chọn tệp
-                </MudButton>
-                <MudButton Color="Color.Primary"
                     Disabled="@(!_isValid || !_isTouched || _model.File is null)"
                     OnClick="@UploadFiles"
                     Variant="MudBlazor.Variant.Filled">

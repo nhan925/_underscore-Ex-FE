@@ -69,7 +69,7 @@ public partial class StudentStatusManagement
         tempStudentStatuses = studentStatuses;
     }
 
-    private async Task SearchStudentStatus()
+    private void SearchStudentStatus()
     {
         if (String.IsNullOrEmpty(searchText))
         {
@@ -82,11 +82,11 @@ public partial class StudentStatusManagement
         }
     }
 
-    private async Task HandleKeyPressSearch(KeyboardEventArgs e)
+    private void HandleKeyPressSearch(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
-            await LoadStudentStatuses();
+            SearchStudentStatus();
         }
     }
 
@@ -145,21 +145,21 @@ public partial class StudentStatusManagement
     }
 
 
-    private async Task NextPage()
-    {
-        if (currentPage < totalPages)
-        {
-            currentPage++;
-            await LoadStudentStatuses();
-        }
-    }
+    //private async Task NextPage()
+    //{
+    //    if (currentPage < totalPages)
+    //    {
+    //        currentPage++;
+    //        await LoadStudentStatuses();
+    //    }
+    //}
 
-    private async Task PreviousPage()
-    {
-        if (currentPage > 1)
-        {
-            currentPage--;
-            await LoadStudentStatuses();
-        }
-    }
+    //private async Task PreviousPage()
+    //{
+    //    if (currentPage > 1)
+    //    {
+    //        currentPage--;
+    //        await LoadStudentStatuses();
+    //    }
+    //}
 }

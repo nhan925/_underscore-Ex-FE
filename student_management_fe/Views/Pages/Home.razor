@@ -20,6 +20,26 @@
                           OnKeyDown="HandleKeyPressSearch"
                           Class="w-100" />
         </MudItem>
+
+        @if (showFilter)
+        {
+            <MudItem xs="12" sm="12">
+                <MudSelect T="string"
+                           Label="Chọn khoa"
+                           @bind-SelectedValues="selectedFaculties"
+                           MultiSelection="true"
+                           Variant="MudBlazor.Variant.Outlined"
+                           Clearable="true"
+                           OnClearButtonClick="@(async () => await ResetPaging(keepSearch: true))"
+                           ValueChanged="@(SearchStudents)">
+                    @foreach (var faculty in faculties)
+                    {
+                        <MudSelectItem Value="@faculty.Name">@faculty.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        }
+
         <MudItem xs="12" sm="12" Class="d-flex justify-end">
             <MudButton Color="Color.Secondary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FilterList" OnClick="ToggleFilter" Class="me-2">
                 Bộ lọc
@@ -50,55 +70,32 @@
             </MudMenu>
         </MudItem>
     </MudGrid>
-
-    @if (showFilter)
-    {
-        <MudPaper Class="mt-4 pa-4" Elevation="1" Style="background-color: #f9f9f9;">
-            <MudGrid>
-                <MudItem xs="12" sm="12">
-                    <MudSelect T="string"
-                               Label="Chọn khoa"
-                               @bind-SelectedValues="selectedFaculties"
-                               MultiSelection="true"
-                               Variant="MudBlazor.Variant.Outlined"
-                               Clearable="true"
-                               ValueChanged="@(SearchStudents)">
-                        @foreach (var faculty in faculties)
-                        {
-                            <MudSelectItem Value="@faculty.Name">@faculty.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
-    }
-
 </MudPaper>
 
 <MudPaper Class="table-container" Elevation="4">
     <MudTable RowClass="cursor-pointer" OnRowClick="RowClickEvent" T="StudentHomePageModel" Items="students" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center">STT</MudTh>
-            <MudTh Style="text-align: center">MSSV</MudTh>
-            <MudTh Style="text-align: center">Họ và tên</MudTh>
-            <MudTh Style="text-align: center">Ngày sinh</MudTh>
-            <MudTh Style="text-align: center">Giới tính</MudTh>
-            <MudTh Style="text-align: center" >Khoa</MudTh>
-            <MudTh Style="text-align: center">Khóa</MudTh>
-            <MudTh Style="text-align: center">Chương trình</MudTh>
-            <MudTh Style="text-align: center">Tình trạng</MudTh>
-            <MudTh Style="text-align: center">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 3%">STT</MudTh>
+            <MudTh Style="text-align: center; width: 7%">MSSV</MudTh>
+            <MudTh Style="text-align: center; width: 16%">Họ và tên</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Ngày sinh</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Giới tính</MudTh>
+            <MudTh Style="text-align: center; width: 17%" >Khoa</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Khóa</MudTh>
+            <MudTh Style="text-align: center; width: 10%">Chương trình</MudTh>
+            <MudTh Style="text-align: center; width: 11%">Tình trạng</MudTh>
+            <MudTh Style="text-align: center; width: 12%">Thao tác</MudTh>
         </HeaderContent>
  
 
         <RowTemplate>
             <MudTd Style="text-align: center" DataLabel="STT">@((students.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
-            <MudTd DataLabel="MSSV">@context.Id</MudTd>
+            <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
-            <MudTd DataLabel="Ngày sinh">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Ngày sinh" Style="text-align: center">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>
             <MudTd DataLabel="Giới tính">@context.Gender</MudTd>
             <MudTd DataLabel="Khoa">@ConvertIdToFacultyName(context.FacultyId)</MudTd>
-            <MudTd DataLabel="Khóa">@context.IntakeYear</MudTd>
+            <MudTd DataLabel="Khóa" Style="text-align: center">@context.IntakeYear</MudTd>
             <MudTd DataLabel="Chương trình">@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
             <MudTd DataLabel="Tình trạng">@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
@@ -117,21 +114,17 @@
 </MudPaper>
 
 <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-4 mb-4">
-    <MudItem>
-        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack">
-            Trước
-        </MudButton>
+    <MudItem Style="padding: 12px 12px 12px 12px;">
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack" />
     </MudItem>
 
-    <MudItem>
-        <MudText Typo="Typo.subtitle1" Class="mx-2" Style="white-space: nowrap;">
+    <MudItem Style="padding: 12px 12px 12px 12px; text-align: center;">
+        <MudText Typo="Typo.subtitle1" Class="mx-2" Style="white-space: nowrap; text-align: center">
             Trang @(totalPages > 0 ? currentPage : 0) / @totalPages
         </MudText>
     </MudItem>
 
-    <MudItem>
-        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="NextPage" Disabled="@(currentPage >= totalPages)" EndIcon="@Icons.Material.Filled.ArrowForward">
-            Sau
-        </MudButton>
+    <MudItem Style="padding: 12px 12px 12px 12px;">
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="NextPage" Disabled="@(currentPage >= totalPages)" EndIcon="@Icons.Material.Filled.ArrowForward" />
     </MudItem>
 </MudGrid>

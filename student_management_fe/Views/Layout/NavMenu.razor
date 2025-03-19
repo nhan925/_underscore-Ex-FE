@@ -17,7 +17,7 @@
 
         <!-- TAB QUẢN LÝ CÓ TOGGLE -->
         <div class="nav-item px-3">
-            <a href="#" class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleQuanLy">
+            <a class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleQuanLy">
                 <div>
                     <span class="bi bi-kanban-fill" aria-hidden="true"></span> Quản lý
                 </div>
@@ -28,20 +28,20 @@
             {
                 <div class="nav flex-column ms-4">
                     <NavLink class="nav-link" href="/faculties">
-                        <span class="bi bi-dot"></span> Quản lý Khoa
+                        <span class="bi"></span> Khoa
                     </NavLink>
                     <NavLink class="nav-link" href="/statuses">
-                        <span class="bi bi-dot"></span> Quản lý Tình trạng
+                        <span class="bi"></span> Tình trạng
                     </NavLink>
                     <NavLink class="nav-link" href="/programs">
-                        <span class="bi bi-dot"></span> Quản lý Chương trình
+                        <span class="bi"></span> Chương trình
                     </NavLink>
                 </div>
             }
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="authService.Logout" href="/login">
+            <NavLink class="nav-link" @onclick="authService.Logout">
                 <span class="bi bi-logout-nav-menu" aria-hidden="true"></span> Đăng xuất
             </NavLink>
         </div>

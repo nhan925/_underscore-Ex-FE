@@ -12,6 +12,7 @@ using static student_management_fe.Views.Pages.Home;
 using static student_management_fe.Views.Shared.StudentForm;
 using Radzen;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Threading.Tasks;
 
 
 namespace student_management_fe.Views.Pages;
@@ -107,22 +108,23 @@ public partial class Home
         return studentStatus?.Name ?? "";
     }
 
-    private async Task LoadStudents(string? search = null, StudentFilter? filter = null)
+    private async Task LoadStudents()
     {
         //Add API call to get students
 
-        var result = await _studentServices.GetAllStudents(currentPage, pageSize, search, filter);
+        var result = await _studentServices.GetAllStudents(currentPage, pageSize, searchText, 
+            new StudentFilter { FacultyIds =
+                faculties
+                    .Where(faculty => selectedFaculties.Contains(faculty.Name))
+                    .Select(faculty => faculty.Id)
+                    .ToList()
+            });
         students = result.Items;
         totalCount = result.TotalCount;
         
-        if(filter == null)
+        if(!selectedFaculties.Any())
         {
             showFilter = false;
-        }
-        
-        if (search == null)
-        {
-            searchText = string.Empty;
         }
     }
 
@@ -133,18 +135,7 @@ public partial class Home
             searchText = null;
         }
 
-        currentPage = 1;
-
-        var selectedFacultyIds = faculties
-            .Where(faculty => selectedFaculties.Contains(faculty.Name))
-            .Select(faculty => faculty.Id)
-            .ToList();
-        StudentFilter filter = new StudentFilter
-        {
-            FacultyIds = selectedFacultyIds
-        };
-        Console.WriteLine($"Faculties Filter: {string.Join(",", filter.FacultyIds)}");
-        await LoadStudents(searchText, filter);
+        await ResetPaging(keepFilter: true, keepSearch: true);
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)
@@ -161,8 +152,8 @@ public partial class Home
         var options = new Radzen.DialogOptions(){
             Resizable = false,
             Draggable = false,
-            Width = "90vw", 
-            Style = "max-width: 90%;",
+            Width = "90%",
+            Height = "90%",
             ContentCssClass= "custom-dialog"
         };
         var newStudent = new StudentModel
@@ -186,8 +177,7 @@ public partial class Home
             try
             {
                 var studentId = await _studentServices.AddStudent(newStudent);
-                currentPage = 1;
-                await LoadStudents();
+                await ResetPaging();
                 Snackbar.Add($"Đã thêm sinh viên với MSSV {studentId} !", Severity.Success);
             }
             catch (Exception ex)
@@ -207,8 +197,8 @@ public partial class Home
         {
             Resizable = false,
             Draggable = false,
-            Width = "90vw",
-            Style = "max-width: 90%;",
+            Width = "90%",
+            Height = "90%",
             ContentCssClass = "custom-dialog"
         };
         var parameters = new Dictionary<string, object>
@@ -229,7 +219,7 @@ public partial class Home
             try
             {
                 await _studentServices.UpdateStudent(student);
-                await LoadStudents();
+                await ResetPaging();
                 Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
             }
             catch (Exception ex)
@@ -260,8 +250,7 @@ public partial class Home
             try
             {
                 await _studentServices.DeleteStudent(id);
-                currentPage = 1;
-                await LoadStudents();
+                await ResetPaging();
                 Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
             }
             catch (Exception ex)
@@ -281,9 +270,9 @@ public partial class Home
         };
 
         var result = await DialogService.OpenAsync<UploadFile>(
-            $"Thêm sinh viên từ file {GetFileFormat(format)}",
+            $"Thêm sinh viên từ file {GetFileFormat(format).ToUpperInvariant()}",
             parameters,
-            new Radzen.DialogOptions() { Width = "600px", CloseDialogOnOverlayClick = false }
+            new Radzen.DialogOptions() { Width = "40%", CloseDialogOnOverlayClick = false }
         );
 
         if (result is IBrowserFile file && file != null)
@@ -292,9 +281,8 @@ public partial class Home
             try
             {
                 var sendFormat = GetFileFormat(format);
-                await _studentServices.UploadFiles(file, sendFormat);  
-                currentPage = 1;
-                await LoadStudents();  
+                await _studentServices.UploadFiles(file, sendFormat);
+                await ResetPaging();
                 Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
             }
             catch (Exception ex)
@@ -329,9 +317,11 @@ public partial class Home
         }
     }
 
-    private void ToggleFilter()
+    private async Task ToggleFilter()
     {
         showFilter = !showFilter;
+
+        if (!showFilter && selectedFaculties.Any()) { await ResetPaging(keepSearch: true); }
     }
 
     private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
@@ -358,5 +348,20 @@ public partial class Home
             currentPage--;
             await LoadStudents();
         }
+    }
+
+    private async Task ResetPaging(bool keepSearch = false, bool keepFilter = false)
+    {
+        currentPage = 1;
+
+        if (!keepSearch) { searchText = null; }
+        
+        if (!keepFilter) 
+        {
+            selectedFaculties = new HashSet<string>();
+            showFilter = false; 
+        }
+
+        await LoadStudents();
     }
 }

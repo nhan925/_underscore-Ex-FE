@@ -64,7 +64,6 @@
 }
 
 .form-content {
-    max-height: calc(100vh - 100px); /* Đảm bảo chiều cao của nội dung không vượt quá 100vh trừ chiều cao của nút */
     overflow-y: auto; /* Cho phép cuộn dọc */
     padding-bottom: 100px; /* Đảm bảo không bị che bởi các nút */
 }

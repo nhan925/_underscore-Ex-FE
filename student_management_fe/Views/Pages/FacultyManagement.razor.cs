@@ -68,7 +68,7 @@ public partial class FacultyManagement
         tempFaculties = faculties;
     }
 
-    private async Task SearchFaculty()
+    private void SearchFaculty()
     {
         if (String.IsNullOrEmpty(searchText))
         {
@@ -82,11 +82,11 @@ public partial class FacultyManagement
         }
     }
 
-    private async Task HandleKeyPressSearch(KeyboardEventArgs e)
+    private void HandleKeyPressSearch(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
-            await SearchFaculty();
+            SearchFaculty();
         }
     }
 
@@ -144,21 +144,21 @@ public partial class FacultyManagement
     }
 
 
-    private async Task NextPage()
-    {
-        if (currentPage < totalPages)
-        {
-            currentPage++;
-            await LoadFaculties();
-        }
-    }
+    //private async Task NextPage()
+    //{
+    //    if (currentPage < totalPages)
+    //    {
+    //        currentPage++;
+    //        await LoadFaculties();
+    //    }
+    //}
 
-    private async Task PreviousPage()
-    {
-        if (currentPage > 1)
-        {
-            currentPage--;
-            await LoadFaculties();
-        }
-    }
+    //private async Task PreviousPage()
+    //{
+    //    if (currentPage > 1)
+    //    {
+    //        currentPage--;
+    //        await LoadFaculties();
+    //    }
+    //}
 }

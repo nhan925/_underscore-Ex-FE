@@ -35,16 +35,16 @@
 <MudPaper Class="table-container" Elevation="4">
     <MudTable Items="tempStudentStatuses" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center">STT</MudTh>
-            <MudTh Style="text-align: center">Mã trạng thái</MudTh>
-            <MudTh Style="text-align: center">Tên trạng thái</MudTh>
-            <MudTh Style="text-align: center">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 10%">STT</MudTh>
+            <MudTh Style="text-align: center; width: 20%">Mã trạng thái</MudTh>
+            <MudTh Style="text-align: center; width: 60%">Tên trạng thái</MudTh>
+            <MudTh Style="text-align: center; width: 10%">Thao tác</MudTh>
         </HeaderContent>
 
 
         <RowTemplate>
             <MudTd Style="text-align: center" DataLabel="STT">@((studentStatuses.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
-            <MudTd DataLabel="Mã trạng thái">@context.Id</MudTd>
+            <MudTd DataLabel="Mã trạng thái" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Tên trạng thái">@context.Name</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
                 <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudentStatus(context)" />
