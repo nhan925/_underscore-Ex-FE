@@ -273,7 +273,7 @@ public partial class Home
 
     private async Task ImportFile(string format)
     {
-        DialogService.Close(); // Đóng dialog hiện tại nếu có
+        DialogService.Close();
 
         var parameters = new Dictionary<string, object>
         {
@@ -286,18 +286,15 @@ public partial class Home
             new Radzen.DialogOptions() { Width = "600px", CloseDialogOnOverlayClick = false }
         );
 
-        if (result is IReadOnlyList<IBrowserFile> files && files.Any())
+        if (result is IBrowserFile file && file != null)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                foreach (var file in files)
-                {
-                    var sendFormat = GetFileFormat(format);
-                    await _studentServices.UploadFiles(file, sendFormat);
-                }
+                var sendFormat = GetFileFormat(format);
+                await _studentServices.UploadFiles(file, sendFormat);  
                 currentPage = 1;
-                await LoadStudents();
+                await LoadStudents();  
                 Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
             }
             catch (Exception ex)
