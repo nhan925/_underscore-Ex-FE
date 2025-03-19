@@ -7,6 +7,12 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
+using static MudBlazor.CategoryTypes;
+using static student_management_fe.Views.Pages.Home;
+using static student_management_fe.Views.Shared.StudentForm;
+using Radzen;
+using Microsoft.AspNetCore.Components.Forms;
+
 
 namespace student_management_fe.Views.Pages;
 
@@ -16,13 +22,16 @@ public partial class Home
     private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private Radzen.DialogService DialogService { get; set; } = default!;
+
+    [Inject]
+    private MudBlazor.DialogService MudDialogService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
     private string? searchText;
-    private List<StudentModel> students = new List<StudentModel>();
+    public bool? IsConfirmed { get; set; }
 
     private int _currentPage = 1;
     private int currentPage
@@ -49,17 +58,26 @@ public partial class Home
     private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
     private int totalCount { get; set; } = 100;
 
-    private List<Faculty> faculties = new List<Faculty>();
-    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private bool showFilter = false;
+    private IEnumerable<String> selectedFaculties = new HashSet<String>();
 
-    private readonly StudentServices _studentServices;
+    private List<Faculty> faculties = new List<Faculty>();
+    private List<StudyProgram> studyPrograms = new List<StudyProgram>();
+    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private List<StudentHomePageModel> students = new List<StudentHomePageModel>();
+    private StudentHomePageModel SelectedStudent { get; set; }
+
+
     private readonly FacultyService _facultyService;
+    private readonly StudyProgramService _studyProgramService;
     private readonly StudentStatusService _studentStatusService;
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService)
+    private readonly StudentServices _studentServices;
+    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
+        _studyProgramService = studyProgramService;
     }
 
     protected override async Task OnInitializedAsync()
@@ -67,12 +85,20 @@ public partial class Home
         await LoadStudents();
         faculties = await _facultyService.GetFaculties();
         studentStatuses = await _studentStatusService.GetStudentStatuses();
+        studyPrograms = await _studyProgramService.GetPrograms();
     }
 
     private string ConvertIdToFacultyName(int? id)
     {
         var faculty = faculties.FirstOrDefault(x => x.Id == id);
         return faculty?.Name ?? "";
+    }
+
+    private string ConvertIdToStudyProgramName(int? id)
+    {
+        var program = studyPrograms.FirstOrDefault(x => x.Id == id);
+        return program?.Name ?? "";
+
     }
 
     private string ConvertIdToStudentStatusName(int? id)
@@ -83,6 +109,8 @@ public partial class Home
 
     private async Task LoadStudents(string? search = null)
     {
+        //Add API call to get students
+
         var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
         students = result.Items;
         totalCount = result.TotalCount;
@@ -96,6 +124,10 @@ public partial class Home
         }
 
         currentPage = 1;
+
+        Console.WriteLine($"Search Text: {searchText}");
+        Console.WriteLine($"Faculties Filter: {string.Join(",", selectedFaculties)}");
+
         await LoadStudents(searchText);
     }
 
@@ -109,20 +141,29 @@ public partial class Home
 
     private async Task AddStudent()
     {
-        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
-        var newStudent = new StudentModel();
-        var parameters = new DialogParameters<StudentForm>
-        {
-            { x => x.ButtonText, "Thêm" },
-            { x => x.Student, newStudent},
-            { x => x.Faculties, faculties},
-            { x => x.StudentStatuses, studentStatuses}
+
+        var options = new Radzen.DialogOptions(){
+            Resizable = false,
+            Draggable = false,
+            Width = "90vw", 
+            Style = "max-width: 90%;",
+            ContentCssClass= "custom-dialog"
         };
-
-        var dialog = await DialogService.ShowAsync<StudentForm>("Thêm sinh viên", parameters, options);
-        var result = await dialog.Result;
-
-        if (!result.Canceled)
+        var newStudent = new StudentModel
+        {
+            Addresses = new List<Address>(),
+            IdentityInfo = new IdentityInfo()
+        };
+        var parameters = new Dictionary<string, object>
+        {
+            { "ButtonText", "Lưu" },
+            { "Student", newStudent },
+            { "Faculties", faculties },
+            { "StudentStatuses", studentStatuses },
+            { "StudyPrograms", studyPrograms   }
+        };
+        var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
+        if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -138,24 +179,34 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
+ 
+        Console.WriteLine($"Dialog closed with result: {result}");
     }
 
     private async Task EditStudent(string mssv)
     {
         var student = await _studentServices.GetStudentById(mssv);
-        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true };
-        var parameters = new DialogParameters<StudentForm>
+
+        var options = new Radzen.DialogOptions()
         {
-            { x => x.ButtonText, "Thay đổi" },
-            { x => x.Student, student},
-            { x => x.Faculties, faculties},
-            { x => x.StudentStatuses, studentStatuses}
+            Resizable = false,
+            Draggable = false,
+            Width = "90vw",
+            Style = "max-width: 90%;",
+            ContentCssClass = "custom-dialog"
+        };
+        var parameters = new Dictionary<string, object>
+        {
+            { "ButtonText", "Cập nhật" },
+            { "Student", student },
+            { "Faculties", faculties },
+            { "StudentStatuses", studentStatuses },
+            { "StudyPrograms", studyPrograms   },
+            { "IsUpdateMode", true }
         };
 
-        var dialog = await DialogService.ShowAsync<StudentForm>("Thay đổi thông tin", parameters, options);
-        var result = await dialog.Result;
-
-        if (!result.Canceled)
+        var result = await DialogService.OpenAsync<StudentForm>("Cập nhật thông tin sinh viên", parameters, options);
+        if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -174,19 +225,19 @@ public partial class Home
 
     private async Task DeleteStudent(string id)
     {
-        var parameters = new DialogParameters<DeleteConfirmationDialog>
-        {
-            { x => x.ContentText, "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
-            { x => x.ButtonText, "Xóa" },
-            { x => x.Color, Color.Error }
-        };
+        var parameters = new Dictionary<string, object>
+    {
+        { "ContentText", "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
+        { "ButtonText", "Xóa" }
+    };
 
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+            "Xác nhận xóa", parameters
+        );
 
-        var dialog = await DialogService.ShowAsync<DeleteConfirmationDialog>("Xác nhận xóa", parameters, options);
-        var result = await dialog.Result;
+        Console.WriteLine($"Dialog result: {result}");
 
-        if (!result.Canceled)
+        if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -202,6 +253,80 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
+    }
+
+    private async Task ImportFile(string format)
+    {
+        DialogService.Close(); // Đóng dialog hiện tại nếu có
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "AllowedExtensions", new string[] { format } }
+        };
+
+        var result = await DialogService.OpenAsync<UploadFile>(
+            $"Thêm sinh viên từ file {GetFileFormat(format)}",
+            parameters,
+            new Radzen.DialogOptions() { Width = "600px", CloseDialogOnOverlayClick = false }
+        );
+
+        if (result is IReadOnlyList<IBrowserFile> files && files.Any())
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                foreach (var file in files)
+                {
+                    var sendFormat = GetFileFormat(format);
+                    await _studentServices.UploadFiles(file, sendFormat);
+                }
+                currentPage = 1;
+                await LoadStudents();
+                Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
+
+    private string GetFileFormat(string extension)
+    {
+        return extension.ToLower() switch
+        {
+            ".xlsx" => "excel",
+            ".json" => "json",
+            _ => "unknown" 
+        };
+    }
+
+
+    private async Task ExportFile(string format)
+    {
+        try
+        {
+            var sendFormat = GetFileFormat(format);
+            await _studentServices.DownloadFile(sendFormat);
+            Snackbar.Add(" Xuất file thành công", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private void ToggleFilter()
+    {
+        showFilter = !showFilter;
+    }
+
+
+    private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
+    {
+        Console.WriteLine("Row Clicked");
+        Console.WriteLine(tableRowClickEventArgs.Item.Id);
+        // Open popup full information
     }
 
 
@@ -222,5 +347,4 @@ public partial class Home
             await LoadStudents();
         }
     }
-
 }

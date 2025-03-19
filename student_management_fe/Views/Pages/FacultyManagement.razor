@@ -1,0 +1,81 @@
+﻿@page "/faculties"
+
+@inject NavigationManager Navigation
+@using System.Collections.Generic
+@using MudBlazor
+@using student_management_fe.Models
+
+<MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
+    Danh sách các khoa
+</MudText>
+
+<MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
+    <MudGrid>
+        <MudItem xs="12" sm="12">
+            <MudTextField @bind-Value="searchText"
+                          Placeholder="Nhập tên khoa hoặc mã khoa"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          Immediate="true"
+                          Variant="MudBlazor.Variant.Outlined"
+                          OnKeyDown="HandleKeyPressSearch"
+                          Class="w-100" />
+        </MudItem>
+        <MudItem xs="12" sm="12" Class="d-flex justify-end">
+            <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchFaculty" Class="me-2">
+                Tìm kiếm
+            </MudButton>
+            <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddFaculty" Class="me-2">
+                Thêm mới
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<MudPaper Class="table-container" Elevation="4">
+    <MudTable Items="faculties" Dense="true" Hover="true" Bordered="true" Striped="true">
+        <HeaderContent>
+            <MudTh Style="text-align: center">STT</MudTh>
+            <MudTh Style="text-align: center">Mã khoa</MudTh>
+            <MudTh Style="text-align: center">Tên khoa</MudTh>
+            <MudTh Style="text-align: center">Thao tác</MudTh>
+        </HeaderContent>
+
+
+        <RowTemplate>
+            <MudTd Style="text-align: center" DataLabel="STT">@((faculties.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
+            <MudTd DataLabel="Mã khoa">@context.Id</MudTd>
+            <MudTd DataLabel="Tên khoa">@context.Name</MudTd>
+            <MudTd Style="text-align: center" DataLabel="Thao tác">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditFaculty(context)" />
+            </MudTd>
+        </RowTemplate>
+
+        <NoRecordsContent>
+            <MudText>Không tìm thấy dữ liệu...</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Đang tải...</MudText>
+        </LoadingContent>
+    </MudTable>
+</MudPaper>
+
+@* <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-4 mb-4">
+    <MudItem>
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack">
+            Trước
+        </MudButton>
+    </MudItem>
+
+    <MudItem>
+        <MudText Typo="Typo.subtitle1" Class="mx-2" Style="white-space: nowrap;">
+            Trang @(totalPages > 0 ? currentPage : 0) / @totalPages
+        </MudText>
+    </MudItem>
+
+    <MudItem>
+        <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="NextPage" Disabled="@(currentPage >= totalPages)" EndIcon="@Icons.Material.Filled.ArrowForward">
+            Sau
+        </MudButton>
+    </MudItem>
+</MudGrid> *@

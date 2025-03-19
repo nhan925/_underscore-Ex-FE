@@ -2,10 +2,11 @@
 
 namespace student_management_fe.Models;
 
-public class StudentStatus
+public class StudyProgram
 {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Tên trạng thái sinh viên không được để trống")]
+    [Required(ErrorMessage = "Tên chương trình học không được để trống")]
     public string Name { get; set; }
+
 }
