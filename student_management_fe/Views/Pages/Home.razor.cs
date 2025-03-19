@@ -114,9 +114,15 @@ public partial class Home
         var result = await _studentServices.GetAllStudents(currentPage, pageSize, search, filter);
         students = result.Items;
         totalCount = result.TotalCount;
+        
         if(filter == null)
         {
             showFilter = false;
+        }
+        
+        if (search == null)
+        {
+            searchText = string.Empty;
         }
     }
 
