@@ -13,7 +13,7 @@ public partial class FacultyManagement
     private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
@@ -57,35 +57,13 @@ public partial class FacultyManagement
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadFaculties();
 
-        await GenerateMockFaculties(10);
-
-        // await LoadFaculties();
-
-    }
-
-    private async Task GenerateMockFaculties(int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            var faculty = new Faculty
-            {
-                Id = i + 1,
-                Name = $"Faculty {i + 1}",
-            };
-            faculties.Add(faculty);
-        }
     }
 
     private async Task LoadFaculties(string? search = null)
     {
-        //Add API call to get students
-
-        //var result = await  _facultyService.GetAllFaculties(currentPage, pageSize, search);
-        //faculties = result.Items;
-        //totalCount = result.TotalCount;
-
-
+        faculties = await _facultyService.GetFaculties();
     }
 
     private async Task SearchFaculty()
@@ -112,12 +90,55 @@ public partial class FacultyManagement
 
     private async Task AddFaculty()
     {
-            
+        var faculty = new Faculty();
+        var parameters = new Dictionary<string, object>
+        {
+            {"Faculty", faculty },
+            {"ButtonText", "Lưu" },
+            {"TitleText", "Tên khoa" },
+        };
+
+        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
+                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
-    private async Task EditFaculty(int id)
-    { 
+    private async Task EditFaculty(Faculty faculty)
+    {
+        var parameters = new Dictionary<string, object>
+        {
+            {"Faculty", faculty },
+            {"ButtonText", "Cập nhật" },
+            {"TitleText", "Tên khoa" },
+        };
 
+        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var message = await _facultyService.UpdateFaculty(faculty);
+                await LoadFaculties();
+                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
 

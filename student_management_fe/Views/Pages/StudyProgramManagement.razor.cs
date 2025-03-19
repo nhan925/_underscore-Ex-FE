@@ -4,6 +4,8 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
+using System.Security.AccessControl;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages;
 public partial class StudyProgramManagement
@@ -12,7 +14,7 @@ public partial class StudyProgramManagement
     private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
@@ -47,44 +49,23 @@ public partial class StudyProgramManagement
 
     private List<StudyProgram> studyPrograms = new List<StudyProgram>();
 
-    private readonly StudyProgramService _facultyService;
+    private readonly StudyProgramService _studyProgramService;
 
     public StudyProgramManagement(StudyProgramService studyProgramService)
     {
-        _facultyService = studyProgramService;
+        _studyProgramService = studyProgramService;
     }
 
     protected override async Task OnInitializedAsync()
     {
 
-        await GenerateMockStudyProgram(10);
+        await LoadStudyPrograms();
 
-        // await LoadFaculties();
-
-    }
-
-    private async Task GenerateMockStudyProgram(int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            var item = new StudyProgram
-            {
-                Id = i + 1,
-                Name = $"StudyProgram {i + 1}",
-            };
-            studyPrograms.Add(item);
-        }
     }
 
     private async Task LoadStudyPrograms(string? search = null)
     {
-        //Add API call to get students
-
-        //var result = await  _facultyService.GetAllFaculties(currentPage, pageSize, search);
-        //faculties = result.Items;
-        //totalCount = result.TotalCount;
-
-
+        studyPrograms = await _studyProgramService.GetPrograms();
     }
 
     private async Task SearchStudyProgram()
@@ -111,12 +92,56 @@ public partial class StudyProgramManagement
 
     private async Task AddStudyProgram()
     {
+        var program = new StudyProgram();
+        var parameters = new Dictionary<string, object>
+        {
+            {"StudyProgram", program },
+            {"ButtonText", "Lưu" },
+            {"TitleText", "Tên chương trình học" },
+        };
+
+        var result = await DialogService.OpenAsync<StudyProgramForm>("Thêm chương trình học", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var studyProgramId = await _studyProgramService.AddProgram(program.Name);
+                await LoadStudyPrograms();
+                Snackbar.Add($"Đã thêm chương trình học với id {studyProgramId} !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
 
     }
 
-    private async Task EditStudyProgram(int id)
+    private async Task EditStudyProgram(StudyProgram program)
     {
+        var parameters = new Dictionary<string, object>
+        {
+            {"StudyProgram", program },
+            {"ButtonText", "Cập nhật" },
+            {"TitleText", "Tên chương trình học" },
+        };
 
+        var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var message = await _studyProgramService.UpdateProgram(program);
+                await LoadStudyPrograms();
+                Snackbar.Add($"Đã cập nhật chương trình học thành công !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
 

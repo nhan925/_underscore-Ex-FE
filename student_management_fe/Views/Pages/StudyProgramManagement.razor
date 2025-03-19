@@ -47,7 +47,7 @@
             <MudTd DataLabel="Mã chương trình">@context.Id</MudTd>
             <MudTd DataLabel="Tên chương trình">@context.Name</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudyProgram(context.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudyProgram(context)" />
             </MudTd>
         </RowTemplate>
 
@@ -60,7 +60,7 @@
     </MudTable>
 </MudPaper>
 
-<MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-4 mb-4">
+@* <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-4 mb-4">
     <MudItem>
         <MudButton Variant="MudBlazor.Variant.Outlined" Color="Color.Default" OnClick="PreviousPage" Disabled="@(currentPage <= 1)" StartIcon="@Icons.Material.Filled.ArrowBack">
             Trước
@@ -78,4 +78,4 @@
             Sau
         </MudButton>
     </MudItem>
-</MudGrid>
+</MudGrid> *@

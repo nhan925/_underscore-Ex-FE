@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages;
 
@@ -13,7 +14,7 @@ public partial class StudentStatusManagement
     private IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
@@ -57,35 +58,13 @@ public partial class StudentStatusManagement
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadStudentStatuses();
 
-        await GenerateMockStudentStatus(10);
-
-        // await LoadFaculties();
-
-    }
-
-    private async Task GenerateMockStudentStatus(int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            var item = new StudentStatus
-            {
-                Id = i + 1,
-                Name = $"Student status {i + 1}",
-            };
-            studentStatuses.Add(item);
-        }
     }
 
     private async Task LoadStudentStatuses(string? search = null)
     {
-        //Add API call to get students
-
-        //var result = await  _studentStatusService.GetAllFaculties(currentPage, pageSize, search);
-        //studentStatuses = result.Items;
-        //totalCount = result.TotalCount;
-
-
+        studentStatuses = await _studentStatusService.GetStudentStatuses();
     }
 
     private async Task SearchStudentStatus()
@@ -112,12 +91,56 @@ public partial class StudentStatusManagement
 
     private async Task AddStudentStatus()
     {
+        var studentStatus = new StudentStatus();
+        var parameters =new Dictionary<string, object>
+        {
+            {"TitleText", "Tên trạng thái sinh viên"},
+            {"ButtonText", "Lưu"},
+            {"StudentStatus", studentStatus}
+        };
 
+        var result = await DialogService.OpenAsync<StudentStatusForm>("Thêm trạng thái sinh viên", parameters);
+
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
+                await LoadStudentStatuses();
+                Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
-    private async Task EditStudentStatus(int id)
+    private async Task EditStudentStatus(StudentStatus studentStatus)
     {
+        var parameters = new Dictionary<string, object>
+        {
+            {"StudentStatus", studentStatus },
+            {"ButtonText", "Cập nhật" },
+            {"TitleText", "Tên trạng thái sinh viên" },
+        };
 
+        var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            try
+            {
+                var message = await _studentStatusService.UpdateStudentStatus(studentStatus);
+                await LoadStudentStatuses();
+                Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
     }
 
 
