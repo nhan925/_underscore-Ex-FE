@@ -87,7 +87,7 @@ public partial class StudyProgramManagement
     {
         if (e.Key == "Enter")
         {
-            await LoadStudyPrograms();
+            await SearchStudyProgram();
         }
     }
 

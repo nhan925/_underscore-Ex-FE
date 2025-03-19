@@ -86,7 +86,7 @@ public partial class StudentStatusManagement
     {
         if (e.Key == "Enter")
         {
-            await LoadStudentStatuses();
+            await SearchStudentStatus();
         }
     }
 

@@ -12,6 +12,7 @@ using static student_management_fe.Views.Pages.Home;
 using static student_management_fe.Views.Shared.StudentForm;
 using Radzen;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Threading.Tasks;
 
 
 namespace student_management_fe.Views.Pages;
@@ -155,9 +156,8 @@ public partial class Home
     private async Task OnClear()
     {
         selectedFaculties = new HashSet<string>();
-        searchText = null;
         currentPage = 1;
-        await LoadStudents();
+        await LoadStudents(searchText);
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)
@@ -342,9 +342,13 @@ public partial class Home
         }
     }
 
-    private void ToggleFilter()
+    private async Task ToggleFilter()
     {
         showFilter = !showFilter;
+        if (showFilter == false)
+        {
+            await OnClear();
+        }
     }
 
     private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
