@@ -5,29 +5,28 @@
 
 <MudStack Style="width: 100%">
     <MudForm Model="@_model"
-             @bind-IsValid="_isValid"
-             @bind-IsTouched="_isTouched"
-             Validation="@_validationRules.ValidateValue">
+    @bind-IsValid="_isValid"
+    @bind-IsTouched="_isTouched"
+    Validation="@_validationRules.ValidateValue">
         <MudItem xs="12">
             <MudFileUpload T="IBrowserFile"
-                           @ref="@_fileUpload"
-                           @bind-Files="_model.File"
-                           For="@(() => _model.File)"
-                           AppendMultipleFiles="false"
-                           Hidden="@false"
-                           InputClass="absolute mud-width-full mud-height-full overflow-hidden z-10"
-                           InputStyle="opacity:0"
-                           ErrorText="@string.Empty"
-                           tabindex="-1"
-                           AcceptedFileTypes="@AllowedExtensions"
-                           @ondrop="@ClearDragClass"
-                           @ondragenter="@SetDragClass"
-                           @ondragleave="@ClearDragClass"
-                           @ondragend="@ClearDragClass">
+            @ref="@_fileUpload"
+            @bind-Files="_model.File"
+            For="@(() => _model.File)"
+            AppendMultipleFiles="false"
+            Hidden="@false"
+            InputClass="absolute mud-width-full mud-height-full overflow-hidden z-10"
+            InputStyle="opacity:0"
+            ErrorText="@string.Empty"
+            Accept="@(AllowedExtensions[0])"
+            @ondrop="@ClearDragClass"
+            @ondragenter="@SetDragClass"
+            @ondragleave="@ClearDragClass"
+            @ondragend="@ClearDragClass">
                 <ActivatorContent>
                     <MudPaper Height="300px"
-                              Outlined="true"
-                              Class="@_dragClass">
+                    Outlined="true"
+                    Class="@_dragClass">
                         <MudText Typo="Typo.h6">
                             Kéo và thả File hoặc nhấn chọn
                         </MudText>
@@ -39,23 +38,23 @@
                 </ActivatorContent>
             </MudFileUpload>
             <MudToolBar Gutters="@false"
-                        Class="relative d-flex justify-end gap-4">
+            Class="relative d-flex justify-end gap-4">
                 <MudButton Color="Color.Primary"
-                           OnClick="@OpenFilePickerAsync"
-                           Variant="MudBlazor.Variant.Filled">
-                    Chọn tệp
+                    OnClick="@OpenFilePickerAsync"
+                    Variant="MudBlazor.Variant.Filled">
+                        Chọn tệp
                 </MudButton>
                 <MudButton Color="Color.Primary"
-                           Disabled="@(!_isValid || !_isTouched || _model.File is null)"
-                           OnClick="@UploadSelectedFile"
-                           Variant="MudBlazor.Variant.Filled">
-                    Tải lên
+                    Disabled="@(!_isValid || !_isTouched || _model.File is null)"
+                    OnClick="@UploadFiles"
+                    Variant="MudBlazor.Variant.Filled">
+                        Tải lên
                 </MudButton>
                 <MudButton Color="Color.Error"
-                           Disabled="@(_model.File is null)"
-                           OnClick="@ClearAsync"
-                           Variant="MudBlazor.Variant.Filled">
-                    Xóa
+                    Disabled="@(_model.File is null)"
+                    OnClick="@ClearAsync"
+                    Variant="MudBlazor.Variant.Filled">
+                        Xóa
                 </MudButton>
             </MudToolBar>
         </MudItem>
@@ -68,7 +67,7 @@
 
     public class Model
     {
-        public IBrowserFile? File { get; set; }  // Changed to a single file
+        public IBrowserFile? File { get; set; }  
     }
 
     private Model _model = new();
@@ -85,10 +84,11 @@
     private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full";
     private string _dragClass = DefaultDragClass;
 
-    private async Task UploadSelectedFile()
+    private async Task UploadFiles()
     {
         if (_model.File == null)
         {
+            Snackbar.Add("Vui lòng chọn ít nhất một tệp.", MudBlazor.Severity.Warning);
             return;
         }
 
@@ -116,11 +116,7 @@
         => _dragClass = DefaultDragClass;
 
     private Task OpenFilePickerAsync()
-    {
-		_fileUpload.Accept = string.Join(",", AllowedExtensions);
-        return _fileUpload?.OpenFilePickerAsync() ?? Task.CompletedTask;
-    }
-						
+        => _fileUpload?.OpenFilePickerAsync() ?? Task.CompletedTask;
 
     private Task ClearAsync()
         => _fileUpload?.ClearAsync() ?? Task.CompletedTask;
