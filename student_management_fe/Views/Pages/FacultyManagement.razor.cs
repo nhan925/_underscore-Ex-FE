@@ -47,6 +47,7 @@ public partial class FacultyManagement
     private string? searchText;
 
     private List<Faculty> faculties = new List<Faculty>();
+    private List<Faculty> tempFaculties = new List<Faculty>();
 
     private readonly FacultyService _facultyService;
 
@@ -64,20 +65,21 @@ public partial class FacultyManagement
     private async Task LoadFaculties(string? search = null)
     {
         faculties = await _facultyService.GetFaculties();
+        tempFaculties = faculties;
     }
 
     private async Task SearchFaculty()
     {
         if (String.IsNullOrEmpty(searchText))
         {
+            tempFaculties = faculties;
             searchText = null;
         }
-
-        currentPage = 1;
-
-        Console.WriteLine($"Search Text: {searchText}");
-
-        await LoadFaculties(searchText);
+        else
+        {
+            searchText.Trim();
+            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)

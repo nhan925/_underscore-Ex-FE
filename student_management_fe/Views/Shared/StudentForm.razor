@@ -3,6 +3,7 @@
 
 
 <RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@ValidateAndSubmit" InvalidSubmit=@OnInvalidSubmit>
+    <div class="form-content">
     <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack>
@@ -268,10 +269,12 @@
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-
-    <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-        <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
-        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
-    </RadzenStack>
+    </div>
+    <div class="fixed-bottom-buttons">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+        </RadzenStack>
+    </div>
 </RadzenTemplateForm>
 

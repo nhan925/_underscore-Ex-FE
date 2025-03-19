@@ -48,6 +48,7 @@ public partial class StudyProgramManagement
     private string? searchText;
 
     private List<StudyProgram> studyPrograms = new List<StudyProgram>();
+    private List<StudyProgram> tempStudyPrograms = new List<StudyProgram>();
 
     private readonly StudyProgramService _studyProgramService;
 
@@ -63,23 +64,23 @@ public partial class StudyProgramManagement
 
     }
 
-    private async Task LoadStudyPrograms(string? search = null)
+    private async Task LoadStudyPrograms()
     {
         studyPrograms = await _studyProgramService.GetPrograms();
+        tempStudyPrograms = studyPrograms;
     }
 
     private async Task SearchStudyProgram()
     {
         if (String.IsNullOrEmpty(searchText))
         {
+            tempStudyPrograms = studyPrograms;
             searchText = null;
         }
-
-        currentPage = 1;
-
-        Console.WriteLine($"Search Text: {searchText}");
-
-        await LoadStudyPrograms(searchText);
+        else
+        {
+            tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)

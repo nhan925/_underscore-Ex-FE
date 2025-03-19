@@ -20,12 +20,23 @@ public class StudentServices
         _jsRuntime = jsRuntime;
     }
 
-    public async Task<PagedResult<StudentHomePageModel>> GetAllStudents(int page, int pageSize, string? search = null)
+    public async Task<PagedResult<StudentHomePageModel>> GetAllStudents(int page, int pageSize, string? search = null, StudentFilter? filter = null)
     {
         string apiEndpoint = $"/api/student?page={page}&pageSize={pageSize}";
         if (!string.IsNullOrEmpty(search))
         {
             apiEndpoint += $"&search={search}";
+        }
+        if (filter != null)
+        {
+            if (filter.FacultyIds != null && filter.FacultyIds.Any())
+            {
+                foreach (var facultyId in filter.FacultyIds)
+                {
+                    apiEndpoint += $"&FacultyIds={facultyId}";
+                }
+            }
+            Console.WriteLine(apiEndpoint);
         }
 
         var request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);

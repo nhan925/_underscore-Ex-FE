@@ -48,6 +48,7 @@ public partial class StudentStatusManagement
     private string? searchText;
 
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private List<StudentStatus> tempStudentStatuses = new List<StudentStatus>();
 
     private readonly StudentStatusService _studentStatusService;
 
@@ -65,20 +66,20 @@ public partial class StudentStatusManagement
     private async Task LoadStudentStatuses(string? search = null)
     {
         studentStatuses = await _studentStatusService.GetStudentStatuses();
+        tempStudentStatuses = studentStatuses;
     }
 
     private async Task SearchStudentStatus()
     {
         if (String.IsNullOrEmpty(searchText))
         {
+            tempStudentStatuses = studentStatuses;
             searchText = null;
         }
-
-        currentPage = 1;
-
-        Console.WriteLine($"Search Text: {searchText}");
-
-        await LoadStudentStatuses(searchText);
+        else
+        {
+            tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)

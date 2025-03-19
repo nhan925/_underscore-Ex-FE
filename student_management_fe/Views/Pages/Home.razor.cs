@@ -107,13 +107,17 @@ public partial class Home
         return studentStatus?.Name ?? "";
     }
 
-    private async Task LoadStudents(string? search = null)
+    private async Task LoadStudents(string? search = null, StudentFilter? filter = null)
     {
         //Add API call to get students
 
-        var result = await _studentServices.GetAllStudents(currentPage, pageSize, search);
+        var result = await _studentServices.GetAllStudents(currentPage, pageSize, search, filter);
         students = result.Items;
         totalCount = result.TotalCount;
+        if(filter == null)
+        {
+            showFilter = false;
+        }
     }
 
     private async Task SearchStudents()
@@ -125,10 +129,16 @@ public partial class Home
 
         currentPage = 1;
 
-        Console.WriteLine($"Search Text: {searchText}");
-        Console.WriteLine($"Faculties Filter: {string.Join(",", selectedFaculties)}");
-
-        await LoadStudents(searchText);
+        var selectedFacultyIds = faculties
+            .Where(faculty => selectedFaculties.Contains(faculty.Name))
+            .Select(faculty => faculty.Id)
+            .ToList();
+        StudentFilter filter = new StudentFilter
+        {
+            FacultyIds = selectedFacultyIds
+        };
+        Console.WriteLine($"Faculties Filter: {string.Join(",", filter.FacultyIds)}");
+        await LoadStudents(searchText, filter);
     }
 
     private async Task HandleKeyPressSearch(KeyboardEventArgs e)
@@ -320,7 +330,6 @@ public partial class Home
     {
         showFilter = !showFilter;
     }
-
 
     private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
     {

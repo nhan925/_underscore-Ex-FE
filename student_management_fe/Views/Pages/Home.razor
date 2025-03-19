@@ -61,7 +61,8 @@
                                @bind-SelectedValues="selectedFaculties"
                                MultiSelection="true"
                                Variant="MudBlazor.Variant.Outlined"
-                               Clearable="true">
+                               Clearable="true"
+                               ValueChanged="@(SearchStudents)">>
                         @foreach (var faculty in faculties)
                         {
                             <MudSelectItem Value="@faculty.Name">@faculty.Name</MudSelectItem>

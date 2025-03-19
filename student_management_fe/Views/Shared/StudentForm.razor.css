@@ -52,5 +52,22 @@
     cursor: pointer;
 }
 
+.fixed-bottom-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    background-color: white
+}
+
+.form-content {
+    max-height: calc(100vh - 100px); /* Đảm bảo chiều cao của nội dung không vượt quá 100vh trừ chiều cao của nút */
+    overflow-y: auto; /* Cho phép cuộn dọc */
+    padding-bottom: 100px; /* Đảm bảo không bị che bởi các nút */
+}
+
 
 
