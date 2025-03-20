@@ -108,15 +108,12 @@ public partial class StudyProgramManagement
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
+                await LoadStudyPrograms();
                 Snackbar.Add($"Đã thêm chương trình học với id {studyProgramId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
-            }
-            finally
-            {
-                await LoadStudyPrograms();
             }
         }
 
@@ -124,9 +121,15 @@ public partial class StudyProgramManagement
 
     private async Task EditStudyProgram(StudyProgram program)
     {
+        var editProgram = new StudyProgram
+        {
+            Id = program.Id,
+            Name = program.Name
+        };
+
         var parameters = new Dictionary<string, object>
         {
-            {"StudyProgram", program },
+            {"StudyProgram", editProgram },
             {"ButtonText", "Cập nhật" },
             {"TitleText", "Tên chương trình học" },
         };
@@ -137,16 +140,13 @@ public partial class StudyProgramManagement
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _studyProgramService.UpdateProgram(program);
+                var message = await _studyProgramService.UpdateProgram(editProgram);
+                await LoadStudyPrograms();
                 Snackbar.Add($"Đã cập nhật chương trình học thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
-            }
-            finally
-            {
-                await LoadStudyPrograms();
             }
         }
     }
