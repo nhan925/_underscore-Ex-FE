@@ -108,12 +108,15 @@ public partial class StudyProgramManagement
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
-                await LoadStudyPrograms();
                 Snackbar.Add($"Đã thêm chương trình học với id {studyProgramId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadStudyPrograms();
             }
         }
 
@@ -135,12 +138,15 @@ public partial class StudyProgramManagement
             try
             {
                 var message = await _studyProgramService.UpdateProgram(program);
-                await LoadStudyPrograms();
                 Snackbar.Add($"Đã cập nhật chương trình học thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadStudyPrograms();
             }
         }
     }

@@ -108,12 +108,15 @@ public partial class StudentStatusManagement
             try
             {
                 var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
-                await LoadStudentStatuses();
                 Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadStudentStatuses();
             }
         }
     }
@@ -134,12 +137,15 @@ public partial class StudentStatusManagement
             try
             {
                 var message = await _studentStatusService.UpdateStudentStatus(studentStatus);
-                await LoadStudentStatuses();
                 Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadStudentStatuses();
             }
         }
     }

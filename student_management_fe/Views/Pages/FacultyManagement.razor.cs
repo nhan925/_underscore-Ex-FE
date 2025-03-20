@@ -107,12 +107,15 @@ public partial class FacultyManagement
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
-                await LoadFaculties();
                 Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadFaculties();
             }
         }
     }
@@ -133,12 +136,15 @@ public partial class FacultyManagement
             try
             {
                 var message = await _facultyService.UpdateFaculty(faculty);
-                await LoadFaculties();
                 Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                await LoadFaculties();
             }
         }
     }
