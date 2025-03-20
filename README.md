@@ -65,5 +65,3 @@ student_management_fe/
 
 ### Logging
 <img src="./pics/logging.gif" width=50%/>
-
-
