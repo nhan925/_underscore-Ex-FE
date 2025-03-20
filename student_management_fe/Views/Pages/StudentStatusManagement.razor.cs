@@ -108,24 +108,27 @@ public partial class StudentStatusManagement
             try
             {
                 var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
+                await LoadStudentStatuses();
                 Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
-            finally
-            {
-                await LoadStudentStatuses();
-            }
         }
     }
 
     private async Task EditStudentStatus(StudentStatus studentStatus)
     {
+        var editStudentStutus = new StudentStatus()
+        {
+            Id = studentStatus.Id,
+            Name = studentStatus.Name
+        };
+
         var parameters = new Dictionary<string, object>
         {
-            {"StudentStatus", studentStatus },
+            {"StudentStatus", editStudentStutus },
             {"ButtonText", "Cập nhật" },
             {"TitleText", "Tên trạng thái sinh viên" },
         };
@@ -136,16 +139,13 @@ public partial class StudentStatusManagement
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _studentStatusService.UpdateStudentStatus(studentStatus);
+                var message = await _studentStatusService.UpdateStudentStatus(editStudentStutus);
+                await LoadStudentStatuses();
                 Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
-            }
-            finally
-            {
-                await LoadStudentStatuses();
             }
         }
     }

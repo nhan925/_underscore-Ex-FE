@@ -107,24 +107,27 @@ public partial class FacultyManagement
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
                 Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
-            finally
-            {
-                await LoadFaculties();
-            }
         }
     }
 
     private async Task EditFaculty(Faculty faculty)
     {
+        var editFaculty = new Faculty
+        {
+            Id = faculty.Id,
+            Name = faculty.Name
+        };
+
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", faculty },
+            {"Faculty", editFaculty },
             {"ButtonText", "Cập nhật" },
             {"TitleText", "Tên khoa" },
         };
@@ -135,16 +138,13 @@ public partial class FacultyManagement
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _facultyService.UpdateFaculty(faculty);
+                var message = await _facultyService.UpdateFaculty(editFaculty);
+                await LoadFaculties();
                 Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
-            }
-            finally
-            {
-                await LoadFaculties();
             }
         }
     }
