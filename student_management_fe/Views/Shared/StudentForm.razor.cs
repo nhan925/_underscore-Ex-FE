@@ -1,13 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Radzen;
 using student_management_fe.Models;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace student_management_fe.Views.Shared;
 
 public partial class StudentForm
 {
-    [Parameter] public StudentModel Student { get; set; } = new();
+    [Parameter]
+    public StudentModel Student { get; set; } = new StudentModel
+    {
+        Addresses = new List<Address>(),
+        IdentityInfo = new IdentityInfo()
+    };
     //[Parameter] public EventCallback OnSave { get; set; }
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -17,117 +24,134 @@ public partial class StudentForm
     [Parameter]
     public List<StudentStatus> StudentStatuses { get; set; } = new();
 
-    [Inject] private NavigationManager Navigation { get; set; }
-    private string FullNameError = "";
-    private string EmailError = "";
-    private string PhoneError = "";
-    private string BirthDateError = "";
-    private string IntakeYearError = "";
-    private bool IsInvalid = false;
-   
+    [Parameter]
+    public List<StudyProgram> StudyPrograms { get; set; } = new();
 
-    private Dictionary<string, string> ValidationErrors = new();
+    [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
 
-    private void ValidateField(string fieldName, object? value)
+    [Parameter]
+    public string ButtonText { get; set; }
+
+    bool popup = true;
+
+    private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
+    private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
+    private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
+    private IdentityInfo IdentityInfo { get; set; } = new();
+
+    class AdditionalInfo
     {
-        string errorMessage = "";
+        [Required(ErrorMessage = "Thông tin này không được để trống.")]
+        public string HasChip { get; set; }
 
-        switch (fieldName)
+        [Required(ErrorMessage = "Thông tin này không được để trống.")]
+        public string CountryOfIssue { get; set; }
+
+        [Required]
+        public string Note { get; set; }
+    }
+    private AdditionalInfo AdditionalInfoModel { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        if (Student != null && Student.Addresses != null)
         {
-            case nameof(Student.FullName):
-                if (string.IsNullOrWhiteSpace(value?.ToString()))
-                    errorMessage = "Họ và tên không được để trống.";
-                break;
-
-            case nameof(Student.DateOfBirth):
-                if (value == null)
-                    errorMessage = "Ngày sinh không được để trống.";
-                else if ((DateTime)value > DateTime.Now)
-                    errorMessage = "Ngày sinh không thể lớn hơn ngày hiện tại.";
-                break;
-
-            case nameof(Student.IntakeYear):
-                if (value == null)
-                    errorMessage = "Khóa học không được để trống.";
-                else if ((int)value > DateTime.Now.Year)
-                    errorMessage = "Khóa học không thể lớn hơn năm hiện tại.";
-                break;
-
-            case nameof(Student.Address):
-                if (value == null)
-                    errorMessage = "Địa chỉ không được để trống.";
-                break;
-
-            case nameof(Student.Email):
-                if (string.IsNullOrWhiteSpace(value?.ToString()))
-                    errorMessage = "Email không được để trống.";
-                else if (!System.Text.RegularExpressions.Regex.IsMatch(value.ToString(),
-                    @"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})$"))
-                    errorMessage = "Email không hợp lệ.";
-                break;
-
-            case nameof(Student.PhoneNumber):
-                if (string.IsNullOrWhiteSpace(value?.ToString()))
-                    errorMessage = "Số điện thoại không được để trống.";
-                else if (!System.Text.RegularExpressions.Regex.IsMatch(value.ToString(), @"^\d{10}$"))
-                    errorMessage = "Số điện thoại phải có 10 chữ số.";
-                break;
-
-            case nameof(Student.Gender):
-                if (string.IsNullOrWhiteSpace(value?.ToString()))
-                    errorMessage = "Giới tính không được để trống.";
-                break;
-
-            
-            case nameof(Student.FacultyId):
-                if (value == null)
-                    errorMessage = "Khoa không được để trống.";
-                break;
-
-            
-            case nameof(Student.Program):
-                if (string.IsNullOrWhiteSpace(value?.ToString()))
-                    errorMessage = "Chương trình học không được để trống.";
-                break;
-
-            
-            case nameof(Student.StatusId):
-                if (value == null)
-                    errorMessage = "Trạng thái sinh viên không được để trống.";
-                break;
+            PermanentAddress = Student.Addresses.FirstOrDefault(a => a.Type == "thuong_tru") ?? new Address { Type = "thuong_tru" };
+            TemporaryAddress = Student.Addresses.FirstOrDefault(a => a.Type == "tam_tru") ?? new Address { Type = "tam_tru" };
+            MailingAddress = Student.Addresses.FirstOrDefault(a => a.Type == "nhan_thu") ?? new Address { Type = "nhan_thu" };
         }
+        if (Student != null && Student.IdentityInfo != null)
+        {
+            IdentityInfo = Student.IdentityInfo;
 
-        if (!string.IsNullOrEmpty(errorMessage))
-            ValidationErrors[fieldName] = errorMessage;
+            if (IdentityInfo.AdditionalInfo != null)
+            {
+                IdentityInfo.AdditionalInfo.TryGetValue("country_of_issue", out var country);
+                IdentityInfo.AdditionalInfo.TryGetValue("has_chip", out var hasChip);
+                IdentityInfo.AdditionalInfo.TryGetValue("note", out var note);
+
+                AdditionalInfoModel.CountryOfIssue = country;
+                AdditionalInfoModel.HasChip = hasChip;
+                AdditionalInfoModel.Note = note;
+            }
+        }
+    }
+
+    private void HandleAddressUpdate(Address updatedAddress)
+    {
+        var existing = Student.Addresses.FirstOrDefault(a => a.Type == updatedAddress.Type);
+        if (existing == null)
+        {
+            Student.Addresses.Add(updatedAddress);
+        }
         else
-            ValidationErrors.Remove(fieldName);
-
-        StateHasChanged();
-    }
-
-
-    private bool ValidateAndSave()
-    {
-        ValidationErrors.Clear();
-
-        ValidateField(nameof(Student.FullName), Student.FullName);
-        ValidateField(nameof(Student.DateOfBirth), Student.DateOfBirth);
-        ValidateField(nameof(Student.Address), Student.Address);
-        ValidateField(nameof(Student.IntakeYear), Student.IntakeYear);
-        ValidateField(nameof(Student.Email), Student.Email);
-        ValidateField(nameof(Student.PhoneNumber), Student.PhoneNumber);
-        ValidateField(nameof(Student.Gender), Student.Gender);
-        ValidateField(nameof(Student.FacultyId), Student.FacultyId);
-        ValidateField(nameof(Student.Program), Student.Program);
-        ValidateField(nameof(Student.StatusId), Student.StatusId);
-
-        if (ValidationErrors.Count > 0)
         {
-            StateHasChanged();
-            return false;
+            existing.Other = updatedAddress.Other;
+            existing.Village = updatedAddress.Village;
+            existing.District = updatedAddress.District;
+            existing.City = updatedAddress.City;
+            existing.Country = updatedAddress.Country;
         }
-
-        return true;
     }
+
+    private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
+    {
+        if(updatedIdentityInfo.Type == "cccd")
+        {
+            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
+            {
+                ["has_chip"] = AdditionalInfoModel.HasChip,
+            };
+        }
+        else if (updatedIdentityInfo.Type == "passport")
+        {
+            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
+            {
+                ["country_of_issue"] = AdditionalInfoModel.CountryOfIssue,
+                ["note"] = AdditionalInfoModel.Note
+            };
+        }
+        if (Student.IdentityInfo == null)
+        {
+            Student.IdentityInfo = updatedIdentityInfo;
+        }
+        else
+        {
+            Student.IdentityInfo.Type = updatedIdentityInfo.Type;
+            Student.IdentityInfo.Number = updatedIdentityInfo.Number;
+            Student.IdentityInfo.PlaceOfIssue = updatedIdentityInfo.PlaceOfIssue;
+            Student.IdentityInfo.DateOfIssue = updatedIdentityInfo.DateOfIssue;
+            Student.IdentityInfo.ExpiryDate = updatedIdentityInfo.ExpiryDate;
+            Student.IdentityInfo.AdditionalInfo = updatedIdentityInfo.AdditionalInfo;
+        }
+    }
+
+    private void ValidateAndSubmit()
+    {
+        
+        if (Student.Addresses == null || !Student.Addresses.Any(a => a.Type == "thuong_tru"))
+        {
+            ShowAddressError = true;
+            return; 
+        }
+       
+        ShowAddressError = false;
+        HandleIdentityInfoUpdate(IdentityInfo);
+        OnSubmit(Student);
+    }
+
+    private bool ShowAddressError { get; set; } = false;
+
+    void OnSubmit(StudentModel student)
+    {
+        DialogService.Close(true);
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+        Console.WriteLine("Invalid submit");
+    }
+
+    private void Cancel() => DialogService.Close(false);
 
 }

@@ -12,12 +12,12 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
     private readonly IJSRuntime _jsRuntime;
     private ClaimsPrincipal _currentUser = new(new ClaimsIdentity());
 
-    [Inject]
-    public NavigationManager NavigationContext { get; set; } = default!;
+    public readonly NavigationManager _navigationManager;
 
-    public CustomAuthStateProvider(IJSRuntime jsRuntime)
+    public CustomAuthStateProvider(IJSRuntime jsRuntime, NavigationManager navigationManager)
     {
         _jsRuntime = jsRuntime;
+        _navigationManager = navigationManager;
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -43,7 +43,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
         await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "jwtToken");
         _currentUser = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-        NavigationContext.NavigateTo("/login");
+        _navigationManager.NavigateTo("/login");
     }
 
     private ClaimsIdentity GetClaimsFromToken(string token)

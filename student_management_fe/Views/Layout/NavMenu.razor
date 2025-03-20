@@ -1,5 +1,4 @@
-﻿
-<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Quản lý sinh viên</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -8,15 +7,41 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Trang chủ
             </NavLink>
         </div>
+
+        <!-- TAB QUẢN LÝ CÓ TOGGLE -->
         <div class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="authService.Logout" href="/login">
+            <a class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleQuanLy">
+                <div>
+                    <span class="bi bi-kanban-fill" aria-hidden="true"></span> Quản lý
+                </div>
+                <span>@(showQuanLy ? "-" : "+")</span>
+            </a>
+
+            @if (showQuanLy)
+            {
+                <div class="nav flex-column ms-4">
+                    <NavLink class="nav-link" href="/faculties">
+                        <span class="bi"></span> Khoa
+                    </NavLink>
+                    <NavLink class="nav-link" href="/statuses">
+                        <span class="bi"></span> Tình trạng
+                    </NavLink>
+                    <NavLink class="nav-link" href="/programs">
+                        <span class="bi"></span> Chương trình
+                    </NavLink>
+                </div>
+            }
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" @onclick="authService.Logout">
                 <span class="bi bi-logout-nav-menu" aria-hidden="true"></span> Đăng xuất
             </NavLink>
         </div>
@@ -27,11 +52,17 @@
     @inject AuthService authService;
 
     private bool collapseNavMenu = true;
+    private bool showQuanLy = false;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleQuanLy()
+    {
+        showQuanLy = !showQuanLy;
     }
 }

@@ -1,11 +1,14 @@
 ﻿@inject NavigationManager Navigation
 
+<head>
+    <RadzenTheme Theme="material"/>
+</head>
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             @if (Navigation.Uri.Contains("/login"))
             {
-                <RouteView RouteData="@routeData" DefaultLayout="null" /> 
+                <RouteView RouteData="@routeData" DefaultLayout="null" />
             }
             else
             {
@@ -21,4 +24,6 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
+<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 

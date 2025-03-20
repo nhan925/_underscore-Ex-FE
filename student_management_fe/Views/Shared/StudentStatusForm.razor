@@ -1,0 +1,34 @@
+﻿<RadzenTemplateForm TItem="StudentStatus" Data="@StudentStatus" Submit="@Submit">
+    <RadzenStack>
+        <RadzenColumn>
+            <RadzenText Text="@TitleText" />
+        </RadzenColumn>
+
+        <RadzenColumn>
+            <RadzenTextBox Style="width: 100%" Name="Name" @bind-Value="StudentStatus.Name" />
+            <RadzenDataAnnotationValidator Component="Name" Popup=@popup Style="position: relative" />
+        </RadzenColumn>
+
+        <RadzenColumn>
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="width: 100%" Text="Hủy" Click="Cancel" />
+                <RadzenButton style="width: 100%" Text="@ButtonText" ButtonStyle="ButtonStyle.Success" Type="Submit" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+
+    [Inject] private Radzen.DialogService DialogService { get; set; }
+
+    [Parameter] public string TitleText { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+
+    [Parameter] public StudentStatus StudentStatus { get; set; }
+
+    bool popup = true;
+
+    private void Submit() => DialogService.Close(true);
+    private void Cancel() => DialogService.Close(false);
+}
