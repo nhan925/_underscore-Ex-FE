@@ -95,9 +95,9 @@
                                 <RadzenLabel Text="Email" Component="Email"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Type="email" @bind-Value="Student.Email"
-                                Name="Email"/>
-                                <RadzenDataAnnotationValidator Component="Email" Popup=@popup Style="position: relative" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async () => await ValidateEmail())"/>
+                                <RadzenRequiredValidator Component="Email" Text="Email không được để trống" Popup=@popup Style="position: relative" />
+                                <RadzenCustomValidator Component="Email" Validator="@IsEmailValid" Popup=@popup Style="position: relative" Text=@errorEmailMessage/>
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -106,9 +106,9 @@
                                 <RadzenLabel Text="Số điện thoại" Component="PhoneNumber"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Type="tel" @bind-Value="Student.PhoneNumber"
-                                Name="PhoneNumber" />
-                                <RadzenDataAnnotationValidator Component="PhoneNumber" Popup=@popup Style="position: relative" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async () => await ValidatePhoneNumber())" />
+							    <RadzenRequiredValidator Component="PhoneNumber" Text="Số điện thoại không được để trống" Popup=@popup Style="position: relative" />
+                                <RadzenCustomValidator Component="PhoneNumber" Validator="@IsPhoneValid" Popup=@popup Style="position: relative" Text=@errorPhoneMessage />
                             </RadzenColumn>
                         </RadzenRow>
 

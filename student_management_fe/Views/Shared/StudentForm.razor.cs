@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using MudBlazor;
 using Radzen;
 using student_management_fe.Models;
+using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -32,6 +35,8 @@ public partial class StudentForm
     [Parameter]
     public string ButtonText { get; set; }
 
+    string errorEmailMessage = string.Empty;
+    string errorPhoneMessage = string.Empty;
     bool popup = true;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
@@ -51,6 +56,12 @@ public partial class StudentForm
         public string Note { get; set; }
     }
     private AdditionalInfo AdditionalInfoModel { get; set; } = new();
+
+    private readonly ConfigurationsService _configurationsService;
+    public StudentForm(ConfigurationsService configurationsService)
+    {
+        _configurationsService = configurationsService;
+    }
 
     protected override void OnInitialized()
     {
@@ -124,6 +135,67 @@ public partial class StudentForm
             Student.IdentityInfo.ExpiryDate = updatedIdentityInfo.ExpiryDate;
             Student.IdentityInfo.AdditionalInfo = updatedIdentityInfo.AdditionalInfo;
         }
+    }
+
+    private async Task ValidateEmail()
+    {
+        if (string.IsNullOrWhiteSpace(Student.Email))
+        {
+            errorEmailMessage = "Email không được để trống.";
+            return;
+
+        }
+        try
+        {
+            var result = await _configurationsService.CheckConfig("email", Student.Email);
+            if (!result)
+            {
+                errorEmailMessage = "Email không hợp lệ.";
+            }
+            else {
+                errorEmailMessage = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorEmailMessage = ex.Message;
+            Console.WriteLine(ex.Message);
+        }
+    }
+    private bool IsEmailValid()
+    {
+        return !string.IsNullOrWhiteSpace(errorEmailMessage);
+    }
+
+    private async Task ValidatePhoneNumber()
+    {
+        if (string.IsNullOrWhiteSpace(Student.PhoneNumber))
+        {
+            errorPhoneMessage = "Số điện thoại không được để trống.";
+            return;
+
+        }
+        try
+        {
+            var result = await _configurationsService.CheckConfig("phone-number", Student.PhoneNumber);
+            if (!result)
+            {
+                errorPhoneMessage = "Số điện thoại không hợp lệ.";
+            }
+            else
+            {
+                errorPhoneMessage = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorPhoneMessage = ex.Message;
+            Console.WriteLine(ex.Message);
+        }
+    }
+    private bool IsPhoneValid()
+    {
+        return !string.IsNullOrWhiteSpace(errorPhoneMessage);
     }
 
     private void ValidateAndSubmit()

@@ -48,12 +48,10 @@ public class StudentModel
     public IdentityInfo IdentityInfo { get; set; }
 
     [Required(ErrorMessage = "Email không được để trống.")]
-    [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
     public string? Email { get; set; }
 
 
     [Required(ErrorMessage = "Số điện thoại không được để trống.")]
-    [RegularExpression(@"^\d{10}$", ErrorMessage = "Số điện thoại phải có 10 chữ số.")]
     public string? PhoneNumber { get; set; }
 
 
