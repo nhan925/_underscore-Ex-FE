@@ -7,8 +7,8 @@ using student_management_fe.Services;
 using System.Security.AccessControl;
 using student_management_fe.Views.Shared;
 
-namespace student_management_fe.Views.Pages;
-public partial class StudyProgramManagement
+namespace student_management_fe.Views.Pages.Managements;
+public partial class StudyProgramManagement : ComponentBase
 {
     [Inject]
     private IJSRuntime JS { get; set; } = default!;
@@ -59,9 +59,7 @@ public partial class StudyProgramManagement
 
     protected override async Task OnInitializedAsync()
     {
-
         await LoadStudyPrograms();
-
     }
 
     private async Task LoadStudyPrograms()

@@ -6,8 +6,9 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 
-namespace student_management_fe.Views.Pages;
-public partial class FacultyManagement
+namespace student_management_fe.Views.Pages.Managements;
+
+public partial class StudentStatusManagement
 {
     [Inject]
     private IJSRuntime JS { get; set; } = default!;
@@ -46,39 +47,38 @@ public partial class FacultyManagement
 
     private string? searchText;
 
-    private List<Faculty> faculties = new List<Faculty>();
-    private List<Faculty> tempFaculties = new List<Faculty>();
+    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
+    private List<StudentStatus> tempStudentStatuses = new List<StudentStatus>();
 
-    private readonly FacultyService _facultyService;
+    private readonly StudentStatusService _studentStatusService;
 
-    public FacultyManagement(FacultyService facultyService)
+    public StudentStatusManagement(StudentStatusService studentStatusService)
     {
-        _facultyService = facultyService;
+        _studentStatusService = studentStatusService;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadFaculties();
+        await LoadStudentStatuses();
 
     }
 
-    private async Task LoadFaculties(string? search = null)
+    private async Task LoadStudentStatuses(string? search = null)
     {
-        faculties = await _facultyService.GetFaculties();
-        tempFaculties = faculties;
+        studentStatuses = await _studentStatusService.GetStudentStatuses();
+        tempStudentStatuses = studentStatuses;
     }
 
-    private void SearchFaculty()
+    private void SearchStudentStatus()
     {
         if (String.IsNullOrEmpty(searchText))
         {
-            tempFaculties = faculties;
+            tempStudentStatuses = studentStatuses;
             searchText = null;
         }
         else
         {
-            searchText.Trim();
-            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 
@@ -86,29 +86,30 @@ public partial class FacultyManagement
     {
         if (e.Key == "Enter")
         {
-            SearchFaculty();
+            SearchStudentStatus();
         }
     }
 
-    private async Task AddFaculty()
+    private async Task AddStudentStatus()
     {
-        var faculty = new Faculty();
-        var parameters = new Dictionary<string, object>
+        var studentStatus = new StudentStatus();
+        var parameters =new Dictionary<string, object>
         {
-            {"Faculty", faculty },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên khoa" },
+            {"TitleText", "Tên trạng thái sinh viên"},
+            {"ButtonText", "Lưu"},
+            {"StudentStatus", studentStatus}
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>("Thêm trạng thái sinh viên", parameters);
+
         if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var facultyId = await _facultyService.AddFaculty(faculty.Name);
-                await LoadFaculties();
-                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
+                var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
+                await LoadStudentStatuses();
+                Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -117,30 +118,30 @@ public partial class FacultyManagement
         }
     }
 
-    private async Task EditFaculty(Faculty faculty)
+    private async Task EditStudentStatus(StudentStatus studentStatus)
     {
-        var editFaculty = new Faculty
+        var editStudentStutus = new StudentStatus()
         {
-            Id = faculty.Id,
-            Name = faculty.Name
+            Id = studentStatus.Id,
+            Name = studentStatus.Name
         };
 
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty },
+            {"StudentStatus", editStudentStutus },
             {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên khoa" },
+            {"TitleText", "Tên trạng thái sinh viên" },
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _facultyService.UpdateFaculty(editFaculty);
-                await LoadFaculties();
-                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
+                var message = await _studentStatusService.UpdateStudentStatus(editStudentStutus);
+                await LoadStudentStatuses();
+                Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -155,7 +156,7 @@ public partial class FacultyManagement
     //    if (currentPage < totalPages)
     //    {
     //        currentPage++;
-    //        await LoadFaculties();
+    //        await LoadStudentStatuses();
     //    }
     //}
 
@@ -164,7 +165,7 @@ public partial class FacultyManagement
     //    if (currentPage > 1)
     //    {
     //        currentPage--;
-    //        await LoadFaculties();
+    //        await LoadStudentStatuses();
     //    }
     //}
 }
