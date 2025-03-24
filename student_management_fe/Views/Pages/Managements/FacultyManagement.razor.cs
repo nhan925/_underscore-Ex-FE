@@ -6,9 +6,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 
-namespace student_management_fe.Views.Pages;
-
-public partial class StudentStatusManagement
+namespace student_management_fe.Views.Pages.Managements;
+public partial class FacultyManagement
 {
     [Inject]
     private IJSRuntime JS { get; set; } = default!;
@@ -47,38 +46,39 @@ public partial class StudentStatusManagement
 
     private string? searchText;
 
-    private List<StudentStatus> studentStatuses = new List<StudentStatus>();
-    private List<StudentStatus> tempStudentStatuses = new List<StudentStatus>();
+    private List<Faculty> faculties = new List<Faculty>();
+    private List<Faculty> tempFaculties = new List<Faculty>();
 
-    private readonly StudentStatusService _studentStatusService;
+    private readonly FacultyService _facultyService;
 
-    public StudentStatusManagement(StudentStatusService studentStatusService)
+    public FacultyManagement(FacultyService facultyService)
     {
-        _studentStatusService = studentStatusService;
+        _facultyService = facultyService;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadStudentStatuses();
+        await LoadFaculties();
 
     }
 
-    private async Task LoadStudentStatuses(string? search = null)
+    private async Task LoadFaculties(string? search = null)
     {
-        studentStatuses = await _studentStatusService.GetStudentStatuses();
-        tempStudentStatuses = studentStatuses;
+        faculties = await _facultyService.GetFaculties();
+        tempFaculties = faculties;
     }
 
-    private void SearchStudentStatus()
+    private void SearchFaculty()
     {
         if (String.IsNullOrEmpty(searchText))
         {
-            tempStudentStatuses = studentStatuses;
+            tempFaculties = faculties;
             searchText = null;
         }
         else
         {
-            tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            searchText.Trim();
+            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 
@@ -86,30 +86,29 @@ public partial class StudentStatusManagement
     {
         if (e.Key == "Enter")
         {
-            SearchStudentStatus();
+            SearchFaculty();
         }
     }
 
-    private async Task AddStudentStatus()
+    private async Task AddFaculty()
     {
-        var studentStatus = new StudentStatus();
-        var parameters =new Dictionary<string, object>
+        var faculty = new Faculty();
+        var parameters = new Dictionary<string, object>
         {
-            {"TitleText", "Tên trạng thái sinh viên"},
-            {"ButtonText", "Lưu"},
-            {"StudentStatus", studentStatus}
+            {"Faculty", faculty },
+            {"ButtonText", "Lưu" },
+            {"TitleText", "Tên khoa" },
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Thêm trạng thái sinh viên", parameters);
-
+        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
-                await LoadStudentStatuses();
-                Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
+                var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
+                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -118,30 +117,30 @@ public partial class StudentStatusManagement
         }
     }
 
-    private async Task EditStudentStatus(StudentStatus studentStatus)
+    private async Task EditFaculty(Faculty faculty)
     {
-        var editStudentStutus = new StudentStatus()
+        var editFaculty = new Faculty
         {
-            Id = studentStatus.Id,
-            Name = studentStatus.Name
+            Id = faculty.Id,
+            Name = faculty.Name
         };
 
         var parameters = new Dictionary<string, object>
         {
-            {"StudentStatus", editStudentStutus },
+            {"Faculty", editFaculty },
             {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên trạng thái sinh viên" },
+            {"TitleText", "Tên khoa" },
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _studentStatusService.UpdateStudentStatus(editStudentStutus);
-                await LoadStudentStatuses();
-                Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
+                var message = await _facultyService.UpdateFaculty(editFaculty);
+                await LoadFaculties();
+                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -156,7 +155,7 @@ public partial class StudentStatusManagement
     //    if (currentPage < totalPages)
     //    {
     //        currentPage++;
-    //        await LoadStudentStatuses();
+    //        await LoadFaculties();
     //    }
     //}
 
@@ -165,7 +164,7 @@ public partial class StudentStatusManagement
     //    if (currentPage > 1)
     //    {
     //        currentPage--;
-    //        await LoadStudentStatuses();
+    //        await LoadFaculties();
     //    }
     //}
 }
