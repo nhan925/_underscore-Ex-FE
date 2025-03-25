@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 
 
-<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@ValidateAndSubmit" InvalidSubmit=@OnInvalidSubmit>
+<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@(async () => ValidateAndSubmit())" InvalidSubmit=@OnInvalidSubmit>
     <div class="form-content">
     <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
         <RadzenColumn Size="12" SizeMD="6">
@@ -95,9 +95,9 @@
                                 <RadzenLabel Text="Email" Component="Email"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async () => await ValidateEmail())"/>
-                                <RadzenRequiredValidator Component="Email" Text="Email không được để trống" Popup=@popup Style="position: relative" />
-                                <RadzenCustomValidator Component="Email" Validator="@IsEmailValid" Popup=@popup Style="position: relative" Text=@errorEmailMessage/>
+                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async args => await ValidateEmail())" />
+                                    <RadzenRequiredValidator Component="Email" Popup=@popup Style="position: relative" Text="Email không được để trống" />
+                                    <RadzenCustomValidator Component="Email" Validator="@IsEmailValid" Popup=@popup Style="position: relative" Text=@errorEmailMessage />
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -106,9 +106,9 @@
                                 <RadzenLabel Text="Số điện thoại" Component="PhoneNumber"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async () => await ValidatePhoneNumber())" />
-							    <RadzenRequiredValidator Component="PhoneNumber" Text="Số điện thoại không được để trống" Popup=@popup Style="position: relative" />
-                                <RadzenCustomValidator Component="PhoneNumber" Validator="@IsPhoneValid" Popup=@popup Style="position: relative" Text=@errorPhoneMessage />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async args => await ValidatePhoneNumber())" />
+                                <RadzenRequiredValidator Component="PhoneNumber" Popup=@popup Style="position: relative" Text="Số điện thoại không được để trống" />
+                                <RadzenCustomValidator Component="PhoneNumber" Validator="@IsPhoneNumberValid" Popup=@popup Style="position: relative" Text=@errorPhoneMessage />
                             </RadzenColumn>
                         </RadzenRow>
 

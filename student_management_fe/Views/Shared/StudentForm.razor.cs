@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using Radzen;
+using Radzen.Blazor;
+using ServiceStack;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
@@ -18,26 +20,25 @@ public partial class StudentForm
         Addresses = new List<Address>(),
         IdentityInfo = new IdentityInfo()
     };
-    //[Parameter] public EventCallback OnSave { get; set; }
+
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
-    [Parameter]
-    public List<Faculty> Faculties { get; set; } = new();
+    [Parameter] public List<Faculty> Faculties { get; set; } = new();
 
-    [Parameter]
-    public List<StudentStatus> StudentStatuses { get; set; } = new();
+    [Parameter] public List<StudentStatus> StudentStatuses { get; set; } = new();
 
-    [Parameter]
-    public List<StudyProgram> StudyPrograms { get; set; } = new();
+    [Parameter] public List<StudyProgram> StudyPrograms { get; set; } = new();
+
+    [Parameter] public string ButtonText { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
 
-    [Parameter]
-    public string ButtonText { get; set; }
 
     string errorEmailMessage = string.Empty;
     string errorPhoneMessage = string.Empty;
     bool popup = true;
+
+    private ModelFluentValidator _validator;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
     private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
@@ -57,10 +58,11 @@ public partial class StudentForm
     }
     private AdditionalInfo AdditionalInfoModel { get; set; } = new();
 
-    private readonly ConfigurationsService _configurationsService;
+    private ConfigurationsService _configurationsService;
     public StudentForm(ConfigurationsService configurationsService)
     {
         _configurationsService = configurationsService;
+        _validator = new ModelFluentValidator(_configurationsService);
     }
 
     protected override void OnInitialized()
@@ -107,7 +109,7 @@ public partial class StudentForm
 
     private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
     {
-        if(updatedIdentityInfo.Type == "cccd")
+        if (updatedIdentityInfo.Type == "cccd")
         {
             updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
             {
@@ -137,76 +139,13 @@ public partial class StudentForm
         }
     }
 
-    private async Task ValidateEmail()
+    private async Task ValidateAndSubmit()
     {
-        if (string.IsNullOrWhiteSpace(Student.Email))
-        {
-            errorEmailMessage = "Email không được để trống.";
-            return;
-
-        }
-        try
-        {
-            var result = await _configurationsService.CheckConfig("email", Student.Email);
-            if (!result)
-            {
-                errorEmailMessage = "Email không hợp lệ.";
-            }
-            else {
-                errorEmailMessage = string.Empty;
-            }
-        }
-        catch (Exception ex)
-        {
-            errorEmailMessage = ex.Message;
-            Console.WriteLine(ex.Message);
-        }
-    }
-    private bool IsEmailValid()
-    {
-        return !string.IsNullOrWhiteSpace(errorEmailMessage);
-    }
-
-    private async Task ValidatePhoneNumber()
-    {
-        if (string.IsNullOrWhiteSpace(Student.PhoneNumber))
-        {
-            errorPhoneMessage = "Số điện thoại không được để trống.";
-            return;
-
-        }
-        try
-        {
-            var result = await _configurationsService.CheckConfig("phone-number", Student.PhoneNumber);
-            if (!result)
-            {
-                errorPhoneMessage = "Số điện thoại không hợp lệ.";
-            }
-            else
-            {
-                errorPhoneMessage = string.Empty;
-            }
-        }
-        catch (Exception ex)
-        {
-            errorPhoneMessage = ex.Message;
-            Console.WriteLine(ex.Message);
-        }
-    }
-    private bool IsPhoneValid()
-    {
-        return !string.IsNullOrWhiteSpace(errorPhoneMessage);
-    }
-
-    private void ValidateAndSubmit()
-    {
-        
         if (Student.Addresses == null || !Student.Addresses.Any(a => a.Type == "thuong_tru"))
         {
             ShowAddressError = true;
-            return; 
+            return;
         }
-       
         ShowAddressError = false;
         HandleIdentityInfoUpdate(IdentityInfo);
         OnSubmit(Student);
@@ -226,4 +165,92 @@ public partial class StudentForm
 
     private void Cancel() => DialogService.Close(false);
 
+    public class ModelFluentValidator : AbstractValidator<StudentModel>
+    {
+        private readonly ConfigurationsService _configService;
+
+        public ModelFluentValidator(ConfigurationsService configService)
+        {
+            _configService = configService;
+
+            RuleFor(x => x.Email)
+                .MustAsync(IsEmailValidAsync).WithMessage("Email không hợp lệ hoặc đã tồn tại.");
+
+            RuleFor(x => x.PhoneNumber)
+                .MustAsync(IsPhoneNumberValidAsync).WithMessage("Số điện thoại không hợp lệ hoặc đã tồn tại.");
+        }
+
+        private async Task<bool> IsEmailValidAsync(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _configService.CheckConfig("email", email);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        private async Task<bool> IsPhoneNumberValidAsync(string phoneNumber, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _configService.CheckConfig("phone-number", phoneNumber);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(
+                ValidationContext<StudentModel>.CreateWithOptions((StudentModel)model, x => x.IncludeProperties(propertyName))
+            );
+
+            return result.IsValid ? Array.Empty<string>() : result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
+
+    private async Task ValidateEmail()
+    {
+        var errors = await _validator.ValidateValue(Student, nameof(Student.Email));
+        if (errors.Any())
+        {
+            errorEmailMessage = errors.First();
+        }
+        else
+        {
+            errorEmailMessage = "";
+        }
+        Console.WriteLine(errorEmailMessage);
+    }
+
+    private bool IsEmailValid()
+    {
+        return string.IsNullOrWhiteSpace(errorEmailMessage);
+    }
+
+    private async Task ValidatePhoneNumber()
+    {
+        var errors = await _validator.ValidateValue(Student, nameof(Student.PhoneNumber));
+        if (errors.Any())
+        {
+            errorPhoneMessage = errors.First();
+        }
+        else
+        {
+            errorPhoneMessage = "";
+        }
+    }
+
+    private bool IsPhoneNumberValid()
+    {
+        return string.IsNullOrWhiteSpace(errorPhoneMessage);
+    }
 }

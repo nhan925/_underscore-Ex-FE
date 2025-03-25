@@ -30,7 +30,7 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Email không hợp lệ!");
+            throw new Exception("Thông tin không hợp lệ!");
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, bool>>();
