@@ -37,8 +37,10 @@ public partial class StudentForm
     string errorEmailMessage = string.Empty;
     string errorPhoneMessage = string.Empty;
     bool popup = true;
+    private bool ShowAddressError { get; set; } = false;
 
     private ModelFluentValidator _validator;
+    private ConfigurationsService _configurationsService;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
     private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
@@ -58,7 +60,6 @@ public partial class StudentForm
     }
     private AdditionalInfo AdditionalInfoModel { get; set; } = new();
 
-    private ConfigurationsService _configurationsService;
     public StudentForm(ConfigurationsService configurationsService)
     {
         _configurationsService = configurationsService;
@@ -150,8 +151,6 @@ public partial class StudentForm
         HandleIdentityInfoUpdate(IdentityInfo);
         OnSubmit(Student);
     }
-
-    private bool ShowAddressError { get; set; } = false;
 
     void OnSubmit(StudentModel student)
     {

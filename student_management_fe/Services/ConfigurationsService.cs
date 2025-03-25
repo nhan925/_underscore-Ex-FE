@@ -42,4 +42,17 @@ public class ConfigurationsService
         throw new Exception("Đã có lỗi xảy ra!");
        
     }
+
+    public async Task<List<StudentStatus>> GetNextStatuses(int? StatusId)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/config/next-statuses/{StatusId}");
+        var response = await _authService.SendRequestWithAuthAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Lỗi khi lấy danh sách trạng thái tiếp theo!");
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<List<StudentStatus>>();
+        return result ?? new List<StudentStatus>();
+    }
 }
