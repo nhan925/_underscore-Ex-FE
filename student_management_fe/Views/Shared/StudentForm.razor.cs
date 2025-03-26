@@ -157,7 +157,7 @@ public partial class StudentForm
         DialogService.Close(true);
     }
 
-    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    private async Task OnInvalidSubmit(FormInvalidSubmitEventArgs args)
     {
         Console.WriteLine("Invalid submit");
     }
@@ -173,9 +173,15 @@ public partial class StudentForm
             _configService = configService;
 
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Email không được để trống.")
+                .NotEmpty().WithMessage("Email không được để trống.")
                 .MustAsync(IsEmailValidAsync).WithMessage("Email không hợp lệ hoặc đã tồn tại.");
 
             RuleFor(x => x.PhoneNumber)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Số điện thoại không được để trống.")
+                .NotEmpty().WithMessage("Số điện thoại không được để trống.")
                 .MustAsync(IsPhoneNumberValidAsync).WithMessage("Số điện thoại không hợp lệ hoặc đã tồn tại.");
         }
 
@@ -227,6 +233,7 @@ public partial class StudentForm
         {
             errorEmailMessage = "";
         }
+        StateHasChanged();
         Console.WriteLine(errorEmailMessage);
     }
 
@@ -246,10 +253,18 @@ public partial class StudentForm
         {
             errorPhoneMessage = "";
         }
+        StateHasChanged();
     }
 
     private bool IsPhoneNumberValid()
     {
         return string.IsNullOrWhiteSpace(errorPhoneMessage);
+    }
+
+    private async Task OnSubmitClick()
+    {
+        await ValidateEmail();
+        await ValidatePhoneNumber();
+        StateHasChanged();
     }
 }

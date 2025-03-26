@@ -96,8 +96,12 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async args => await ValidateEmail())" />
-                                    <RadzenRequiredValidator Component="Email" Popup=@popup Style="position: relative" Text="Email không được để trống" />
-                                    <RadzenCustomValidator Component="Email" Validator="@IsEmailValid" Popup=@popup Style="position: relative" Text=@errorEmailMessage />
+                                   
+                                    <RadzenCustomValidator Component="Email" 
+                                                           Validator="@IsEmailValid" 
+                                                           Popup=@popup Style="position: relative" 
+                                                           Text=@errorEmailMessage  
+                                                           Visible=@(!string.IsNullOrWhiteSpace(errorEmailMessage))/>
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -107,8 +111,13 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async args => await ValidatePhoneNumber())" />
-                                <RadzenRequiredValidator Component="PhoneNumber" Popup=@popup Style="position: relative" Text="Số điện thoại không được để trống" />
-                                <RadzenCustomValidator Component="PhoneNumber" Validator="@IsPhoneNumberValid" Popup=@popup Style="position: relative" Text=@errorPhoneMessage />
+                               
+                                <RadzenCustomValidator Component="PhoneNumber" 
+                                                       Validator="@IsPhoneNumberValid" 
+                                                       Popup=@popup 
+                                                       Style="position: relative"
+                                                       Text=@errorPhoneMessage
+                                                       Visible=@(!string.IsNullOrWhiteSpace(errorPhoneMessage)) />
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -273,7 +282,7 @@
     <div class="fixed-bottom-buttons">
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
             <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
-            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large" Click="@(OnSubmitClick)">@ButtonText</RadzenButton>
         </RadzenStack>
     </div>
 </RadzenTemplateForm>
