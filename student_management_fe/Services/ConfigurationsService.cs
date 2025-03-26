@@ -22,13 +22,6 @@ public class ConfigurationsService
         _authService = authService;
     }
 
-    public async Task<ConfigurationModel<T>> GetConfigurations<T>(string type)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/config/{type}");
-        var response = await _authService.SendRequestWithAuthAsync(request);
-        return await response.Content.ReadFromJsonAsync<ConfigurationModel<T>>() ?? new ConfigurationModel<T>();
-    }
-
     public async Task<bool> CheckConfig(string type, string value)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/api/config/check/{type}/{value}");
@@ -60,7 +53,7 @@ public class ConfigurationsService
         var result = await response.Content.ReadFromJsonAsync<List<StudentStatus>>();
         return result ?? new List<StudentStatus>();
     }
-}
+
     // Email Configuration Methods
     public async Task<ConfigurationsModel<List<string>>> GetEmailConfig()
     {

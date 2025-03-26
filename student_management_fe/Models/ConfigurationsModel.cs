@@ -1,6 +1,6 @@
 namespace student_management_fe.Models;
 
-public class ConfigurationModel<T>
+public class ConfigurationsModel<T>
 {
     public int Id { get; set; }
 
