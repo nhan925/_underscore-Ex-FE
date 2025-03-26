@@ -1,0 +1,89 @@
+﻿@page "/student-status-settings"
+@using MudBlazor
+
+<MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
+    Cấu hình trạng thái sinh viên
+</MudText>
+
+<MudPaper Class="config-bar" Elevation="3" Style="padding:16px; margin-bottom:20px; min-width: fit-content; max-width: 100%;">
+    <MudGrid>
+        <!-- Row 1 -->
+        <MudItem xs="10" Class="d-flex align-items-stretch">
+            <MudAutocomplete T="StudentStatus"
+                             @bind-Value="selectedStudentStatus"
+                             SearchFunc="@SearchStudentStatus"
+                             ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
+                             Placeholder="Chọn trạng thái sinh viên cấu hình"
+                             Variant="MudBlazor.Variant.Outlined"
+                             MaxItems="@studentStatuses.Count()"
+                             Style="width: 100%; height: 100%;" />
+        </MudItem>
+
+        <MudItem xs="2" Class="d-flex align-items-center justify-content-start">
+            <MudSwitch ValueChanged="OnSwitchChange" Value="@configInformations.IsActive"
+                       Color="Color.Primary" Label="Bật/Tắt quy định" T="bool"
+                       Style="width: 100%;" />
+        </MudItem>
+
+        <!-- Row 2 -->
+        <MudItem xs="10" Class="d-flex align-items-stretch">
+            <MudAutocomplete T="StudentStatus"
+                             @bind-Value="selectedTransferStudentStatus"
+                             SearchFunc="@SearchTransferStudentStatus"
+                             ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
+                             Placeholder="Chọn trạng thái sinh viên chuyển đến"
+                             Variant="MudBlazor.Variant.Outlined"
+                             MaxItems="@studentStatuses.Count()"
+                             Style="width: 100%; height: 100%;" />
+        </MudItem>
+
+        <MudItem xs="2" Class="d-flex align-items-stretch">
+            <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
+                       OnClick="AddStudentStatusSetting" Style="width: 100%; height: 100%;">
+                Thêm
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+
+
+<MudPaper Class="table-container" Elevation="4">
+    @if (selectedStudentStatus != null && configInformations.Value.TryGetValue(selectedStudentStatus.Id.ToString(), out var statusIds))
+    {
+    <MudTable Items="statusIds" Dense="true" Hover="true" Bordered="true" Striped="true">
+            <HeaderContent>
+                <MudTh Style="text-align: center; width: 20%">STT</MudTh>
+                <MudTh Style="text-align: center; width: 70%">Trạng thái sinh viênl</MudTh>
+                <MudTh Style="text-align: center; width: 10%">Thao tác</MudTh>
+            </HeaderContent>
+
+            <RowTemplate Context="statusId">
+                <MudTd Style="text-align: center">@(statusIds.IndexOf(statusId) + 1)</MudTd>
+                <MudTd Style="text-align: center">
+                    @{
+                        var status = studentStatuses.FirstOrDefault(s => s.Id == statusId);
+                        if (status != null)
+                        {
+                            @status.Name
+                        }
+                        else
+                        {
+                            <span class="text-muted">Không xác định</span>
+                        }
+                    }
+                </MudTd>
+                <MudTd Style="text-align: center">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteStudentStatusSetting(statusId))" />
+                </MudTd>
+            </RowTemplate>
+
+            <NoRecordsContent>
+                <MudText>Không tìm thấy dữ liệu...</MudText>
+            </NoRecordsContent>
+            <LoadingContent>
+                <MudText>Đang tải...</MudText>
+            </LoadingContent>
+        </MudTable>
+    }
+</MudPaper>
