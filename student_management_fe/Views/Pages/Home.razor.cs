@@ -73,12 +73,15 @@ public partial class Home
     private readonly StudyProgramService _studyProgramService;
     private readonly StudentStatusService _studentStatusService;
     private readonly StudentServices _studentServices;
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService)
+    private readonly ConfigurationsService _configService;
+
+    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService, ConfigurationsService configService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
         _studyProgramService = studyProgramService;
+        _configService = configService;
     }
 
     protected override async Task OnInitializedAsync()
@@ -110,8 +113,6 @@ public partial class Home
 
     private async Task LoadStudents()
     {
-        //Add API call to get students
-
         var result = await _studentServices.GetAllStudents(currentPage, pageSize, searchText, 
             new StudentFilter { FacultyIds =
                 faculties
@@ -156,11 +157,13 @@ public partial class Home
             Height = "90%",
             ContentCssClass= "custom-dialog"
         };
+
         var newStudent = new StudentModel
         {
             Addresses = new List<Address>(),
             IdentityInfo = new IdentityInfo()
         };
+
         var parameters = new Dictionary<string, object>
         {
             { "ButtonText", "Lưu" },
@@ -169,6 +172,7 @@ public partial class Home
             { "StudentStatuses", studentStatuses },
             { "StudyPrograms", studyPrograms   }
         };
+
         var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
@@ -192,6 +196,10 @@ public partial class Home
     private async Task EditStudent(string mssv)
     {
         var student = await _studentServices.GetStudentById(mssv);
+        var studentStatusesValid = student != null
+                              ? await _configService.GetNextStatuses(student.StatusId)
+                              : new List<StudentStatus>();
+        studentStatusesValid.Add(studentStatuses.FirstOrDefault(x => x.Id == student.StatusId));
 
         var options = new Radzen.DialogOptions()
         {
@@ -201,12 +209,13 @@ public partial class Home
             Height = "90%",
             ContentCssClass = "custom-dialog"
         };
+
         var parameters = new Dictionary<string, object>
         {
             { "ButtonText", "Cập nhật" },
             { "Student", student },
             { "Faculties", faculties },
-            { "StudentStatuses", studentStatuses },
+            { "StudentStatuses", studentStatusesValid },
             { "StudyPrograms", studyPrograms   },
             { "IsUpdateMode", true }
         };
@@ -232,10 +241,10 @@ public partial class Home
     private async Task DeleteStudent(string id)
     {
         var parameters = new Dictionary<string, object>
-    {
-        { "ContentText", "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
-        { "ButtonText", "Xóa" }
-    };
+        {
+            { "ContentText", "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
+            { "ButtonText", "Xóa" }
+        };
 
         var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
             "Xác nhận xóa", parameters

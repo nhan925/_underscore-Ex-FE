@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 
 
-<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@ValidateAndSubmit" InvalidSubmit=@OnInvalidSubmit>
+<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@(async () => ValidateAndSubmit())" InvalidSubmit=@OnInvalidSubmit>
     <div class="form-content">
     <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
         <RadzenColumn Size="12" SizeMD="6">
@@ -95,9 +95,13 @@
                                 <RadzenLabel Text="Email" Component="Email"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Type="email" @bind-Value="Student.Email"
-                                Name="Email"/>
-                                <RadzenDataAnnotationValidator Component="Email" Popup=@popup Style="position: relative" />
+                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async args => await ValidateEmail())" />
+                                   
+                                    <RadzenCustomValidator Component="Email" 
+                                                           Validator="@IsEmailValid" 
+                                                           Popup=@popup Style="position: relative" 
+                                                           Text=@errorEmailMessage  
+                                                           Visible=@(!string.IsNullOrWhiteSpace(errorEmailMessage))/>
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -106,9 +110,14 @@
                                 <RadzenLabel Text="Số điện thoại" Component="PhoneNumber"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" Type="tel" @bind-Value="Student.PhoneNumber"
-                                Name="PhoneNumber" />
-                                <RadzenDataAnnotationValidator Component="PhoneNumber" Popup=@popup Style="position: relative" />
+                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async args => await ValidatePhoneNumber())" />
+                               
+                                <RadzenCustomValidator Component="PhoneNumber" 
+                                                       Validator="@IsPhoneNumberValid" 
+                                                       Popup=@popup 
+                                                       Style="position: relative"
+                                                       Text=@errorPhoneMessage
+                                                       Visible=@(!string.IsNullOrWhiteSpace(errorPhoneMessage)) />
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -125,11 +134,11 @@
 
                         <RadzenRow AlignItems="Radzen.AlignItems.Center">
                             <RadzenColumn Size="12" SizeMD="4">
-                                <RadzenLabel Text="Quốc tịch" Component="StatusId" />
+                                <RadzenLabel Text="Quốc tịch" Component="Nationality" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
 								<RadzenTextBox Style="width: 100%;" @bind-Value="Student.Nationality" Name="Nationality" />
-                                <RadzenDataAnnotationValidator Component="StatusId" Popup=@popup Style="position: relative" />
+                                <RadzenDataAnnotationValidator Component="Nationality" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
                     </RadzenStack>
@@ -273,7 +282,7 @@
     <div class="fixed-bottom-buttons">
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
             <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
-            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large" Click="@(OnSubmitClick)">@ButtonText</RadzenButton>
         </RadzenStack>
     </div>
 </RadzenTemplateForm>

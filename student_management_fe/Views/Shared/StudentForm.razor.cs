@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using Radzen;
+using Radzen.Blazor;
+using ServiceStack;
 using student_management_fe.Models;
+using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -15,24 +20,27 @@ public partial class StudentForm
         Addresses = new List<Address>(),
         IdentityInfo = new IdentityInfo()
     };
-    //[Parameter] public EventCallback OnSave { get; set; }
+
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
-    [Parameter]
-    public List<Faculty> Faculties { get; set; } = new();
+    [Parameter] public List<Faculty> Faculties { get; set; } = new();
 
-    [Parameter]
-    public List<StudentStatus> StudentStatuses { get; set; } = new();
+    [Parameter] public List<StudentStatus> StudentStatuses { get; set; } = new();
 
-    [Parameter]
-    public List<StudyProgram> StudyPrograms { get; set; } = new();
+    [Parameter] public List<StudyProgram> StudyPrograms { get; set; } = new();
+
+    [Parameter] public string ButtonText { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
 
-    [Parameter]
-    public string ButtonText { get; set; }
 
+    string errorEmailMessage = string.Empty;
+    string errorPhoneMessage = string.Empty;
     bool popup = true;
+    private bool ShowAddressError { get; set; } = false;
+
+    private ModelFluentValidator _validator;
+    private ConfigurationsService _configurationsService;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
     private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
@@ -51,6 +59,12 @@ public partial class StudentForm
         public string Note { get; set; }
     }
     private AdditionalInfo AdditionalInfoModel { get; set; } = new();
+
+    public StudentForm(ConfigurationsService configurationsService)
+    {
+        _configurationsService = configurationsService;
+        _validator = new ModelFluentValidator(_configurationsService);
+    }
 
     protected override void OnInitialized()
     {
@@ -96,7 +110,7 @@ public partial class StudentForm
 
     private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
     {
-        if(updatedIdentityInfo.Type == "cccd")
+        if (updatedIdentityInfo.Type == "cccd")
         {
             updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
             {
@@ -126,32 +140,131 @@ public partial class StudentForm
         }
     }
 
-    private void ValidateAndSubmit()
+    private async Task ValidateAndSubmit()
     {
-        
         if (Student.Addresses == null || !Student.Addresses.Any(a => a.Type == "thuong_tru"))
         {
             ShowAddressError = true;
-            return; 
+            return;
         }
-       
         ShowAddressError = false;
         HandleIdentityInfoUpdate(IdentityInfo);
         OnSubmit(Student);
     }
-
-    private bool ShowAddressError { get; set; } = false;
 
     void OnSubmit(StudentModel student)
     {
         DialogService.Close(true);
     }
 
-    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    private async Task OnInvalidSubmit(FormInvalidSubmitEventArgs args)
     {
         Console.WriteLine("Invalid submit");
     }
 
     private void Cancel() => DialogService.Close(false);
 
+    public class ModelFluentValidator : AbstractValidator<StudentModel>
+    {
+        private readonly ConfigurationsService _configService;
+
+        public ModelFluentValidator(ConfigurationsService configService)
+        {
+            _configService = configService;
+
+            RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Email không được để trống.")
+                .NotEmpty().WithMessage("Email không được để trống.")
+                .MustAsync(IsEmailValidAsync).WithMessage("Email không hợp lệ hoặc đã tồn tại.");
+
+            RuleFor(x => x.PhoneNumber)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Số điện thoại không được để trống.")
+                .NotEmpty().WithMessage("Số điện thoại không được để trống.")
+                .MustAsync(IsPhoneNumberValidAsync).WithMessage("Số điện thoại không hợp lệ hoặc đã tồn tại.");
+        }
+
+        private async Task<bool> IsEmailValidAsync(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _configService.CheckConfig("email", email);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        private async Task<bool> IsPhoneNumberValidAsync(string phoneNumber, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _configService.CheckConfig("phone-number", phoneNumber);
+                return result;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(
+                ValidationContext<StudentModel>.CreateWithOptions((StudentModel)model, x => x.IncludeProperties(propertyName))
+            );
+
+            return result.IsValid ? Array.Empty<string>() : result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
+
+    private async Task ValidateEmail()
+    {
+        var errors = await _validator.ValidateValue(Student, nameof(Student.Email));
+        if (errors.Any())
+        {
+            errorEmailMessage = errors.First();
+        }
+        else
+        {
+            errorEmailMessage = "";
+        }
+        StateHasChanged();
+        Console.WriteLine(errorEmailMessage);
+    }
+
+    private bool IsEmailValid()
+    {
+        return string.IsNullOrWhiteSpace(errorEmailMessage);
+    }
+
+    private async Task ValidatePhoneNumber()
+    {
+        var errors = await _validator.ValidateValue(Student, nameof(Student.PhoneNumber));
+        if (errors.Any())
+        {
+            errorPhoneMessage = errors.First();
+        }
+        else
+        {
+            errorPhoneMessage = "";
+        }
+        StateHasChanged();
+    }
+
+    private bool IsPhoneNumberValid()
+    {
+        return string.IsNullOrWhiteSpace(errorPhoneMessage);
+    }
+
+    private async Task OnSubmitClick()
+    {
+        await ValidateEmail();
+        await ValidatePhoneNumber();
+        StateHasChanged();
+    }
 }
