@@ -1,4 +1,4 @@
-﻿namespace student_management_fe.Models;
+namespace student_management_fe.Models;
 
 public class ConfigurationModel<T>
 {
