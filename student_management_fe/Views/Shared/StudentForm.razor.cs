@@ -5,6 +5,7 @@ using MudBlazor;
 using Radzen;
 using Radzen.Blazor;
 using ServiceStack;
+using ServiceStack.Text;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
@@ -94,17 +95,26 @@ public partial class StudentForm
     private void HandleAddressUpdate(Address updatedAddress)
     {
         var existing = Student.Addresses.FirstOrDefault(a => a.Type == updatedAddress.Type);
-        if (existing == null)
+
+        bool hasEmptyField = string.IsNullOrWhiteSpace(updatedAddress.Other) ||
+                             string.IsNullOrWhiteSpace(updatedAddress.Village) ||
+                             string.IsNullOrWhiteSpace(updatedAddress.District) ||
+                             string.IsNullOrWhiteSpace(updatedAddress.City) ||
+                             string.IsNullOrWhiteSpace(updatedAddress.Country);
+
+        if (hasEmptyField)
         {
-            Student.Addresses.Add(updatedAddress);
+            if (existing != null)
+            {
+                Student.Addresses.Remove(existing);
+            }
         }
         else
         {
-            existing.Other = updatedAddress.Other;
-            existing.Village = updatedAddress.Village;
-            existing.District = updatedAddress.District;
-            existing.City = updatedAddress.City;
-            existing.Country = updatedAddress.Country;
+            if (existing == null)
+            {
+                Student.Addresses.Add(updatedAddress);
+            }
         }
     }
 
@@ -125,19 +135,6 @@ public partial class StudentForm
                 ["note"] = AdditionalInfoModel.Note
             };
         }
-        if (Student.IdentityInfo == null)
-        {
-            Student.IdentityInfo = updatedIdentityInfo;
-        }
-        else
-        {
-            Student.IdentityInfo.Type = updatedIdentityInfo.Type;
-            Student.IdentityInfo.Number = updatedIdentityInfo.Number;
-            Student.IdentityInfo.PlaceOfIssue = updatedIdentityInfo.PlaceOfIssue;
-            Student.IdentityInfo.DateOfIssue = updatedIdentityInfo.DateOfIssue;
-            Student.IdentityInfo.ExpiryDate = updatedIdentityInfo.ExpiryDate;
-            Student.IdentityInfo.AdditionalInfo = updatedIdentityInfo.AdditionalInfo;
-        }
     }
 
     private async Task ValidateAndSubmit()
@@ -147,6 +144,13 @@ public partial class StudentForm
             ShowAddressError = true;
             return;
         }
+
+        await OnSubmitClick();
+        if (!IsEmailValid() || !IsPhoneNumberValid())
+        {
+            return;
+        }
+
         ShowAddressError = false;
         HandleIdentityInfoUpdate(IdentityInfo);
         OnSubmit(Student);
