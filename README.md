@@ -65,3 +65,21 @@ student_management_fe/
 
 ### Logging
 <img src="./pics/logging.gif" width=50%/>
+
+## Các Business Rules
+### MSSV phải là duy nhất
+- MSSV là khóa chính (PK) trong bảng students
+- MSSV được tạo tự động khi thêm sinh viên, không cho sửa MSSV
+- Từ 2 điều trên, đảm bảo MSSV là duy nhất
+
+### Email phải thuộc một tên miền nhất định và có thể cấu hình động (configurable)
+<img src="./pics/email_config.gif" width=50%/>
+
+### Số điện thoại phải có định dạng hợp lệ theo quốc gia (configurable) 
+<img src="./pics/phone_config.gif" width=50%/>
+
+### Tình trạng sinh viên chỉ có thể thay đổi theo một số quy tắc (configurable)
+<img src="./pics/status_config.gif" width=50%/>
+
+## The Broken Window Theory & The Boy Scout Rule
+- File: <a href=./docs/ex03_slide.pdf>ex03_slide.pdf</a>

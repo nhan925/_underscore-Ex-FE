@@ -11,12 +11,7 @@ public partial class AddressForm
 
     private async Task ValidateAndUpdate()
     {
-        if (!string.IsNullOrWhiteSpace(Value.Other) &&
-            !string.IsNullOrWhiteSpace(Value.Village) &&
-            !string.IsNullOrWhiteSpace(Value.District) &&
-            !string.IsNullOrWhiteSpace(Value.City) &&
-            !string.IsNullOrWhiteSpace(Value.Country) &&
-            OnAddressUpdated.HasDelegate)
+        if (OnAddressUpdated.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value); 
             await OnAddressUpdated.InvokeAsync(Value); 
