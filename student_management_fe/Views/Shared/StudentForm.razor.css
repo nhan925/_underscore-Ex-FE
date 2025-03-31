@@ -30,8 +30,9 @@
 
 .error {
     color: red;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 5px;
+    opacity: 12;
 }
 
 .form-container {
