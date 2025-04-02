@@ -1,0 +1,44 @@
+1. COURSE
+	- [POST] /api/course
+		-> Thêm mới một khóa học, môn tiên quyết không bắt buộc
+	- [GET] /api/course
+		-> Lấy thông tin toàn bộ khóa học, không cần phân trang
+	
+	- [DELETE] /api/course/{id}
+		-> Xóa khóa học nếu thỏa điều kiện, còn không thì đánh dấu deactivate
+		-> Thông báo đúng trường hợp (xóa / deactivate)
+	
+	- [PUT] /api/course/{id}
+		-> Chỉnh sửa thông tin khóa học, chỉ có thể thay đổi tên khóa học, mô tả, khoa phụ trách
+		-> Nếu có thay đổi tín chỉ thì kiểm tra xem có sinh viên đăng kí chưa?
+	
+	
+2. CLASSES
+	- [GET] /api/classes/{semester_id}
+		-> Nhớ có tên môn học cho lớp học
+		
+	- [POST] /api/classes
+		-> Thêm một lớp học mới
+		
+	
+
+3. YEAR AND SEMESTER 	
+	- [GET] /api/year
+		-> Lấy thông tin tất cả năm học
+	- [GET] /api/year/{id}/semesters
+		-> Lấy thông tin học kì theo năm học đã chọn
+	
+4. LECTURER
+	- [GET] /api/lecturers
+		-> Lấy thông tin giảng viên
+
+5. ENROLLMENT_HISTORY
+	- [GET] /api/enrollment_history/{semester__id}
+		-> Get theo học kì
+	
+	
+6. COURSE_ENROLLMENTS
+	- [POST] /api/course_enrollments
+		-> 2 action là hủy hoặc đăng kí
+7. STUDENT
+	- [GET] /api/student/{id}/transcript

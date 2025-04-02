@@ -199,10 +199,6 @@ public partial class Home
         var studentStatusesValid = student != null
                               ? await _configService.GetNextStatuses(student.StatusId)
                               : new List<StudentStatus>();
-        if (!studentStatusesValid.Exists(x => x.Id == student.StatusId))
-        {
-            studentStatusesValid.Add(studentStatuses.FirstOrDefault(x => x.Id == student.StatusId));
-        }
 
         var options = new Radzen.DialogOptions()
         {

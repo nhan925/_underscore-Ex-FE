@@ -95,13 +95,15 @@
                                 <RadzenLabel Text="Email" Component="Email"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Email" Name="Email" @onblur="@(async args => await ValidateEmail())" />
-                                   
-                                    <RadzenCustomValidator Component="Email" 
-                                                           Validator="@IsEmailValid" 
-                                                           Popup=@popup Style="position: relative" 
-                                                           Text=@errorEmailMessage  
-                                                           Visible=@(!string.IsNullOrWhiteSpace(errorEmailMessage))/>
+                                    <RadzenTextBox Style="width: 100%;" 
+                                                   @bind-Value="Student.Email" 
+                                                   Name="Email" 
+                                                   Change="@(async args => await HandleEmailChange(args))" />
+									<RadzenRequiredValidator Component="Email" Popup=@popup Style="position: relative" Text="Email không được để trống"/>
+                                    @if (!string.IsNullOrEmpty(errorEmailMessage))
+                                    {
+                                        <div class="error">@errorEmailMessage</div>
+                                    }
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -110,14 +112,15 @@
                                 <RadzenLabel Text="Số điện thoại" Component="PhoneNumber"/>
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenTextBox Style="width: 100%;" @bind-Value="Student.PhoneNumber" Name="PhoneNumber" @onblur="@(async args => await ValidatePhoneNumber())" />
-                               
-                                <RadzenCustomValidator Component="PhoneNumber" 
-                                                       Validator="@IsPhoneNumberValid" 
-                                                       Popup=@popup 
-                                                       Style="position: relative"
-                                                       Text=@errorPhoneMessage
-                                                       Visible=@(!string.IsNullOrWhiteSpace(errorPhoneMessage)) />
+                                    <RadzenTextBox Style="width: 100%;" 
+                                                   @bind-Value="Student.PhoneNumber" 
+                                                   Name="PhoneNumber"
+                                                   Change="@(async args => await HandlePhoneNumberChange(args))" />
+                                    <RadzenRequiredValidator Component="PhoneNumber" Popup=@popup Style="position: relative" Text="Số điện thoại không được để trống" />
+                                    @if (!string.IsNullOrEmpty(errorPhoneNumberMessage))
+                                    {
+                                        <div class="error">@errorPhoneNumberMessage</div>
+                                    }
                             </RadzenColumn>
                         </RadzenRow>
 
@@ -165,7 +168,7 @@
                     </RadzenTabs>
                     @if (ShowAddressError)
                     {
-                        <div style="color: red; font-weight: bold; margin-top: 10px;">
+                        <div class="error">
                             Địa chỉ thường trú không được để trống
                         </div>
                     }
@@ -282,7 +285,7 @@
     <div class="fixed-bottom-buttons">
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
             <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
-            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large" Click="@(OnSubmitClick)">@ButtonText</RadzenButton>
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
         </RadzenStack>
     </div>
 </RadzenTemplateForm>
