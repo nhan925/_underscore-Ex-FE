@@ -6,6 +6,7 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using System.Linq;
+using Radzen;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -28,6 +29,8 @@ public partial class CourseManagement
     private int pageSize = 10;
     private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
     private int totalCount { get; set; } = 100;
+
+
     private string? searchText;
     private List<CourseModel> courses = new();
     private List<CourseModel> tempCourses = new();
@@ -55,20 +58,10 @@ public partial class CourseManagement
     }
 
 
-    private async Task LoadCourses(string? search = null)
+    private async Task LoadCourses()
     {
         courses = await _courseService.GetAllCourses();
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            tempCourses = courses.Where(c =>
-                c.Id.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                c.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
-            ).ToList();
-        }
-        else
-        {
-            tempCourses = courses;
-        }
+        tempCourses = courses;
     }
 
     private string GetFacultyName(int facultyId)
@@ -103,7 +96,6 @@ public partial class CourseManagement
     private async Task AddCourse()
     {
         var newCourse = new CourseModel();
-
         var options = new Radzen.DialogOptions()
         {
             Resizable = false,
@@ -130,9 +122,9 @@ public partial class CourseManagement
         {
             try
             {
-                // API trả về int courseId
-                var courseId = await _courseService.AddCourse(newCourse);
-                if (courseId > 0)
+                // API trả về course object
+                var addedCourse = await _courseService.AddCourse(newCourse);
+                if (addedCourse != null)
                 {
                     Snackbar.Add("Thêm khóa học thành công", Severity.Success);
                     await LoadCourses();
@@ -189,29 +181,40 @@ public partial class CourseManagement
             try
             {
                 // API trả về string (message)
-                var message = await _courseService.UpdateCourse(editCourse.Id, editCourse);
+                var message = await _courseService.UpdateCourse(editCourse);
                 Snackbar.Add(message, Severity.Success);
                 await LoadCourses();
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Lỗi khi cập nhật khóa học: {ex.Message}", Severity.Error);
+                // Hiển thị thông báo lỗi từ service
+                Snackbar.Add(ex.Message, Severity.Error);
             }
         }
     }
 
     private async Task DeleteCourse(CourseModel course)
     {
-        var message = await _courseService.DeleteCourse(course.Id);
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-        if (message == "Xóa khóa học thành công")
+        // Hiển thị hộp thoại xác nhận trước khi xóa
+        var confirmed = await DialogService.Confirm(
+            $"Bạn có chắc chắn muốn xóa khóa học '{course.Name}' không?",
+            "Xác nhận xóa",
+            new ConfirmOptions { OkButtonText = "Xóa", CancelButtonText = "Hủy" });
+
+        if (confirmed ?? false)
         {
-            Snackbar.Add(message, Severity.Success);
-            await LoadCourses();
-        }
-        else
-        {
-            Snackbar.Add(message, Severity.Error);
+            try
+            {
+                var result = await _courseService.DeleteCourse(course.Id);
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+                Snackbar.Add(result, Severity.Success);
+                await LoadCourses();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
         }
     }
 }

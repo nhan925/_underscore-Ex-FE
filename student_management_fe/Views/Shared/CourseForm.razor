@@ -27,7 +27,7 @@
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%" @bind-Value="Course.Name" Name="Name" />
-                                    <RadzenRequiredValidator Component="Name" Popup=@popup Style="position: relative" />
+                                    <RadzenDataAnnotationValidator Component="Name" Popup=@popup Style="position: relative" />
                                 </RadzenColumn>
                             </RadzenRow>
 
@@ -37,8 +37,18 @@
                                     <RadzenLabel Text="Số tín chỉ" Component="Credits" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenNumeric TValue="int" Style="width: 100%;" @bind-Value="Course.Credits" Name="Credits" />
-                                    <RadzenRequiredValidator Component="Credits" Popup=@popup Style="position: relative" />
+                                    <RadzenNumeric TValue="int"
+                                                   Style="width: 100%;"
+                                                   @bind-Value="Course.Credits"
+                                                   Name="Credits"
+                                                   Disabled="@(IsUpdateMode && HasEnrolledStudents)" />
+                                    <RadzenDataAnnotationValidator Component="Credits" Popup=@popup Style="position: relative" />
+                                    @if (IsUpdateMode && HasEnrolledStudents)
+                                    {
+                                        <div class="rz-text-small rz-mt-1 rz-text-danger">
+                                            Không thể thay đổi số tín chỉ vì khóa học đã có sinh viên đăng ký
+                                        </div>
+                                    }
                                 </RadzenColumn>
                             </RadzenRow>
 
