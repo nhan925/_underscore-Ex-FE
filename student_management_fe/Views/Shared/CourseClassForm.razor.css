@@ -13,3 +13,10 @@
     overflow-y: auto; /* Cho phép cuộn dọc */
     padding-bottom: 100px; /* Đảm bảo không bị che bởi các nút */
 }
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    opacity: 12;
+}

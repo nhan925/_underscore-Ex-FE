@@ -35,7 +35,7 @@ public class CourseClassService
 
         var response = await _authService.SendRequestWithAuthAsync(request);
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-        if (responseObj != null && responseObj.TryGetValue("CourseClassId", out var courseClassId))
+        if (responseObj != null && responseObj.TryGetValue("courseClassId", out var courseClassId))
         {
             return courseClassId;
         }

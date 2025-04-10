@@ -1,10 +1,8 @@
-﻿@using Radzen
-@using Radzen.Blazor
-
-    <RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(ValidateAndSubmit)">
+﻿
+    <RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(OnSubmit)" InvalidSubmit="@(InvalidSubmit)">
         <div class="form-content">
         <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
-            <RadzenColumn Size="12">
+            <RadzenColumn Size="12" SizeMD="6">
                 <RadzenStack>
                     <RadzenFieldset Text="Thông tin lớp học">
                         <RadzenStack Gap="1.5rem" class="rz-p-4 rz-p-lg-6">
@@ -45,29 +43,6 @@
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
-                                    <RadzenColumn Size="12" SizeMD="4">
-                                        <RadzenLabel Text="Lịch học" Component="Schedule" />
-                                    </RadzenColumn>
-                                    <RadzenColumn Size="12" SizeMD="8">
-                                        <RadzenTextBox @bind-Value="courseClass.Schedule" Style="width: 100%;" Name="Schedule" />
-                                        <RadzenDataAnnotationValidator Component="Schedule" Popup=@popup Style="position: relative" />    
-                                    </RadzenColumn>
-                            </RadzenRow>
-                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
-                                <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giờ bắt đầu" Component="RadzenTimeSpanPickerMinMax"/>
-                                </RadzenColumn>
-                                @* <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenTimeSpanPicker TValue="TimeSpan" @bind="@startTime" Name="RadzenTimeSpanPickerMinMax" Min="@TimeSpan.Zero" Max="@TimeSpan.FromHours(12)" />
-                                </RadzenColumn>
-                                <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giờ kết thúc" Component="RadzenTimeSpanPickerMinMax" />
-                                </RadzenColumn>
-                                <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenTimeSpanPicker TValue="TimeSpan" @bind="@startTime" Name="RadzenTimeSpanPickerMinMax" Min="@TimeSpan.Zero" Max="@TimeSpan.FromHours(12)" />
-                                </RadzenColumn> *@
-                            </RadzenRow>
-                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
                                     <RadzenLabel Text="Phòng học" Component="Room" />
                                 </RadzenColumn>
@@ -79,6 +54,52 @@
                         </RadzenStack>
                     </RadzenFieldset>
                 </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="6">
+				<RadzenStack>
+					<RadzenFieldset Text="Lịch học">
+						<RadzenStack Gap="1.5rem" class="rz-p-4 rz-p-lg-6">
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Thứ" Component="DateOfWeek" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.ScheduleParsed.DateOfWeek" Placeholder="Chọn thứ" Data="@DateOfWeek" Style="width: 100%;" Name="DateOfWeek" />
+                                    <RadzenDataAnnotationValidator Component="DateOfWeek" Popup=@popup Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giờ bắt đầu" Component="StartTime" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <MudTimePicker Label="Giờ bắt đầu" AmPm="true" TimeFormat="h:mm tt"
+                                                   @bind-Time="courseClass.ScheduleParsed.StartTime"
+                                                   For="@(() => courseClass.ScheduleParsed.StartTime)"  />
+									@if (ShowStartTimeError){
+                                        <div class="error">
+                                            Thời gian bắt đầu không được để trống hoặc lớn hơn thời gian kết thúc
+                                        </div>
+                                    }
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giờ kết thúc" Component="EndTime" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <MudTimePicker Label="Giờ kết thúc" AmPm="true" TimeFormat="h:mm tt"
+                                                   @bind-Time="courseClass.ScheduleParsed.EndTime"
+                                                   For="@(() => courseClass.ScheduleParsed.EndTime)"/>
+                                    @if (ShowEndTimeError)
+                                    {
+                                        <div class="error">
+                                            Thời gian kết thúc không được để trống
+                                        </div>
+                                    }
+                                </RadzenColumn>
+                            </RadzenRow>
+						</RadzenStack>
+					</RadzenFieldset>
+				</RadzenStack>
             </RadzenColumn>
         </RadzenRow>
     </div>

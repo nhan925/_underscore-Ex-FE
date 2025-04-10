@@ -58,8 +58,8 @@ public partial class CourseClassesManagement
         {
             Resizable = false,
             Draggable = false,
-            Width = "50%",
-            Height = "90%",
+            Width = "90%",
+            Height = "80%",
             ContentCssClass = "custom-dialog"
         };
 
@@ -68,6 +68,7 @@ public partial class CourseClassesManagement
         var courseClass = new CourseClass()
         {
             SemesterId = selectedSemester.Id,
+            ScheduleParsed = new(),
             CourseId = null,
             LecturerId = null
         };
@@ -86,9 +87,9 @@ public partial class CourseClassesManagement
 
             try
             {
-                await _courseClassService.AddCourseClass(courseClass);
+                var courseClassId = await _courseClassService.AddCourseClass(courseClass);
                 await OnSelectedSemesterChanged(selectedSemester);
-                Snackbar.Add("Thêm lớp học thành công!", Severity.Success);
+                Snackbar.Add($"Đã thêm lớp học với mã {courseClassId}!", Severity.Success);
             }
             catch (Exception ex)
             {
