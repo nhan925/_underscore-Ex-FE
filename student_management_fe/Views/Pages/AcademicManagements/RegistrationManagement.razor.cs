@@ -1,6 +1,6 @@
-﻿namespace student_management_fe.Views.Pages.AcademicManagements
+﻿namespace student_management_fe.Views.Pages.AcademicManagements;
+
+public partial class RegistrationManagement
 {
-    public class RegistrationManagement
-    {
-    }
+    
 }

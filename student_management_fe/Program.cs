@@ -30,6 +30,10 @@ public class Program
         builder.Services.AddScoped<FacultyService>();
         builder.Services.AddScoped<ConfigurationsService>();
         builder.Services.AddScoped<CountryPhoneCodeService>();
+        builder.Services.AddScoped<CourseClassService>();
+        builder.Services.AddScoped<YearAndSemesterService>();
+        builder.Services.AddScoped<CourseService>();
+        builder.Services.AddScoped<LecturerService>();
         builder.Services.AddScoped<Radzen.DialogService>();
         builder.Services.AddScoped<MudBlazor.DialogService> ();
         builder.Services.AddMudServices();

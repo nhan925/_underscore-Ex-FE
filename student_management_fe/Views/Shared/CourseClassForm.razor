@@ -1,0 +1,94 @@
+﻿@using Radzen
+@using Radzen.Blazor
+
+    <RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(ValidateAndSubmit)">
+        <div class="form-content">
+        <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
+            <RadzenColumn Size="12">
+                <RadzenStack>
+                    <RadzenFieldset Text="Thông tin lớp học">
+                        <RadzenStack Gap="1.5rem" class="rz-p-4 rz-p-lg-6">
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Mã lớp học" Component="Id" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value="courseClass.Id" Style="width: 100%;" Name="Id" />
+                                    <RadzenDataAnnotationValidator Component="Id" Popup=@popup Style="position: relative"/>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Khóa học" Component="CourseId" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.CourseId" Placeholder="Chọn khóa học" Data="@courses" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="CourseId"/>
+                                    <RadzenDataAnnotationValidator Component="CourseId" Popup=@popup Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giảng viên" Component="LecturerId" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.LecturerId" Placeholder="Chọn giảng viên" Data="@lecturers" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="LecturerId"/>
+                                    <RadzenDataAnnotationValidator Component="LecturerId" Popup=@popup Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Số lượng" Component="MaxStudents" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenNumeric TValue="int?" @bind-Value="courseClass.MaxStudents" Style="width: 100%;" Name="MaxStudents" />
+                                    <RadzenDataAnnotationValidator Component="MaxStudents" Popup=@popup Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenLabel Text="Lịch học" Component="Schedule" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        <RadzenTextBox @bind-Value="courseClass.Schedule" Style="width: 100%;" Name="Schedule" />
+                                        <RadzenDataAnnotationValidator Component="Schedule" Popup=@popup Style="position: relative" />    
+                                    </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giờ bắt đầu" Component="RadzenTimeSpanPickerMinMax"/>
+                                </RadzenColumn>
+                                @* <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenTimeSpanPicker TValue="TimeSpan" @bind="@startTime" Name="RadzenTimeSpanPickerMinMax" Min="@TimeSpan.Zero" Max="@TimeSpan.FromHours(12)" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giờ kết thúc" Component="RadzenTimeSpanPickerMinMax" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenTimeSpanPicker TValue="TimeSpan" @bind="@startTime" Name="RadzenTimeSpanPickerMinMax" Min="@TimeSpan.Zero" Max="@TimeSpan.FromHours(12)" />
+                                </RadzenColumn> *@
+                            </RadzenRow>
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Phòng học" Component="Room" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox @bind-Value="courseClass.Room" Style="width: 100%;" Name="Room" />
+                                    <RadzenDataAnnotationValidator Component="Room" Popup=@popup Style="position: relative" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </div>
+    <div class="fixed-bottom-buttons">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+        </RadzenStack>
+    </div>
+    </RadzenTemplateForm>
+
+
+
