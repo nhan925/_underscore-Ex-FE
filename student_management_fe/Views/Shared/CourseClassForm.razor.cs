@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using student_management_fe.Models;
 
 namespace student_management_fe.Views.Shared;
@@ -19,6 +20,16 @@ public partial class CourseClassForm
     private bool ShowStartTimeError { get; set; } = false;
     private bool ShowEndTimeError { get; set; } = false;
 
+    //bool startTimeError = false;
+    //string startTimeErrorText = "";
+
+    //bool endTimeError = false;
+    //string endTimeErrorText = "";
+
+    //MudForm form;
+    //bool isValid;
+    //string[] errors = { };
+
     private List<string> DateOfWeek { get; set; } = new()
     {
         "Thứ 2",
@@ -30,26 +41,40 @@ public partial class CourseClassForm
         "Chủ nhật"
     };
 
-    //private void ValidateStartTime()
+    //private IEnumerable<string> ValidateStartAndEndTime(TimeSpan? startTime, TimeSpan? endTime)
     //{
-    //    TimeSpan? time = courseClass.ScheduleParsed.StartTime;
-    //    bool isDefaultTime = time == null || time == default;
-    //    bool isGreaterThanEndTime = !isDefaultTime &&
-    //                                courseClass.ScheduleParsed.EndTime != default &&
-    //                                time > courseClass.ScheduleParsed.EndTime;
 
-    //    ShowStartTimeError = isDefaultTime || isGreaterThanEndTime;
-    //}
-
-    //private void ValidateEndTime()
-    //{
-    //    TimeSpan? time = courseClass.ScheduleParsed.EndTime;
-    //    ShowEndTimeError = time == null || time == default;
-
-    //    if (!ShowEndTimeError && courseClass.ScheduleParsed.StartTime != default)
+    //    if (startTime == null)
     //    {
-    //        ShowStartTimeError = courseClass.ScheduleParsed.StartTime > time;
+    //        startTimeError = true;
+    //        startTimeErrorText = "Giờ bắt đầu không được để trống!";
     //    }
+    //    else
+    //    {
+    //        startTimeError = false;
+    //        startTimeErrorText = "";
+    //    }
+
+    //    if (endTime == null)
+    //    {
+    //        endTimeError = true;
+    //        endTimeErrorText = "Giờ kết thúc không được để trống!";
+    //    }
+    //    else
+    //    {
+    //        endTimeError = false;
+    //        endTimeErrorText = "";
+    //    }
+
+    //    if (startTime != null && endTime != null && startTime >= endTime)
+    //    {
+    //        startTimeError = true;
+    //        startTimeErrorText = "Giờ bắt đầu phải nhỏ hơn giờ kết thúc!";
+    //        endTimeError = true;
+    //        endTimeErrorText = "Giờ kết thúc phải lớn hơn giờ bắt đầu!";
+    //    }
+
+    //    return errors;
     //}
 
     private void OnSubmit()

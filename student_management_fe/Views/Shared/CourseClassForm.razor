@@ -75,8 +75,9 @@
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <MudTimePicker Label="Giờ bắt đầu" AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.StartTime"
-                                                   For="@(() => courseClass.ScheduleParsed.StartTime)"  />
-									@if (ShowStartTimeError){
+                                                   For="@(() => courseClass.ScheduleParsed.StartTime)" />
+                                    @if (ShowStartTimeError)
+                                    {
                                         <div class="error">
                                             Thời gian bắt đầu không được để trống hoặc lớn hơn thời gian kết thúc
                                         </div>
@@ -88,7 +89,7 @@
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <MudTimePicker Label="Giờ kết thúc" AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.EndTime"
-                                                   For="@(() => courseClass.ScheduleParsed.EndTime)"/>
+                                                   For="@(() => courseClass.ScheduleParsed.EndTime)" />
                                     @if (ShowEndTimeError)
                                     {
                                         <div class="error">
@@ -110,6 +111,8 @@
         </RadzenStack>
     </div>
     </RadzenTemplateForm>
+
+
 
 
 

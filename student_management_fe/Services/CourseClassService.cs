@@ -41,4 +41,20 @@ public class CourseClassService
         }
         throw new Exception("Thêm lớp học không thành công!");
     }
+
+    public async Task<List<StudentInClass>> GetStudentsInClass(GetCourseClassResult courseClass)
+    {
+        string apiEndpoint = $"/api/classes/students?ClassId={courseClass.Id}&CourseId={courseClass.Course.Id}&SemesterId={courseClass.Semester.Id}";
+        var request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);
+        var response = await _authService.SendRequestWithAuthAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"error fetching students: {response.StatusCode}");
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<List<StudentInClass>>();
+        return result ?? new List<StudentInClass>();
+    }
 }
+

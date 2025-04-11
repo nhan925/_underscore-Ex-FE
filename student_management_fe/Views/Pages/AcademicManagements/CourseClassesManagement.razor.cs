@@ -6,6 +6,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using System.Net.WebSockets;
+using Blazored.LocalStorage;
+
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -20,6 +22,12 @@ public partial class CourseClassesManagement
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
+    [Inject]
+    private ILocalStorageService LocalStorage { get; set; } = default!;
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
     private string? searchText;
     private Year selectedYear = new();
     private Semester selectedSemester = new();
@@ -33,13 +41,15 @@ public partial class CourseClassesManagement
     private readonly YearAndSemesterService _yearAndSemesterService;
     private readonly CourseService _courseService;
     private readonly LecturerService _lecturerService;
+    private readonly DataService _dataService;
 
-    public CourseClassesManagement(CourseClassService courseClassService, YearAndSemesterService yearAndSemesterService, CourseService courseService, LecturerService lecturerService)
+    public CourseClassesManagement(CourseClassService courseClassService, YearAndSemesterService yearAndSemesterService, CourseService courseService, LecturerService lecturerService, DataService dataService)
     {
         _courseClassService = courseClassService;
         _yearAndSemesterService = yearAndSemesterService;
         _courseService = courseService;
         _lecturerService = lecturerService;
+        _dataService = dataService;
     }
 
     protected override async Task OnInitializedAsync()
@@ -81,7 +91,7 @@ public partial class CourseClassesManagement
         };
 
         var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
-        if (result is bool isConfirmed && isConfirmed)
+        if (result != null)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
@@ -147,8 +157,11 @@ public partial class CourseClassesManagement
         }
     }
 
-    private void RowClickEvent(TableRowClickEventArgs<GetCourseClassResult> tableRowClickEventArgs)
+    private async void RowClickEvent(TableRowClickEventArgs<GetCourseClassResult> tableRowClickEventArgs)
     {
-        
+        GetCourseClassResult myObject = tableRowClickEventArgs.Item;
+        _dataService.SetData(myObject);
+        await LocalStorage.SetItemAsync("cachedCourseClassSelected", myObject);
+        NavigationManager.NavigateTo("/student-registered");
     }
 }
