@@ -17,7 +17,7 @@ public class CourseModel
     public int Credits { get; set; }
     
     [Required(ErrorMessage = "Khoa phụ trách không được để trống")]
-    public int FacultyId { get; set; }
+    public int? FacultyId { get; set; }
     
     public string Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }

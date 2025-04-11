@@ -130,7 +130,7 @@ public class CourseService
             try
             {
                 var errorObj = JsonSerializer.Deserialize<ApiResponse>(content);
-                throw new Exception(errorObj?.Message ?? "Xóa khóa học không thành công!");
+                throw new Exception(errorObj?.message ?? "Xóa khóa học không thành công!");
             }
             catch (JsonException)
             {
@@ -142,7 +142,7 @@ public class CourseService
         try
         {
             var responseObj = JsonSerializer.Deserialize<ApiResponse>(content);
-            return responseObj?.Message ?? "Xóa khóa học thành công";
+            return responseObj?.message ?? "Xóa khóa học thành công";
         }
         catch (JsonException)
         {
@@ -152,7 +152,7 @@ public class CourseService
 
     public class ApiResponse
     {
-        public string Message { get; set; }
+        public string message { get; set; }
     }
 
     public async Task<bool> CheckCourseHasStudents(string courseId)

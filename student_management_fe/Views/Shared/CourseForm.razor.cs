@@ -34,22 +34,16 @@ public partial class CourseForm
     {
         // Khởi tạo danh sách khoa
         await LoadFaculties();
-
         // Khởi tạo danh sách khóa học tiên quyết
         await LoadCoursePrerequisites();
-
         // Nếu là update mode
         if (IsUpdateMode && Course != null)
         {
-            // Thiết lập FacultyId đã chọn
-            SelectedFacultyId = Course.FacultyId;
-
             // Hiển thị các khóa học tiên quyết đã chọn
             if (Course.PrerequisitesId?.Any() == true)
             {
                 SelectedPrerequisiteIds = Course.PrerequisitesId;
             }
-
             // Kiểm tra xem khóa học có sinh viên đăng ký không
             await CheckCourseEnrollmentStatus();
         }
@@ -95,10 +89,9 @@ public partial class CourseForm
         }
     }
 
+  
     private void ValidateAndSubmit()
     {
-        // Gán FacultyId cho Course từ dropdown đã chọn
-        Course.FacultyId = SelectedFacultyId;
         // Gán lại PrerequisiteId cho Course
         Course.PrerequisitesId = SelectedPrerequisiteIds.ToList();
         // Đóng dialog và trả về true (success)

@@ -58,17 +58,16 @@
                                     <RadzenLabel Text="Khoa phụ trách" Component="FacultyId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenDropDown @bind-Value="SelectedFacultyId"
+                                    <RadzenDropDown @bind-Value="Course.FacultyId"
                                                     Data="@Faculties"
+                                                    TValue="int?"
                                                     TextProperty="Name"
                                                     ValueProperty="Id"
                                                     Style="width: 100%;"
-                                                    Name="FacultyId"
-                                                    Placeholder="Chọn khoa phụ trách..." />
-                                    <RadzenRequiredValidator Component="FacultyId"
-                                                             Popup=@popup
-                                                             Style="position: relative"
-                                                             Text="Bạn phải chọn một khoa" />
+                                                    Name="FacultyId"/>
+                                    <RadzenDataAnnotationValidator Component="FacultyId"
+                                                                   Popup=@popup
+                                                                   Style="position: relative" />
                                 </RadzenColumn>
                             </RadzenRow>
 
@@ -82,7 +81,6 @@
                                                     FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                     @bind-Value="SelectedPrerequisiteIds"
                                                     Multiple="true"
-                                                    Placeholder="Chọn các môn tiên quyết..."
                                                     Data="@CoursePrerequisites"
                                                     TextProperty="Name"
                                                     ValueProperty="Id"

@@ -64,11 +64,11 @@ public partial class CourseManagement
         tempCourses = courses;
     }
 
-    private string GetFacultyName(int facultyId)
+    private string GetFacultyName(int? id)
     {
-        return faculties.FirstOrDefault(f => f.Id == facultyId)?.Name ?? "Không xác định";
+        var faculty = faculties.FirstOrDefault(x => x.Id == id);
+        return faculty?.Name ?? "Không xác định";
     }
-        
 
     private void SearchCourse()
     {
@@ -118,11 +118,12 @@ public partial class CourseManagement
             options
         );
 
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+
         if (result is bool success && success)
         {
             try
             {
-                // API trả về course object
                 var addedCourse = await _courseService.AddCourse(newCourse);
                 if (addedCourse != null)
                 {
@@ -143,7 +144,6 @@ public partial class CourseManagement
 
     private async Task EditCourse(CourseModel courseModel)
     {
-        // Clone để không làm thay đổi trực tiếp trong list nếu hủy
         var editCourse = new CourseModel
         {
             Id = courseModel.Id,
@@ -176,18 +176,18 @@ public partial class CourseManagement
             options
         );
 
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+
         if (result is bool success && success)
         {
             try
             {
-                // API trả về string (message)
                 var message = await _courseService.UpdateCourse(editCourse);
                 Snackbar.Add(message, Severity.Success);
                 await LoadCourses();
             }
             catch (Exception ex)
             {
-                // Hiển thị thông báo lỗi từ service
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
@@ -195,24 +195,30 @@ public partial class CourseManagement
 
     private async Task DeleteCourse(CourseModel course)
     {
-        // Hiển thị hộp thoại xác nhận trước khi xóa
-        var confirmed = await DialogService.Confirm(
-            $"Bạn có chắc chắn muốn xóa khóa học '{course.Name}' không?",
-            "Xác nhận xóa",
-            new ConfirmOptions { OkButtonText = "Xóa", CancelButtonText = "Hủy" });
-
-        if (confirmed ?? false)
+        var parameters = new Dictionary<string, object>
         {
+            { "ContentText", $"Bạn có chắc chắn muốn xóa khóa học '{course.Name}' không? Sau khi xóa không thể khôi phục!" },
+            { "ButtonText", "Xóa" }
+        };
+
+        var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+            "Xác nhận xóa", parameters
+        );
+
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+
             try
             {
-                var result = await _courseService.DeleteCourse(course.Id);
-                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-                Snackbar.Add(result, Severity.Success);
+                var message = await _courseService.DeleteCourse(course.Id);
+                Snackbar.Add(message, Severity.Success);
                 await LoadCourses();
             }
             catch (Exception ex)
             {
-                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
