@@ -4,12 +4,15 @@
     Danh sách sinh viên của lớp học
 </MudText>
 
-@if (!isLoading)
+@if (isLoading)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+}
+else
 {
 <MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
     <MudGrid>
         <MudItem xs="12">
-            <MudPaper Elevation="2" Class="pa-4 mb-3">
                 <MudGrid>
 
                     <MudItem xs="12" sm="6" md="6">
@@ -77,7 +80,6 @@
                         </MudPaper>
                     </MudItem>
                 </MudGrid>
-            </MudPaper>
         </MudItem>
 
         <MudItem xs="12" sm="12" Class="d-flex justify-end">
@@ -96,7 +98,7 @@
             <MudTh Style="text-align: center; width: 16%">Họ và tên</MudTh>
             <MudTh Style="text-align: center; width: 8%">Điểm số</MudTh>
             <MudTh Style="text-align: center; width: 8%">Trạng thái</MudTh>
-            <MudTh Style="text-align: center; width: 12%">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Thao tác</MudTh>
         </HeaderContent>
 
         <RowTemplate>
@@ -107,7 +109,7 @@
                 @if (editingStudent?.Id == context.Id)
                 {
                     <div class="d-flex align-center">
-                        <MudNumericField @bind-Value="editingGrade" Min="0" Max="10" FullWidth="false" Style="width: 80px; margin-right: 8px;" />
+                        <MudNumericField @bind-Value="editingGrade" Min="0" Max="10" FullWidth="true" Style="margin-right: 8px;" />
                         <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="SaveGrade" />
                         <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="CancelEdit" />
                     </div>

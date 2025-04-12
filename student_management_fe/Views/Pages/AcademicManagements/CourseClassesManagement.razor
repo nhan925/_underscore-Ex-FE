@@ -65,7 +65,7 @@
             <MudTh Style="text-align: center; width: 7%">Mã lớp</MudTh>
             <MudTh Style="text-align: center; width: 16%">Tên môn học</MudTh>
             <MudTh Style="text-align: center; width: 8%">Tên giáo viên</MudTh>
-            <MudTh Style="text-align: center; width: 17%">Số lượng</MudTh>
+            <MudTh Style="text-align: center; width: 17%">Số lượng SV</MudTh>
             <MudTh Style="text-align: center; width: 8%">Lịch học</MudTh>
             <MudTh Style="text-align: center; width: 10%">Phòng học</MudTh>
         </HeaderContent>
@@ -76,7 +76,7 @@
             <MudTd DataLabel="Mã lớp" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Tên môn học">@context.Course.Name</MudTd>
             <MudTd DataLabel="Tên giáo viên">@context.Lecturer.FullName</MudTd>
-            <MudTd DataLabel="Số lượng">@context.MaxStudents</MudTd>
+            <MudTd DataLabel="Số lượng SV">@context.MaxStudents</MudTd>
             <MudTd DataLabel="Lịch học" Style="text-align: center">@context.Schedule</MudTd>
             <MudTd DataLabel="Phòng học">@context.Room</MudTd>
         </RowTemplate>
