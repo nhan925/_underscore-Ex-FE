@@ -5,7 +5,7 @@ namespace student_management_fe.Models;
 public class CourseModel
 {
     [Required(ErrorMessage = "Mã khóa học không được để trống")]
-    [StringLength(100, ErrorMessage = "Mã khoa không được dài qáu.")]
+    [StringLength(100, ErrorMessage = "Mã khoa không được dài quá.")]
     public string Id { get; set; } = string.Empty;
     
     [Required(ErrorMessage = "Tên khóa học không được để trống")]
