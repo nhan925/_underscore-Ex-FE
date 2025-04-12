@@ -4,6 +4,8 @@
     Danh sách sinh viên của lớp học
 </MudText>
 
+@if (!isLoading)
+{
 <MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
     <MudGrid>
         <MudItem xs="12">
@@ -98,13 +100,28 @@
         </HeaderContent>
 
         <RowTemplate>
-            <MudTd Style="text-align: center" DataLabel="STT">@((studentsInClass.IndexOf(context)+1))</MudTd>
+            <MudTd Style="text-align: center" DataLabel="STT">@((studentsInClass.IndexOf(context) + 1))</MudTd>
             <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
-            <MudTd DataLabel="Điểm số">@context.Grade</MudTd>
+            <MudTd DataLabel="Điểm số" @ondblclick="() => StartEditingGrade(context)">
+                @if (editingStudent?.Id == context.Id)
+                {
+                    <div class="d-flex align-center">
+                        <MudNumericField @bind-Value="editingGrade" Min="0" Max="10" FullWidth="false" Style="width: 80px; margin-right: 8px;" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="SaveGrade" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="CancelEdit" />
+                    </div>
+                }
+                else
+                {
+                    @context.Grade
+                }
+            </MudTd>
             <MudTd DataLabel="Trạng thái">@context.Status</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-               @*  <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudent(context.Id)" /> *@
+                <MudTooltip Text="Hủy đăng ký lớp" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudentFromClass(context.Id)" />
+                </MudTooltip>
             </MudTd>
         </RowTemplate>
 
@@ -116,3 +133,4 @@
         </LoadingContent>
     </MudTable>
 </MudPaper>
+}

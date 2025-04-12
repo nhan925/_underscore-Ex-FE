@@ -74,14 +74,16 @@ public partial class Home
     private readonly StudentStatusService _studentStatusService;
     private readonly StudentServices _studentServices;
     private readonly ConfigurationsService _configService;
+    private readonly CourseEnrollmentService _courseEnrollmentService;
 
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService, ConfigurationsService configService)
+    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService, ConfigurationsService configService, CourseEnrollmentService courseEnrollmentService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
         _studentStatusService = studentStatusService;
         _studyProgramService = studyProgramService;
         _configService = configService;
+        _courseEnrollmentService = courseEnrollmentService;
     }
 
     protected override async Task OnInitializedAsync()
@@ -191,6 +193,19 @@ public partial class Home
         }
  
         Console.WriteLine($"Dialog closed with result: {result}");
+    }
+
+    private async Task ExportTranscript(string mssv)
+    {
+        try
+        {
+            await _courseEnrollmentService.DownloadTranscript(mssv);
+            Snackbar.Add($"Đã xuất bảng điểm của sinh viên có MSSV {mssv}", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
     }
 
     private async Task EditStudent(string mssv)

@@ -91,7 +91,7 @@ public partial class CourseClassesManagement
         };
 
         var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
-        if (result != null)
+        if (result is bool isConfirmed && isConfirmed)
         {
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 

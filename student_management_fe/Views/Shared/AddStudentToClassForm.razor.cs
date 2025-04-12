@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Radzen;
 using student_management_fe.Models;
 using student_management_fe.Services;
@@ -27,6 +28,8 @@ public partial class AddStudentToClassForm
     [Parameter] public GetCourseClassResult CourseClass { get; set; }
 
     [Inject] public Radzen.DialogService DialogService { get; set; } = default!;
+
+    [Inject] public ISnackbar Snackbar { get; set; } = default!;
 
     private List<Faculty> faculties = new();
     private List<StudentStatus> studentStatuses = new();
@@ -101,7 +104,7 @@ public partial class AddStudentToClassForm
         catch (Exception e)
         {
             Console.WriteLine(e);
-            DialogService.Close(false);
+            Snackbar.Add(e.Message, Severity.Error);
             return;
         }
         OnSubmit();
