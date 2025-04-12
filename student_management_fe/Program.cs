@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
@@ -30,9 +31,15 @@ public class Program
         builder.Services.AddScoped<FacultyService>();
         builder.Services.AddScoped<ConfigurationsService>();
         builder.Services.AddScoped<CountryPhoneCodeService>();
+        builder.Services.AddScoped<CourseClassService>();
+        builder.Services.AddScoped<YearAndSemesterService>();
         builder.Services.AddScoped<CourseService>();
+        builder.Services.AddScoped<LecturerService>();
+        builder.Services.AddScoped<CourseEnrollmentService>();
         builder.Services.AddScoped<Radzen.DialogService>();
         builder.Services.AddScoped<MudBlazor.DialogService> ();
+        builder.Services.AddBlazoredLocalStorage();
+        builder.Services.AddScoped<DataService>();
         builder.Services.AddMudServices();
         builder.Services.AddRadzenComponents();
 

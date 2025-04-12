@@ -1,0 +1,93 @@
+﻿@page "/classes"
+
+<MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
+    Danh sách lớp học
+</MudText>
+
+<MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
+    <MudGrid>
+        <MudItem xs="6" sm="3" Class="d-flex align-items-stretch">
+            <MudSelect T="Year"
+                       Value="selectedYear"
+                       ValueChanged="OnSelectedYearChanged"
+                       ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
+                       Label="Chọn năm học"
+                       Variant="MudBlazor.Variant.Outlined"
+                       Style="width: 100%; height: 100%;">
+                @foreach (var year in years)
+                {
+                    <MudSelectItem Value="@year">@year.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="6" sm="3" Class="d-flex align-items-stretch">
+            <MudSelect T="Semester"
+                       Value="selectedSemester"
+                       ValueChanged="OnSelectedSemesterChanged"
+                       ToStringFunc="@(e => e == null ? null : $"{e.SemesterNum}")"
+                       Label="Chọn học kỳ"
+                       Variant="MudBlazor.Variant.Outlined"
+                       Style="width: 100%; height: 100%;">
+                @foreach (var semester in semesters)
+                {
+                    <MudSelectItem Value="@semester">@semester.SemesterNum</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="12" sm="12">
+            <MudTextField @bind-Value="searchText"
+            Placeholder="Nhập mã lớp hoặc tên môn học"
+            Adornment="Adornment.Start"
+            AdornmentIcon="@Icons.Material.Filled.Search"
+            Immediate="true"
+            Variant="MudBlazor.Variant.Outlined"
+            OnKeyDown="HandleKeyPressSearch"
+            Class="w-100" />
+        </MudItem>
+
+        <MudItem xs="12" sm="12" Class="d-flex justify-end">
+            <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchCourseClasses" Class="me-2">
+                Tìm kiếm
+            </MudButton>
+            <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddCourseClass" Class="me-2">
+                Thêm mới
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<MudPaper Class="table-container" Elevation="4">
+        <MudTable RowClass="cursor-pointer" OnRowClick="RowClickEvent" T="GetCourseClassResult" Items="filteredCourseClasses" Dense="true" Hover="true" Bordered="true" Striped="true">
+        <HeaderContent>
+            <MudTh Style="text-align: center; width: 3%">STT</MudTh>
+            <MudTh Style="text-align: center; width: 7%">Mã lớp</MudTh>
+            <MudTh Style="text-align: center; width: 16%">Tên môn học</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Tên giáo viên</MudTh>
+            <MudTh Style="text-align: center; width: 17%">Số lượng</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Lịch học</MudTh>
+            <MudTh Style="text-align: center; width: 10%">Phòng học</MudTh>
+        </HeaderContent>
+
+
+        <RowTemplate>
+            <MudTd Style="text-align: center" DataLabel="STT">@((filteredCourseClasses.IndexOf(context) + 1))</MudTd>
+            <MudTd DataLabel="Mã lớp" Style="text-align: center">@context.Id</MudTd>
+            <MudTd DataLabel="Tên môn học">@context.Course.Name</MudTd>
+            <MudTd DataLabel="Tên giáo viên">@context.Lecturer.FullName</MudTd>
+            <MudTd DataLabel="Số lượng">@context.MaxStudents</MudTd>
+            <MudTd DataLabel="Lịch học" Style="text-align: center">@context.Schedule</MudTd>
+            <MudTd DataLabel="Phòng học">@context.Room</MudTd>
+        </RowTemplate>
+
+        <NoRecordsContent>
+            <MudText>Không tìm thấy dữ liệu...</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Đang tải...</MudText>
+        </LoadingContent>
+    </MudTable>
+</MudPaper>
+
+

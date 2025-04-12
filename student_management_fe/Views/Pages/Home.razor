@@ -99,8 +99,17 @@
             <MudTd DataLabel="Chương trình">@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
             <MudTd DataLabel="Tình trạng">@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudent(context.Id)" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudent(context.Id)" />
+                <MudTooltip Text="Tải bảng điểm" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Info" OnClick="()=>ExportTranscript(context.Id)" />
+                </MudTooltip>
+
+                <MudTooltip Text="Chỉnh sửa thông tin sinh viên" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudent(context.Id)" />
+                </MudTooltip>
+
+                <MudTooltip Text="Xóa sinh viên" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudent(context.Id)" />
+                </MudTooltip>
             </MudTd>
         </RowTemplate>
 

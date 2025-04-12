@@ -1,5 +1,136 @@
-﻿<h3>RegistrationManagement</h3>
+﻿@page "/student-registered"
 
-@code {
+<MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
+    Danh sách sinh viên của lớp học
+</MudText>
 
+@if (!isLoading)
+{
+<MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Class="pa-4 mb-3">
+                <MudGrid>
+
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudPaper Elevation="0" Class="pa-2">
+                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">Thông tin lớp học</MudText>
+
+                            <MudGrid>
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Mã lớp:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.Id</MudText>
+                                </MudItem>
+
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Khóa học:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.Course.Id - @courseClass.Course.Name</MudText>
+                                </MudItem>
+
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Năm học/Học kỳ:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@yearAndSemesterText</MudText>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudPaper Elevation="0" Class="pa-2">
+                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">Chi tiết lớp</MudText>
+
+                            <MudGrid>
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Giảng viên:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.Lecturer.Id - @courseClass.Lecturer.FullName</MudText>
+                                </MudItem>
+
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Số lượng SV tối đa:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.MaxStudents</MudText>
+                                </MudItem>
+
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Lịch học:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.Schedule</MudText>
+                                </MudItem>
+
+                                <MudItem xs="4">
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Phòng học:</MudText>
+                                </MudItem>
+                                <MudItem xs="8">
+                                    <MudText Typo="Typo.body2">@courseClass.Room</MudText>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" Class="d-flex justify-end">
+            <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddStudentToClass" Class="me-2">
+                Thêm sinh viên
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<MudPaper Class="table-container" Elevation="4">
+    <MudTable RowClass="cursor-pointer" T="StudentInClass" Items="studentsInClass" Dense="true" Hover="true" Bordered="true" Striped="true">
+        <HeaderContent>
+            <MudTh Style="text-align: center; width: 3%">STT</MudTh>
+            <MudTh Style="text-align: center; width: 7%">MSSV</MudTh>
+            <MudTh Style="text-align: center; width: 16%">Họ và tên</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Điểm số</MudTh>
+            <MudTh Style="text-align: center; width: 8%">Trạng thái</MudTh>
+            <MudTh Style="text-align: center; width: 12%">Thao tác</MudTh>
+        </HeaderContent>
+
+        <RowTemplate>
+            <MudTd Style="text-align: center" DataLabel="STT">@((studentsInClass.IndexOf(context) + 1))</MudTd>
+            <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
+            <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
+            <MudTd DataLabel="Điểm số" @ondblclick="() => StartEditingGrade(context)">
+                @if (editingStudent?.Id == context.Id)
+                {
+                    <div class="d-flex align-center">
+                        <MudNumericField @bind-Value="editingGrade" Min="0" Max="10" FullWidth="false" Style="width: 80px; margin-right: 8px;" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="SaveGrade" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="CancelEdit" />
+                    </div>
+                }
+                else
+                {
+                    @context.Grade
+                }
+            </MudTd>
+            <MudTd DataLabel="Trạng thái">@context.Status</MudTd>
+            <MudTd Style="text-align: center" DataLabel="Thao tác">
+                <MudTooltip Text="Hủy đăng ký lớp" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudentFromClass(context.Id)" />
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+
+        <NoRecordsContent>
+            <MudText>Không tìm thấy dữ liệu...</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Đang tải...</MudText>
+        </LoadingContent>
+    </MudTable>
+</MudPaper>
 }

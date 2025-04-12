@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+
 namespace student_management_fe.Models;
+
 public class CourseModel
 {
     [Required(ErrorMessage = "Mã khóa học không được để trống")]
@@ -20,7 +22,12 @@ public class CourseModel
     public int? FacultyId { get; set; }
     
     public string Description { get; set; } = string.Empty;
+
     public DateTime CreatedAt { get; set; }
+
     public List<string> PrerequisitesId { get; set; } = new();
+
     public bool IsActive { get; set; }
+
+    public string IdWithName => $"{Id} - {Name}";
 }
