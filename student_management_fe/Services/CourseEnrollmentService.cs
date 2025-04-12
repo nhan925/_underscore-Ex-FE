@@ -25,13 +25,14 @@ public class CourseEnrollmentService
             Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
         };
         var response = await _authService.SendRequestWithAuthAsync(request);
-        var message = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync();
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception(message);
+            throw new Exception(responseContent);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        return responseContent;
     }
 
     public async Task<string> UpdateStudentGrade(UpdateStudentGradeRequest updateStudentGradeRequest)
