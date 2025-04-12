@@ -1,6 +1,6 @@
 ﻿namespace student_management_fe.Views.Pages.AcademicManagements
 {
-    public class ClassesManagement
+    public partial class ClassesManagement
     {
     }
 }
