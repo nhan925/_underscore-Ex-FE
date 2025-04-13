@@ -43,6 +43,8 @@ public partial class CourseClassesManagement
     private readonly LecturerService _lecturerService;
     private readonly DataService _dataService;
 
+    private static bool firstLoad = true;
+
     public CourseClassesManagement(CourseClassService courseClassService, YearAndSemesterService yearAndSemesterService, CourseService courseService, LecturerService lecturerService, DataService dataService)
     {
         _courseClassService = courseClassService;
@@ -58,7 +60,8 @@ public partial class CourseClassesManagement
        
         if (years.Any())
         {
-            await OnSelectedYearChanged(years[0]);
+            await OnSelectedYearChanged(years.Last());
+            firstLoad = false;
         }
     }
 
@@ -117,9 +120,12 @@ public partial class CourseClassesManagement
         }
         else
         {
-            filteredCourseClasses = courseClasses.Where(s => s.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                                                             s.Course.Name.Contains(searchText,StringComparison.OrdinalIgnoreCase))
-                                    .ToList();
+            filteredCourseClasses = courseClasses
+            .Where(s => 
+                s.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || s.Course.Name.Contains(searchText,StringComparison.OrdinalIgnoreCase)
+            )
+            .ToList();
         }
     }
 
@@ -152,7 +158,8 @@ public partial class CourseClassesManagement
 
             if (semesters.Any())
             {
-                await OnSelectedSemesterChanged(semesters[0]);
+                var semester = firstLoad ? semesters.Last() : semesters.First();
+                await OnSelectedSemesterChanged(semester);
             }
         }
     }

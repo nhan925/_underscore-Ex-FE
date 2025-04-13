@@ -182,6 +182,13 @@ button img {
             cursor: not-allowed;
         }
 
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-direction: row;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .search-bar {
@@ -204,6 +211,11 @@ button img {
 
     .pagination button {
         padding: 6px 10px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
     }
 }
 

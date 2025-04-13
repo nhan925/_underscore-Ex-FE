@@ -70,7 +70,7 @@
     color: white;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1250px) {
     .navbar-toggler {
         display: none;
     }
