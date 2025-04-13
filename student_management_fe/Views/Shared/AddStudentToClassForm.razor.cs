@@ -77,37 +77,52 @@ public partial class AddStudentToClassForm
         return studentStatus?.Name ?? "";
     }
 
-    private async Task OnStudentIdChange()
+    private async Task OnStudentIdChange(string studentId)
     {
         if (Student.Id != null)
         {
-            var student = await _studentService.GetStudentById(Student.Id);
-            if (student != null)
+            try
             {
-                Student = student;
+                var student = await _studentService.GetStudentById(Student.Id);
+                if (student != null)
+                {
+                    Student = student;
+                }
+            }
+            catch(Exception e)
+            {
+                Student = new StudentModel()
+                {
+                    Id = studentId,
+                    Addresses = new List<Address>(),
+                    IdentityInfo = new IdentityInfo()
+                };
             }
         }
     }
 
     private async Task ValidateAndSubmit()
     {
-        try
+        if (Student.FullName != null)
         {
-            var result = await _courseEnrollmentService.RegisterAndUnregisterClass("register", new CourseEnrollmentRequest
+            try
             {
-                StudentId = Student.Id,
-                ClassId = CourseClass.Id,
-                CourseId = CourseClass.Course.Id,
-                SemesterId = CourseClass.Semester.Id
-            });
+                var result = await _courseEnrollmentService.RegisterAndUnregisterClass("register", new CourseEnrollmentRequest
+                {
+                    StudentId = Student.Id,
+                    ClassId = CourseClass.Id,
+                    CourseId = CourseClass.Course.Id,
+                    SemesterId = CourseClass.Semester.Id
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Snackbar.Add(e.Message, Severity.Error);
+                return;
+            }
+            OnSubmit();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            Snackbar.Add(e.Message, Severity.Error);
-            return;
-        }
-        OnSubmit();
     }
 
     void OnSubmit()

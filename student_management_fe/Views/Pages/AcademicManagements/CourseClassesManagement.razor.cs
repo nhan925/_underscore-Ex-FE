@@ -68,7 +68,7 @@ public partial class CourseClassesManagement
         {
             Resizable = false,
             Draggable = false,
-            Width = "90%",
+            Width = "70%",
             Height = "70%",
             ContentCssClass = "custom-dialog"
         };

@@ -65,8 +65,13 @@
                 }
             </MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditCourse(context)" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteCourse(context)" />
+                <MudTooltip Text="Chỉnh sửa thông tin khóa học" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditCourse(context)" />
+                </MudTooltip>
+
+                <MudTooltip Text="Xóa khóa học" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteCourse(context)" />
+                </MudTooltip>
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

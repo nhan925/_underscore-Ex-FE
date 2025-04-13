@@ -14,7 +14,7 @@
                                     <RadzenLabel Text="MSSV" Component="Id" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Id" Name="Id" Change="@(async () => OnStudentIdChange())" />
+                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Id" Name="Id" Change="@(async () => OnStudentIdChange(Student.Id))" />
                                     <div style=" min-height: 1rem;">
                                         <RadzenDataAnnotationValidator Component="Id" Popup=@popup />
                                     </div>

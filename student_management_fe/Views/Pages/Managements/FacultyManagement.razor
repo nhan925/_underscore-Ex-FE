@@ -47,7 +47,9 @@
             <MudTd DataLabel="Mã khoa" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Tên khoa">@context.Name</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditFaculty(context)" />
+                <MudTooltip Text="Chỉnh sửa thông tin khoa" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditFaculty(context)" />
+                </MudTooltip>
             </MudTd>
         </RowTemplate>
 

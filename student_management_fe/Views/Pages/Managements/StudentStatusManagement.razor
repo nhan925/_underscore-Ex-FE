@@ -47,7 +47,9 @@
             <MudTd DataLabel="Mã trạng thái" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Tên trạng thái">@context.Name</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudentStatus(context)" />
+                <MudTooltip Text="Chỉnh sửa thông tin trạng thái" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudentStatus(context)" />
+				</MudTooltip>
             </MudTd>
         </RowTemplate>
 

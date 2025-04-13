@@ -35,7 +35,9 @@
             <MudTd Style="text-align: center" DataLabel="STT">@(configInformations.Value.IndexOf(domain) + 1)</MudTd>
             <MudTd DataLabel="Domain Email" Style="text-align: center">@domain</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteEmailSetting(domain))" />
+                <MudTooltip Text="Xóa" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteEmailSetting(domain))" />
+				</MudTooltip>
             </MudTd>
         </RowTemplate>
 

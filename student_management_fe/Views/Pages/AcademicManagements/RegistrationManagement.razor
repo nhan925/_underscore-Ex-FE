@@ -105,23 +105,23 @@ else
             <MudTd Style="text-align: center" DataLabel="STT">@((studentsInClass.IndexOf(context) + 1))</MudTd>
             <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
-            <MudTd DataLabel="Điểm số" @ondblclick="() => StartEditingGrade(context)">
+            <MudTd DataLabel="Điểm số" Style="text-align: center" @ondblclick="() => StartEditingGrade(context)">
                 @if (editingStudent?.Id == context.Id)
                 {
                     <div class="d-flex align-center">
-                        <MudNumericField @bind-Value="editingGrade" Min="0" Max="10" FullWidth="true" Style="margin-right: 8px;" />
+                        <MudNumericField T="float?" @bind-Value="editingGrade" HideSpinButtons="true" Step="0.1f" Format="F1" Min="0f" Max="10f" FullWidth="true" Style="margin-right: 8px;" />
                         <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="SaveGrade" />
                         <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="CancelEdit" />
                     </div>
                 }
                 else
                 {
-                    @context.Grade
+                    @(context.Grade.HasValue ? context.Grade.Value.ToString("F1") : null)
                 }
             </MudTd>
-            <MudTd DataLabel="Trạng thái">@context.Status</MudTd>
+                <MudTd DataLabel="Trạng thái" Style="text-align: center">@context.Status</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudTooltip Text="Hủy đăng ký lớp" Arrow="true" Placement="Placement.Top">
+                <MudTooltip Text="Hủy đăng ký lớp" Color="Color.Error" Arrow="true" Placement="Placement.Top">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudentFromClass(context.Id)" />
                 </MudTooltip>
             </MudTd>

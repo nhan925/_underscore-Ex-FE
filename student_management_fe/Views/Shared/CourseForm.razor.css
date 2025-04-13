@@ -10,13 +10,6 @@
 }
 
 .form-content {
-    overflow-y: auto; 
-    padding-bottom: 100px; 
-}
-
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-    opacity: 12;
+    overflow-y: auto;
+    padding-bottom: 100px;
 }
