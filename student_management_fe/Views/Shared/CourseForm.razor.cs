@@ -54,19 +54,28 @@ public partial class CourseForm
         try
         {
             HasEnrolledStudents = await _courseService.CheckCourseHasStudents(Course.Id);
-
             if (HasEnrolledStudents)
             {
-                NotificationService.Notify(NotificationSeverity.Info,
-                    "Thông báo",
-                    "Khóa học này đã có sinh viên đăng ký, một số thông tin sẽ không thể chỉnh sửa.");
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Thông báo",
+                    Detail = "Khóa học này đã có sinh viên đăng ký, một số thông tin sẽ không thể chỉnh sửa.",
+                    Duration = 2000,
+                    Style = "margin-bottom: 1rem; margin-right: 1rem; position: fixed; bottom: 0; right: 0;"
+                });
             }
         }
         catch (Exception ex)
         {
-            NotificationService.Notify(NotificationSeverity.Error,
-                "Lỗi",
-                $"Không thể kiểm tra thông tin đăng ký: {ex.Message}");
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Lỗi",
+                Detail = $"Không thể kiểm tra thông tin đăng ký: {ex.Message}",
+                Duration = 2000,
+                Style = "margin-bottom: 1rem; margin-right: 1rem; position: fixed; bottom: 0; right: 0;"
+            });
         }
     }
 
