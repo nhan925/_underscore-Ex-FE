@@ -45,7 +45,9 @@
             <MudTd DataLabel="Quốc gia" Style="text-align: center">@country.Name</MudTd>
             <MudTd DataLabel="Số điện thoại" Style="text-align: center">@country.CallingCode</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeletePhoneNumberSetting(country.Code))" />
+                <MudTooltip Text="Xóa" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeletePhoneNumberSetting(country.Code))" />
+				</MudTooltip>
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

@@ -47,7 +47,9 @@
             <MudTd DataLabel="Mã chương trình" Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel="Tên chương trình">@context.Name</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudyProgram(context)" />
+                <MudTooltip Text="Chỉnh sửa thông tin chương trình" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudyProgram(context)" />
+				</MudTooltip>
             </MudTd>
         </RowTemplate>
 

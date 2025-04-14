@@ -1,0 +1,130 @@
+﻿@using System.Text.Json
+@using System.ComponentModel.DataAnnotations
+
+
+<RadzenTemplateForm TItem="StudentModel" Data=@Student Submit="@(async () => ValidateAndSubmit())" InvalidSubmit=@OnInvalidSubmit>
+    <div class="form-content">
+        <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
+            <RadzenColumn Size="12">
+                <RadzenStack>
+                    <RadzenFieldset Text="Thông tin sinh viên">
+                        <RadzenStack Gap="2.5rem" class="rz-p-4 rz-p-lg-6">
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="MSSV" Component="Id" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Id" Name="Id" Change="@(async () => OnStudentIdChange(Student.Id))" />
+                                    <div style=" min-height: 1rem;">
+                                        <RadzenDataAnnotationValidator Component="Id" Popup=@popup />
+                                    </div>
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Họ và tên" Component="FullName" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%" Name="FullName" Value="@Student.FullName" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Ngày sinh" Component="DateOfBirth" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDatePicker TValue="DateTime" Style="width: 100%;" Value="@Student.DateOfBirth"
+                                                      DateFormat="dd/MM/yyyy" Name="DateOfBirth" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Giới tính" Component="Gender" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@Student.Gender" Name="Gender" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Khoa" Component="FacultyId" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToFacultyName(Student.FacultyId)" Name="FacultyName" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Khóa" Component="IntakeYear" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@Student.IntakeYear?.ToString()" Name="IntakeYear" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Chương trình" Component="ProgramId" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToStudyProgramName(Student.ProgramId)" Name="ProgramName" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Email" Component="Email" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;"
+                                                   Value="@Student.Email"
+                                                   Name="Email" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Số điện thoại" Component="PhoneNumber" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;"
+                                                   Value="@Student.PhoneNumber"
+                                                   Name="PhoneNumber" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Tình trạng sinh viên" Component="StatusId" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToStudentStatusName(Student.StatusId)" Name="StatusName" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Quốc tịch" Component="Nationality" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenTextBox Style="width: 100%;" Value="@Student.Nationality" Name="Nationality" Disabled="true" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </div>
+    <div class="fixed-bottom-buttons">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
+            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+        </RadzenStack>
+    </div>
+</RadzenTemplateForm>
