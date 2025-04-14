@@ -66,6 +66,15 @@ student_management_fe/
 ### Logging
 <img src="./pics/logging.gif" width=50%/>
 
+### Xuất bảng điểm
+<img src="./pics/transcript.gif" width=50%/>
+
+### Quản lý khóa học
+<img src="./pics/course.gif" width=50%/>
+
+### Quản lý lớp học
+<img src="./pics/class.gif" width=50%/>
+
 ## Các Business Rules
 ### MSSV phải là duy nhất
 - MSSV là khóa chính (PK) trong bảng students
@@ -82,4 +91,7 @@ student_management_fe/
 <img src="./pics/status_config.gif" width=50%/>
 
 ## The Broken Window Theory & The Boy Scout Rule
-- File: <a href=./docs/ex03_slide.pdf>ex03_slide.pdf</a>
+- File: <a href=./docs/ex03/ex03_slide.pdf>ex03_slide.pdf</a>
+
+## Unit Test
+- File: <a href=./docs/ex04/ex04_slide.pdf>ex04_slide.pdf</a>
