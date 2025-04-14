@@ -3,6 +3,7 @@ using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using static ServiceStack.LicenseUtils;
 
 namespace student_management_fe.Services;
 public class CourseService
@@ -128,9 +129,10 @@ public class CourseService
         {
             // Cố gắng parse JSON để lấy thông báo lỗi chi tiết
             try
-            {
-                var errorObj = JsonSerializer.Deserialize<ApiResponse>(content);
-                throw new Exception(errorObj?.message ?? "Xóa khóa học không thành công!");
+            {   
+                var errorDetail = JsonSerializer.Deserialize<JsonElement>(content).GetProperty("details").GetString();
+
+                throw new Exception(errorDetail);
             }
             catch (JsonException)
             {
