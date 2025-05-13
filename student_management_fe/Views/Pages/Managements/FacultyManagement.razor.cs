@@ -59,7 +59,7 @@ public partial class FacultyManagement
     protected override async Task OnInitializedAsync()
     {
         await LoadFaculties();
-
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadFaculties(string? search = null)
@@ -77,7 +77,7 @@ public partial class FacultyManagement
         }
         else
         {
-            searchText.Trim();
+            searchText = searchText.Trim();
             tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
@@ -103,7 +103,6 @@ public partial class FacultyManagement
         var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
@@ -135,7 +134,6 @@ public partial class FacultyManagement
         var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);

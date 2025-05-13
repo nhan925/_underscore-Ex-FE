@@ -60,7 +60,7 @@ public partial class StudentStatusManagement
     protected override async Task OnInitializedAsync()
     {
         await LoadStudentStatuses();
-
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadStudentStatuses(string? search = null)
@@ -78,6 +78,7 @@ public partial class StudentStatusManagement
         }
         else
         {
+            searchText = searchText.Trim();
             tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
@@ -104,7 +105,6 @@ public partial class StudentStatusManagement
 
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
@@ -120,7 +120,7 @@ public partial class StudentStatusManagement
 
     private async Task EditStudentStatus(StudentStatus studentStatus)
     {
-        var editStudentStutus = new StudentStatus()
+        var editStudentStatus = new StudentStatus()
         {
             Id = studentStatus.Id,
             Name = studentStatus.Name
@@ -128,7 +128,7 @@ public partial class StudentStatusManagement
 
         var parameters = new Dictionary<string, object>
         {
-            {"StudentStatus", editStudentStutus },
+            {"StudentStatus", editStudentStatus },
             {"ButtonText", "Cập nhật" },
             {"TitleText", "Tên trạng thái sinh viên" },
         };
@@ -136,10 +136,9 @@ public partial class StudentStatusManagement
         var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var message = await _studentStatusService.UpdateStudentStatus(editStudentStutus);
+                var message = await _studentStatusService.UpdateStudentStatus(editStudentStatus);
                 await LoadStudentStatuses();
                 Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
             }

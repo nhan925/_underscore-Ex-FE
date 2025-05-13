@@ -60,6 +60,7 @@ public partial class StudyProgramManagement : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         await LoadStudyPrograms();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadStudyPrograms()
@@ -77,6 +78,7 @@ public partial class StudyProgramManagement : ComponentBase
         }
         else
         {
+            searchText = searchText.Trim();
             tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
@@ -102,7 +104,6 @@ public partial class StudyProgramManagement : ComponentBase
         var result = await DialogService.OpenAsync<StudyProgramForm>("Thêm chương trình học", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
@@ -135,7 +136,6 @@ public partial class StudyProgramManagement : ComponentBase
         var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var message = await _studyProgramService.UpdateProgram(editProgram);
