@@ -5,7 +5,6 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
-using System.Linq;
 using Radzen;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
@@ -50,6 +49,8 @@ public partial class CourseManagement
     {
         await LoadFaculties();
         await LoadCourses();
+
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadFaculties()
@@ -93,17 +94,19 @@ public partial class CourseManagement
             SearchCourse();
     }
 
+    private Radzen.DialogOptions GetDefaultDialogOptions() => new()
+    {
+        Resizable = false,
+        Draggable = false,
+        Width = "70%",
+        Height = "80%",
+        ContentCssClass = "custom-dialog"
+    };
+
     private async Task AddCourse()
     {
         var newCourse = new CourseModel();
-        var options = new Radzen.DialogOptions()
-        {
-            Resizable = false,
-            Draggable = false,
-            Width = "70%",
-            Height = "80%",
-            ContentCssClass = "custom-dialog"
-        };
+        var options = GetDefaultDialogOptions();
 
         var parameters = new Dictionary<string, object>
         {
@@ -117,8 +120,6 @@ public partial class CourseManagement
             parameters,
             options
         );
-
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
         if (result is bool success && success)
         {
@@ -154,14 +155,7 @@ public partial class CourseManagement
             PrerequisitesId = courseModel.PrerequisitesId?.ToList() ?? new List<string>()
         };
 
-        var options = new Radzen.DialogOptions()
-        {
-            Resizable = false,
-            Draggable = false,
-            Width = "70%",
-            Height = "80%",
-            ContentCssClass = "custom-dialog"
-        };
+        var options = GetDefaultDialogOptions();
 
         var parameters = new Dictionary<string, object>
         {
@@ -175,8 +169,6 @@ public partial class CourseManagement
             parameters,
             options
         );
-
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
 
         if (result is bool success && success)
         {
@@ -205,12 +197,8 @@ public partial class CourseManagement
             "Xác nhận xóa", parameters
         );
 
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
             try
             {
                 var message = await _courseService.DeleteCourse(course.Id);

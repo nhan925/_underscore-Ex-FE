@@ -43,7 +43,12 @@ public partial class AddStudentToClassForm
 
     public bool popup = false;
 
-    public AddStudentToClassForm(FacultyService facultyService, StudyProgramService studyProgramService, StudentStatusService studentStatusService, StudentServices studentServices, CourseEnrollmentService courseEnrollmentService)
+    public AddStudentToClassForm(
+        FacultyService facultyService, 
+        StudyProgramService studyProgramService, 
+        StudentStatusService studentStatusService, 
+        StudentServices studentServices, 
+        CourseEnrollmentService courseEnrollmentService)
     {
         _facultyService = facultyService;
         _studyProgramService = studyProgramService;
@@ -107,7 +112,7 @@ public partial class AddStudentToClassForm
         {
             try
             {
-                var result = await _courseEnrollmentService.RegisterAndUnregisterClass("register", new CourseEnrollmentRequest
+                var result = await _courseEnrollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
                 {
                     StudentId = Student.Id,
                     ClassId = CourseClass.Id,

@@ -16,6 +16,12 @@ public class CourseEnrollmentService
         _jsRuntime = jSRuntime;
     }
 
+    public static class EnrollmentActions
+    {
+        public const string Register = "register";
+        public const string Unregister = "unregister";
+    }
+
     public async Task<string> RegisterAndUnregisterClass(string action, CourseEnrollmentRequest courseEnrollmentRequest)
     {
         var apiEndpoint = $"/api/course-enrollments?action={action}";

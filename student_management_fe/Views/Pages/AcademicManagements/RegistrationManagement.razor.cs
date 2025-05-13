@@ -4,7 +4,6 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Views.Shared;
-using System.Net.WebSockets;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -34,7 +33,11 @@ public partial class RegistrationManagement
     private readonly YearAndSemesterService _yearAndSemesterService;
     private readonly CourseEnrollmentService _courseErollmentService;
 
-    public RegistrationManagement(CourseClassService courseClassService, DataService dataService, YearAndSemesterService yearAndSemesterService, CourseEnrollmentService courseErollmentService)
+    public RegistrationManagement(
+        CourseClassService courseClassService, 
+        DataService dataService, 
+        YearAndSemesterService yearAndSemesterService, 
+        CourseEnrollmentService courseErollmentService)
     {
         _courseClassService = courseClassService;
         _dataService = dataService;
@@ -141,7 +144,7 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     SemesterId = courseClass.Semester.Id
                 };
-                var result = await _courseErollmentService.RegisterAndUnregisterClass("unregister", studentUnregistered);
+                var result = await _courseErollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
                 Snackbar.Add("Hủy đăng ký lớp cho sinh viên thành công!", Severity.Success);
             }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
-using System.Net.WebSockets;
 using Blazored.LocalStorage;
 
 
@@ -13,9 +11,6 @@ namespace student_management_fe.Views.Pages.AcademicManagements;
 
 public partial class CourseClassesManagement 
 {
-    [Inject]
-    public IJSRuntime JsRuntime { get; set; } = default!;
-
     [Inject]
     public Radzen.DialogService DialogService { get; set; } = default!;
 
@@ -43,9 +38,14 @@ public partial class CourseClassesManagement
     private readonly LecturerService _lecturerService;
     private readonly DataService _dataService;
 
-    private static bool firstLoad = true;
+    private bool firstLoad = true;
 
-    public CourseClassesManagement(CourseClassService courseClassService, YearAndSemesterService yearAndSemesterService, CourseService courseService, LecturerService lecturerService, DataService dataService)
+    public CourseClassesManagement(
+        CourseClassService courseClassService, 
+        YearAndSemesterService yearAndSemesterService, 
+        CourseService courseService, 
+        LecturerService lecturerService, 
+        DataService dataService)
     {
         _courseClassService = courseClassService;
         _yearAndSemesterService = yearAndSemesterService;
@@ -63,6 +63,8 @@ public partial class CourseClassesManagement
             await OnSelectedYearChanged(years.Last());
             firstLoad = false;
         }
+
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task AddCourseClass()
@@ -96,8 +98,6 @@ public partial class CourseClassesManagement
         var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
             try
             {
                 var courseClassId = await _courseClassService.AddCourseClass(courseClass);
@@ -164,11 +164,18 @@ public partial class CourseClassesManagement
         }
     }
 
-    private async void RowClickEvent(TableRowClickEventArgs<GetCourseClassResult> tableRowClickEventArgs)
+    private async Task RowClickEvent(TableRowClickEventArgs<GetCourseClassResult> tableRowClickEventArgs)
     {
-        GetCourseClassResult myObject = tableRowClickEventArgs.Item;
-        _dataService.SetData(myObject);
-        await LocalStorage.SetItemAsync("cachedCourseClassSelected", myObject);
-        NavigationManager.NavigateTo("/student-registered");
+        if (tableRowClickEventArgs.Item is not null) 
+        {
+            GetCourseClassResult myObject = tableRowClickEventArgs.Item;
+            _dataService.SetData(myObject);
+            await LocalStorage.SetItemAsync("cachedCourseClassSelected", myObject);
+            NavigationManager.NavigateTo("/student-registered");
+        }
+        else
+        {
+            Snackbar.Add("Selected course class is null.", Severity.Warning); 
+        }
     }
 }

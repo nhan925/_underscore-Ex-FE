@@ -6,7 +6,10 @@ namespace student_management_fe.Views.Shared;
 
 public partial class CourseClassForm
 {
-    [Parameter] public CourseClass courseClass { get; set; } = new();
+    [Parameter] public CourseClass courseClass { get; set; } = new CourseClass
+    {
+        ScheduleParsed = new ScheduleForCourseClass()
+    };
 
     [Parameter] public List<CourseModel> courses { get; set; } = new();
 
@@ -17,18 +20,7 @@ public partial class CourseClassForm
     [Inject] Radzen.DialogService DialogService { get; set; }
 
     private bool popup = false;
-    private bool ShowStartTimeError { get; set; } = false;
-    private bool ShowEndTimeError { get; set; } = false;
-
-    //bool startTimeError = false;
-    //string startTimeErrorText = "";
-
-    //bool endTimeError = false;
-    //string endTimeErrorText = "";
-
-    //MudForm form;
-    //bool isValid;
-    //string[] errors = { };
+    private bool ShowTimeError { get; set; } = false;
 
     private List<string> DateOfWeek { get; set; } = new()
     {
@@ -41,53 +33,39 @@ public partial class CourseClassForm
         "Chủ nhật"
     };
 
-    //private IEnumerable<string> ValidateStartAndEndTime(TimeSpan? startTime, TimeSpan? endTime)
-    //{
+    private bool isValidTimeRange()
+    {
+        bool isValid = true;
 
-    //    if (startTime == null)
-    //    {
-    //        startTimeError = true;
-    //        startTimeErrorText = "Giờ bắt đầu không được để trống!";
-    //    }
-    //    else
-    //    {
-    //        startTimeError = false;
-    //        startTimeErrorText = "";
-    //    }
+        if (courseClass.ScheduleParsed.StartTime == null)
+        {
+            isValid = false;
+        }
 
-    //    if (endTime == null)
-    //    {
-    //        endTimeError = true;
-    //        endTimeErrorText = "Giờ kết thúc không được để trống!";
-    //    }
-    //    else
-    //    {
-    //        endTimeError = false;
-    //        endTimeErrorText = "";
-    //    }
+        if (courseClass.ScheduleParsed.EndTime == null)
+        {
+            isValid = false;
+        }
 
-    //    if (startTime != null && endTime != null && startTime >= endTime)
-    //    {
-    //        startTimeError = true;
-    //        startTimeErrorText = "Giờ bắt đầu phải nhỏ hơn giờ kết thúc!";
-    //        endTimeError = true;
-    //        endTimeErrorText = "Giờ kết thúc phải lớn hơn giờ bắt đầu!";
-    //    }
+        if (courseClass.ScheduleParsed.StartTime != null &&
+            courseClass.ScheduleParsed.EndTime != null &&
+            courseClass.ScheduleParsed.StartTime > courseClass.ScheduleParsed.EndTime)
+        {
+            isValid = false;
+        }
 
-    //    return errors;
-    //}
+        return isValid;
+    }
 
     private void OnSubmit()
     {
-        if (courseClass.ScheduleParsed.StartTime == default || courseClass.ScheduleParsed.EndTime == default )
+        if (!isValidTimeRange())
         {
-            ShowStartTimeError = true;
-            ShowEndTimeError = true;
+            ShowTimeError = true;
             return;
         }
 
-        ShowStartTimeError = false;
-        ShowEndTimeError = false;
+        ShowTimeError = false;
         courseClass.ConvertScheduleParsedToString();
         DialogService.Close(true);
     }
