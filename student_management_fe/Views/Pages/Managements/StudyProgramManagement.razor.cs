@@ -5,7 +5,7 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Security.AccessControl;
-using student_management_fe.Views.Shared;
+using student_management_fe.Views.Shared.ManagementsForm;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class StudyProgramManagement : ComponentBase

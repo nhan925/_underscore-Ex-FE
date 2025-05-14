@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
-using student_management_fe.Views.Shared;
+using student_management_fe.Views.Shared.ManagementsForm;
 
 namespace student_management_fe.Views.Pages.Managements;
 

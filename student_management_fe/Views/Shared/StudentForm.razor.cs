@@ -20,7 +20,8 @@ public partial class StudentForm
     public StudentModel Student { get; set; } = new StudentModel
     {
         Addresses = new List<Address>(),
-        IdentityInfo = new IdentityInfo()
+        IdentityInfo = new IdentityInfo(),
+        
     };
 
     [Parameter] public bool IsUpdateMode { get; set; } = false;
@@ -34,32 +35,18 @@ public partial class StudentForm
     [Parameter] public string ButtonText { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
-
+    private ConfigurationsService _configurationsService;
 
     string errorEmailMessage = string.Empty;
     string errorPhoneNumberMessage = string.Empty;
-    bool popup = false;
     private bool ShowAddressError { get; set; } = false;
-
-    private ConfigurationsService _configurationsService;
+    bool popup = false;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
     private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
     private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
-    private IdentityInfo IdentityInfo { get; set; } = new();
 
-    class AdditionalInfo
-    {
-        [Required(ErrorMessage = "Thông tin này không được để trống.")]
-        public string HasChip { get; set; }
-
-        [Required(ErrorMessage = "Thông tin này không được để trống.")]
-        public string CountryOfIssue { get; set; }
-
-        [Required]
-        public string Note { get; set; }
-    }
-    private AdditionalInfo AdditionalInfoModel { get; set; } = new();
+    private IdentityInfo IdentityInfo { get; set; }
 
     public StudentForm(ConfigurationsService configurationsService)
     {
@@ -74,20 +61,14 @@ public partial class StudentForm
             TemporaryAddress = Student.Addresses.FirstOrDefault(a => a.Type == "tam_tru") ?? new Address { Type = "tam_tru" };
             MailingAddress = Student.Addresses.FirstOrDefault(a => a.Type == "nhan_thu") ?? new Address { Type = "nhan_thu" };
         }
+
         if (Student != null && Student.IdentityInfo != null)
         {
-            IdentityInfo = Student.IdentityInfo;
-
-            if (IdentityInfo.AdditionalInfo != null)
-            {
-                IdentityInfo.AdditionalInfo.TryGetValue("country_of_issue", out var country);
-                IdentityInfo.AdditionalInfo.TryGetValue("has_chip", out var hasChip);
-                IdentityInfo.AdditionalInfo.TryGetValue("note", out var note);
-
-                AdditionalInfoModel.CountryOfIssue = country;
-                AdditionalInfoModel.HasChip = hasChip;
-                AdditionalInfoModel.Note = note;
-            }
+            IdentityInfo = Student.IdentityInfo.DeepCopy();
+        }
+        else
+        {
+            IdentityInfo = new IdentityInfo();
         }
     }
 
@@ -119,20 +100,30 @@ public partial class StudentForm
 
     private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
     {
+        if (updatedIdentityInfo == null || updatedIdentityInfo.AdditionalInfoForIdentityInfo == null)
+        {
+            return;
+        }
+
+        Student.IdentityInfo = updatedIdentityInfo.DeepCopy();
         if (updatedIdentityInfo.Type == "cccd")
         {
-            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
+            Student.IdentityInfo.AdditionalInfo = new Dictionary<string, string>
             {
-                ["has_chip"] = AdditionalInfoModel.HasChip,
+                ["has_chip"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.HasChip,
             };
         }
         else if (updatedIdentityInfo.Type == "passport")
         {
-            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
+            Student.IdentityInfo.AdditionalInfo = new Dictionary<string, string>
             {
-                ["country_of_issue"] = AdditionalInfoModel.CountryOfIssue,
-                ["note"] = AdditionalInfoModel.Note
+                ["country_of_issue"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.CountryOfIssue,
+                ["note"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.Note
             };
+        }
+        else if (updatedIdentityInfo.Type == "cmnd")
+        {
+            Student.IdentityInfo.AdditionalInfo = null;
         }
     }
 
@@ -201,8 +192,7 @@ public partial class StudentForm
         {
             return;
         }
-
-        HandleIdentityInfoUpdate(IdentityInfo);
+        Console.WriteLine($"student id: {Student.Id}");
         OnSubmit(Student);
     }
 
