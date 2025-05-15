@@ -79,6 +79,7 @@ public partial class CourseClassesManagement
         };
 
         var courses = await _courseService.GetAllCourses();
+        var activeCourses = courses.Where(c => c.IsActive == true).ToList();
         var lecturers = await _lecturerService.GetAllLecturers();
         var courseClass = new CourseClass()
         {
@@ -90,7 +91,7 @@ public partial class CourseClassesManagement
         var parameters = new Dictionary<string, object>
         {
             { "courseClass", courseClass },
-            { "courses", courses },
+            { "courses", activeCourses },
             { "lecturers", lecturers },
             { "ButtonText", "Thêm lớp học" }
         };

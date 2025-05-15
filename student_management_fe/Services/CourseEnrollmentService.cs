@@ -35,10 +35,28 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception(responseContent);
+            try
+            {
+                var errorDetail = JsonSerializer.Deserialize<JsonElement>(responseContent).GetProperty("details").GetString();
+                throw new Exception(errorDetail);
+            }
+            catch (JsonException)
+            {
+                throw new Exception($"Đã có lỗi xảy ra. Vui lòng thử lại sau!");
+            }
+
         }
 
-        return responseContent;
+        try
+        {
+            var message = JsonSerializer.Deserialize<JsonElement>(responseContent)
+                             .GetProperty("message").GetString();
+            return message ?? "Thao tác thành công.";
+        }
+        catch (JsonException)
+        {
+            return "Thao tác thành công."; 
+        }
     }
 
     public async Task<string> UpdateStudentGrade(UpdateStudentGradeRequest updateStudentGradeRequest)

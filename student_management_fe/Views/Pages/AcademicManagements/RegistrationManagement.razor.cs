@@ -105,12 +105,12 @@ public partial class RegistrationManagement
             { "CourseClass", courseClass }
         }, options);
 
-        if (result is bool isConfirmed && isConfirmed)
+        if (result is not null) 
         {
             try
             {
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
-                Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
+                Snackbar.Add(result, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -146,7 +146,7 @@ public partial class RegistrationManagement
                 };
                 var result = await _courseErollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
-                Snackbar.Add("Hủy đăng ký lớp cho sinh viên thành công!", Severity.Success);
+                Snackbar.Add(result, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -157,6 +157,11 @@ public partial class RegistrationManagement
 
     private void StartEditingGrade(StudentInClass student)
     {
+        if (courseClass.Semester.StartDate > DateTime.Now)
+        {
+            Snackbar.Add("Không thể sửa điểm số khi lớp học chưa bắt đầu", Severity.Warning);
+            return;
+        }
         editingStudent = student;
         editingGrade = student.Grade;
         originalGrade = student.Grade;

@@ -32,14 +32,21 @@ public class CourseClassService
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         };
-
-        var response = await _authService.SendRequestWithAuthAsync(request);
-        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-        if (responseObj != null && responseObj.TryGetValue("courseClassId", out var courseClassId))
+        try
         {
-            return courseClassId;
+            var response = await _authService.SendRequestWithAuthAsync(request);
+            var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+            if (responseObj != null && responseObj.TryGetValue("courseClassId", out var courseClassId))
+            {
+                return courseClassId;
+            }
+            throw new Exception("Thêm lớp học không thành công!");
         }
-        throw new Exception("Thêm lớp học không thành công!");
+        catch (Exception ex)
+        {
+            throw new Exception($"Lớp học bạn đang cố thêm có thể đã trùng mã lớp hoặc trùng lịch học với một lớp khác trong cùng học kỳ.");
+        }
+
     }
 
     public async Task<List<StudentInClass>> GetStudentsInClass(GetCourseClassResult courseClass)
