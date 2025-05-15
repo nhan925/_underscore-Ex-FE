@@ -78,7 +78,8 @@ public partial class FacultyManagement
         else
         {
             searchText = searchText.Trim();
-            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                                 || f.Id.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 

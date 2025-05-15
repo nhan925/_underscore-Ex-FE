@@ -176,10 +176,10 @@ public partial class StudentForm
             return;
         }
         Console.WriteLine($"student id: {Student.Id}");
-        OnSubmit(Student);
+        OnSubmit();
     }
 
-    void OnSubmit(StudentModel student)
+    void OnSubmit()
     {
         DialogService.Close(true);
     }

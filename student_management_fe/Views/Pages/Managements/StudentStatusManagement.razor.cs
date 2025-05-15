@@ -79,7 +79,8 @@ public partial class StudentStatusManagement
         else
         {
             searchText = searchText.Trim();
-            tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            tempStudentStatuses = studentStatuses.Where(s => s.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                                             || s.Id.ToString().Contains(searchText,StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 

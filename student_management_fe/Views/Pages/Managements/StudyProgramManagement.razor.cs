@@ -79,7 +79,8 @@ public partial class StudyProgramManagement : ComponentBase
         else
         {
             searchText = searchText.Trim();
-            tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                                         || x.Id.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 
