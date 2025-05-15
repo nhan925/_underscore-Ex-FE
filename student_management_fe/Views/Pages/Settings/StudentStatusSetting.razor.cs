@@ -41,22 +41,31 @@ public partial class StudentStatusSetting
 
     private async Task AddStudentStatusSetting()
     {
-        if (selectedTransferStudentStatus == null)
+        if (selectedStudentStatus == null)
         {
             Snackbar.Add("Tên trạng thái không được để trống", Severity.Error);
             return;
         }
-        if (configInformations.Value.ContainsKey(selectedStudentStatus.Id.ToString()) &&  
-            configInformations.Value[selectedStudentStatus.Id.ToString()].Contains(selectedTransferStudentStatus.Id))
+        else
         {
-            Snackbar.Add("Trạng thái này đã được thêm vào danh sách", Severity.Error);
-            selectedTransferStudentStatus = null;
-            return;
-        }
-        else if (selectedTransferStudentStatus != null)
-        {
-            configInformations.Value[selectedStudentStatus.Id.ToString()].Add(selectedTransferStudentStatus.Id);
-            selectedTransferStudentStatus = null;
+            if (selectedTransferStudentStatus == null)
+            {
+                Snackbar.Add("Tên trạng thái chuyển đến không được để trống", Severity.Error);
+                return;
+            }
+            else
+            {
+                var key = selectedStudentStatus.Id.ToString();
+                if (!configInformations.Value.ContainsKey(key))
+                {
+                    configInformations.Value.Add(key, new List<int> { selectedTransferStudentStatus.Id });
+                }
+                else
+                {
+                    configInformations.Value[key].Add(selectedTransferStudentStatus.Id);
+                }
+                selectedTransferStudentStatus = null;
+            }
         }
 
         await UpdateStudentStatusSetting();
@@ -100,10 +109,19 @@ public partial class StudentStatusSetting
 
     private async Task<IEnumerable<StudentStatus>> SearchTransferStudentStatus(string value, CancellationToken cancellationToken)
     {
-        var studentStatusesValidTransfer = studentStatuses.Where(c => 
-                                           !configInformations.Value[selectedStudentStatus.Id.ToString()].Contains(c.Id) &&
-                                           c.Id != selectedStudentStatus.Id);
-
+        IEnumerable<StudentStatus> studentStatusesValidTransfer = Enumerable.Empty<StudentStatus>();
+        var key = selectedStudentStatus.Id.ToString();
+        
+        if (!configInformations.Value.ContainsKey(key))
+        {
+            studentStatusesValidTransfer = studentStatuses.Where(c => c.Id != selectedStudentStatus.Id);
+        }
+        else
+        {
+            studentStatusesValidTransfer = studentStatuses.Where(c =>
+                                               !configInformations.Value[key].Contains(c.Id) &&
+                                               c.Id != selectedStudentStatus.Id);
+        }
         if (!studentStatusesValidTransfer.Any())
         {
             Snackbar.Add("Không còn trạng thái hợp lệ nào để thêm!", Severity.Warning);
@@ -117,6 +135,5 @@ public partial class StudentStatusSetting
             .Where(c => c.Name.Contains(value, StringComparison.OrdinalIgnoreCase) ||
                        c.Id.Equals(value))
             .ToList();
-
     }
 }

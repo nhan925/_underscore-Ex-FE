@@ -1,5 +1,5 @@
 ﻿
-    <RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(OnSubmit)" InvalidSubmit="@(InvalidSubmit)">
+<RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(async () => ValidateAndSubmit())" InvalidSubmit="@(InvalidSubmit)">
         <div class="form-content">
         <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
             <RadzenColumn Size="12" SizeMD="6">
@@ -76,12 +76,6 @@
                                     <MudTimePicker Label="Giờ bắt đầu" AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.StartTime"
                                                    For="@(() => courseClass.ScheduleParsed.StartTime)" />
-                                    @if (ShowStartTimeError)
-                                    {
-                                        <div class="error">
-                                            Thời gian bắt đầu không được để trống hoặc lớn hơn thời gian kết thúc
-                                        </div>
-                                    }
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="4">
                                     <RadzenLabel Text="Giờ kết thúc" Component="EndTime" />
@@ -90,15 +84,15 @@
                                     <MudTimePicker Label="Giờ kết thúc" AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.EndTime"
                                                    For="@(() => courseClass.ScheduleParsed.EndTime)" />
-                                    @if (ShowEndTimeError)
-                                    {
-                                        <div class="error">
-                                            Thời gian kết thúc không được để trống
-                                        </div>
-                                    }
                                 </RadzenColumn>
                             </RadzenRow>
 						</RadzenStack>
+                        @if (ShowTimeError)
+                        {
+                            <div class="error">
+                                Thời gian bắt đầu và thời gian kết thúc không hợp lệ
+                            </div>
+                        }
 					</RadzenFieldset>
 				</RadzenStack>
             </RadzenColumn>

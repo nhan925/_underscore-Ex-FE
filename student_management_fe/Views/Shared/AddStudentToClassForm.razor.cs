@@ -43,7 +43,12 @@ public partial class AddStudentToClassForm
 
     public bool popup = false;
 
-    public AddStudentToClassForm(FacultyService facultyService, StudyProgramService studyProgramService, StudentStatusService studentStatusService, StudentServices studentServices, CourseEnrollmentService courseEnrollmentService)
+    public AddStudentToClassForm(
+        FacultyService facultyService, 
+        StudyProgramService studyProgramService, 
+        StudentStatusService studentStatusService, 
+        StudentServices studentServices, 
+        CourseEnrollmentService courseEnrollmentService)
     {
         _facultyService = facultyService;
         _studyProgramService = studyProgramService;
@@ -103,11 +108,12 @@ public partial class AddStudentToClassForm
 
     private async Task ValidateAndSubmit()
     {
+        var result = String.Empty;
         if (Student.FullName != null)
         {
             try
             {
-                var result = await _courseEnrollmentService.RegisterAndUnregisterClass("register", new CourseEnrollmentRequest
+                result = await _courseEnrollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
                 {
                     StudentId = Student.Id,
                     ClassId = CourseClass.Id,
@@ -117,17 +123,16 @@ public partial class AddStudentToClassForm
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 Snackbar.Add(e.Message, Severity.Error);
                 return;
             }
-            OnSubmit();
+            OnSubmit(result);
         }
     }
 
-    void OnSubmit()
+    void OnSubmit(String result)
     {
-        DialogService.Close(true);
+        DialogService.Close(result);
     }
 
     private async Task OnInvalidSubmit(FormInvalidSubmitEventArgs args)

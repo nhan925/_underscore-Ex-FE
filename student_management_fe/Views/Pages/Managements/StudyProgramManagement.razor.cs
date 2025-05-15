@@ -5,7 +5,7 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Security.AccessControl;
-using student_management_fe.Views.Shared;
+using student_management_fe.Views.Shared.ManagementsForm;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class StudyProgramManagement : ComponentBase
@@ -60,6 +60,7 @@ public partial class StudyProgramManagement : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         await LoadStudyPrograms();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadStudyPrograms()
@@ -77,7 +78,9 @@ public partial class StudyProgramManagement : ComponentBase
         }
         else
         {
-            tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            searchText = searchText.Trim();
+            tempStudyPrograms = studyPrograms.Where(x => x.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                                         || x.Id.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 
@@ -102,7 +105,6 @@ public partial class StudyProgramManagement : ComponentBase
         var result = await DialogService.OpenAsync<StudyProgramForm>("Thêm chương trình học", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
@@ -135,7 +137,6 @@ public partial class StudyProgramManagement : ComponentBase
         var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var message = await _studyProgramService.UpdateProgram(editProgram);

@@ -17,11 +17,7 @@ namespace student_management_fe.Views.Shared;
 public partial class StudentForm
 {
     [Parameter]
-    public StudentModel Student { get; set; } = new StudentModel
-    {
-        Addresses = new List<Address>(),
-        IdentityInfo = new IdentityInfo()
-    };
+    public StudentModel Student { get; set; }
 
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -34,32 +30,21 @@ public partial class StudentForm
     [Parameter] public string ButtonText { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
-
+    private ConfigurationsService _configurationsService;
 
     string errorEmailMessage = string.Empty;
     string errorPhoneNumberMessage = string.Empty;
-    bool popup = false;
     private bool ShowAddressError { get; set; } = false;
-
-    private ConfigurationsService _configurationsService;
+    bool popup = false;
 
     private Address PermanentAddress { get; set; } = new() { Type = "thuong_tru" };
     private Address TemporaryAddress { get; set; } = new() { Type = "tam_tru" };
     private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
-    private IdentityInfo IdentityInfo { get; set; } = new();
 
-    class AdditionalInfo
-    {
-        [Required(ErrorMessage = "Thông tin này không được để trống.")]
-        public string HasChip { get; set; }
+    private IdentityInfo IdentityInfo { get; set; }
 
-        [Required(ErrorMessage = "Thông tin này không được để trống.")]
-        public string CountryOfIssue { get; set; }
-
-        [Required]
-        public string Note { get; set; }
-    }
-    private AdditionalInfo AdditionalInfoModel { get; set; } = new();
+    private const string InvalidEmailMessage = "Email không hợp lệ.";
+    private const string InvalidPhoneMessage = "Số điện thoại không hợp lệ.";
 
     public StudentForm(ConfigurationsService configurationsService)
     {
@@ -68,26 +53,28 @@ public partial class StudentForm
 
     protected override void OnInitialized()
     {
+        if (Student == null)
+        {
+            Student = new StudentModel
+            {
+                Addresses = new List<Address>(),
+                IdentityInfo = new IdentityInfo(),
+            };
+        }
         if (Student != null && Student.Addresses != null)
         {
             PermanentAddress = Student.Addresses.FirstOrDefault(a => a.Type == "thuong_tru") ?? new Address { Type = "thuong_tru" };
             TemporaryAddress = Student.Addresses.FirstOrDefault(a => a.Type == "tam_tru") ?? new Address { Type = "tam_tru" };
             MailingAddress = Student.Addresses.FirstOrDefault(a => a.Type == "nhan_thu") ?? new Address { Type = "nhan_thu" };
         }
+
         if (Student != null && Student.IdentityInfo != null)
         {
-            IdentityInfo = Student.IdentityInfo;
-
-            if (IdentityInfo.AdditionalInfo != null)
-            {
-                IdentityInfo.AdditionalInfo.TryGetValue("country_of_issue", out var country);
-                IdentityInfo.AdditionalInfo.TryGetValue("has_chip", out var hasChip);
-                IdentityInfo.AdditionalInfo.TryGetValue("note", out var note);
-
-                AdditionalInfoModel.CountryOfIssue = country;
-                AdditionalInfoModel.HasChip = hasChip;
-                AdditionalInfoModel.Note = note;
-            }
+            IdentityInfo = Student.IdentityInfo.DeepCopy();
+        }
+        else
+        {
+            IdentityInfo = new IdentityInfo();
         }
     }
 
@@ -119,21 +106,8 @@ public partial class StudentForm
 
     private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
     {
-        if (updatedIdentityInfo.Type == "cccd")
-        {
-            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
-            {
-                ["has_chip"] = AdditionalInfoModel.HasChip,
-            };
-        }
-        else if (updatedIdentityInfo.Type == "passport")
-        {
-            updatedIdentityInfo.AdditionalInfo = new Dictionary<string, string>
-            {
-                ["country_of_issue"] = AdditionalInfoModel.CountryOfIssue,
-                ["note"] = AdditionalInfoModel.Note
-            };
-        }
+        // Verify updatedIdentityInfo before copy to Student.IdentityInfo if needed
+        Student.IdentityInfo = updatedIdentityInfo.DeepCopy();
     }
 
     private async Task<bool> HandleEmailChange(string email)
@@ -147,19 +121,19 @@ public partial class StudentForm
         var emailRegex = @"^([a-zA-Z0-9._%-]+@[^@]+\.[^@]+)$";
         if (!Regex.IsMatch(email, emailRegex))
         {
-            errorEmailMessage = "Email không hợp lệ.";
+            errorEmailMessage = InvalidEmailMessage;
             return false;
         }
 
         try
         {
             var result = await _configurationsService.CheckConfig("email", email);
-            errorEmailMessage = result ? string.Empty : "Email không hợp lệ.";
+            errorEmailMessage = result ? string.Empty : InvalidEmailMessage;
             return result;
         }
         catch (Exception e)
         {
-            errorEmailMessage = "Email không hợp lệ.";
+            errorEmailMessage = InvalidEmailMessage;
             return false;
         }
     }
@@ -175,12 +149,12 @@ public partial class StudentForm
         try
         {
             var result = await _configurationsService.CheckConfig("phone-number", phoneNumber);
-            errorPhoneNumberMessage = result ? string.Empty : "Số điện thoại không hợp lệ.";
+            errorPhoneNumberMessage = result ? string.Empty : InvalidPhoneMessage;
             return result;
         }
         catch (Exception e)
         {
-            errorPhoneNumberMessage = "Số điện thoại không hợp lệ.";
+            errorPhoneNumberMessage = InvalidPhoneMessage;
             return false;
         }
     }
@@ -201,12 +175,11 @@ public partial class StudentForm
         {
             return;
         }
-
-        HandleIdentityInfoUpdate(IdentityInfo);
-        OnSubmit(Student);
+        Console.WriteLine($"student id: {Student.Id}");
+        OnSubmit();
     }
 
-    void OnSubmit(StudentModel student)
+    void OnSubmit()
     {
         DialogService.Close(true);
     }
