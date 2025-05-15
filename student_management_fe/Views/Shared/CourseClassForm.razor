@@ -1,5 +1,5 @@
 ﻿
-    <RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(OnSubmit)" InvalidSubmit="@(InvalidSubmit)">
+<RadzenTemplateForm TItem="CourseClass" Data="@courseClass" Submit="@(async () => ValidateAndSubmit())" InvalidSubmit="@(InvalidSubmit)">
         <div class="form-content">
         <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
             <RadzenColumn Size="12" SizeMD="6">

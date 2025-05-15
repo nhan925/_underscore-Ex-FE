@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Models;
+using student_management_fe.Services;
 
 namespace student_management_fe.Views.Shared;
 
@@ -19,6 +20,8 @@ public partial class CourseClassForm
 
     [Inject] Radzen.DialogService DialogService { get; set; }
 
+    [Inject] public ISnackbar Snackbar { get; set; } = default!;
+
     private bool popup = false;
     private bool ShowTimeError { get; set; } = false;
 
@@ -32,6 +35,13 @@ public partial class CourseClassForm
         "Thứ 7",
         "Chủ nhật"
     };
+
+    private readonly CourseClassService _courseClassService;
+
+    public CourseClassForm(CourseClassService courseClassService)
+    {
+        _courseClassService = courseClassService;
+    }
 
     private bool isValidTimeRange()
     {
@@ -57,17 +67,32 @@ public partial class CourseClassForm
         return isValid;
     }
 
-    private void OnSubmit()
+    private async Task ValidateAndSubmit()
     {
-        if (!isValidTimeRange())
+        var result = String.Empty;
+        try
         {
-            ShowTimeError = true;
+            if (!isValidTimeRange())
+            {
+                ShowTimeError = true;
+                return;
+            }
+
+            ShowTimeError = false;
+            courseClass.ConvertScheduleParsedToString();
+            result = await _courseClassService.AddCourseClass(courseClass);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
             return;
         }
+        OnSubmit(result);
+    }
 
-        ShowTimeError = false;
-        courseClass.ConvertScheduleParsedToString();
-        DialogService.Close(true);
+    private void OnSubmit(string result)
+    {
+        DialogService.Close(result);
     }
 
     private void InvalidSubmit()

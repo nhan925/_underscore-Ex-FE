@@ -40,11 +40,14 @@ public class CourseClassService
             {
                 return courseClassId;
             }
-            throw new Exception("Thêm lớp học không thành công!");
+            else
+            {
+                throw new Exception("Thêm lớp học không thành công!");
+            }
         }
         catch (Exception ex)
         {
-            throw new Exception($"Lớp học bạn đang cố thêm có thể đã trùng mã lớp hoặc trùng lịch học với một lớp khác trong cùng học kỳ.");
+            throw new Exception($"Lớp học bạn đang cố thêm có thể đã trùng đồng thời mã lớp và mã môn học hoặc trùng lịch học và phòng học với một lớp khác trong cùng học kỳ.");
         }
 
     }

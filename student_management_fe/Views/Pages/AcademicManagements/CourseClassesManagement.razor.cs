@@ -97,13 +97,12 @@ public partial class CourseClassesManagement
         };
 
         var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
-        if (result is bool isConfirmed && isConfirmed)
+        if (result is not null)
         {
             try
             {
-                var courseClassId = await _courseClassService.AddCourseClass(courseClass);
                 await OnSelectedSemesterChanged(selectedSemester);
-                Snackbar.Add($"Đã thêm lớp học với mã {courseClassId}!", Severity.Success);
+                Snackbar.Add($"Đã thêm lớp học với mã {result}!", Severity.Success);
             }
             catch (Exception ex)
             {

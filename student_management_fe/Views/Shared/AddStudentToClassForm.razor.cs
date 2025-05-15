@@ -123,7 +123,6 @@ public partial class AddStudentToClassForm
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 Snackbar.Add(e.Message, Severity.Error);
                 return;
             }
