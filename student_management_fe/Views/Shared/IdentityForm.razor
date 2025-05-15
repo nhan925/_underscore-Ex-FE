@@ -16,7 +16,7 @@
                                 new("cccd", "Căn cước công dân (CCCD)"),
                                 new("passport", "Hộ chiếu (Passport)")
                                 })
-                                TextProperty="Value" ValueProperty="Key" Name="Type" Change="ValidateAndUpdate"/>
+                                TextProperty="Value" ValueProperty="Key" Name="Type" Change="UpdateAdditionalInfo"/>
                 <RadzenDataAnnotationValidator Component="Type" Popup="@popup" Style="position: relative" />
             </RadzenColumn>
         </RadzenRow>
@@ -76,7 +76,7 @@
                                         new("yes", "Có"),
                                         new("no", "Không")
                                     })
-                                    TextProperty="Value" ValueProperty="Key" Name="HasChip" Change="ValidateAndUpdate"/>
+                                    TextProperty="Value" ValueProperty="Key" Name="HasChip" Change="UpdateAdditionalInfo" />
                     <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>
@@ -88,7 +88,7 @@
                     <RadzenLabel Text="Quốc gia cấp" />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.CountryOfIssue" Name="CountryOfIssue" Change="ValidateAndUpdate"/>
+                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.CountryOfIssue" Name="CountryOfIssue" Change="UpdateAdditionalInfo" />
                     <RadzenDataAnnotationValidator Component="CountryOfIssue" Popup="@popup" Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>
@@ -98,7 +98,7 @@
                     <RadzenLabel Text="Ghi chú" />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.Note" Name="Note" Change="ValidateAndUpdate" />
+                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.Note" Name="Note" Change="UpdateAdditionalInfo" />
                     <RadzenDataAnnotationValidator Component="Note" Popup="@popup" Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>

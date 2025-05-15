@@ -17,14 +17,36 @@ public partial class IdentityForm
 
     protected override void OnInitialized()
     {
-        if (Value.AdditionalInfoForIdentityInfo == null)
+        var _ = Value.AdditionalInfoForIdentityInfo;
+    }
+
+    private void UpdateAdditionalInfo()
+    {
+        if (Value.Type == "cccd")
         {
-            Value.AdditionalInfoForIdentityInfo = new AdditionalInfoForIdentityInfo();
+            Value.AdditionalInfo = new Dictionary<string, string>
+            {
+                ["has_chip"] = Value.AdditionalInfoForIdentityInfo.HasChip,
+            };
         }
+        else if (Value.Type == "passport")
+        {
+            Value.AdditionalInfo = new Dictionary<string, string>
+            {
+                ["country_of_issue"] = Value.AdditionalInfoForIdentityInfo.CountryOfIssue,
+                ["note"] = Value.AdditionalInfoForIdentityInfo.Note
+            };
+        }
+        else if (Value.Type == "cmnd")
+        {
+            Value.AdditionalInfo = null;
+        }
+        ValidateAndUpdate();
     }
 
     private async Task ValidateAndUpdate()
     {
+        
         if (OnIdentityInfoUpdated.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);

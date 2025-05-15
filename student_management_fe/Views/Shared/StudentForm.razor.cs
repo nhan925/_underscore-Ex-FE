@@ -17,12 +17,7 @@ namespace student_management_fe.Views.Shared;
 public partial class StudentForm
 {
     [Parameter]
-    public StudentModel Student { get; set; } = new StudentModel
-    {
-        Addresses = new List<Address>(),
-        IdentityInfo = new IdentityInfo(),
-        
-    };
+    public StudentModel Student { get; set; }
 
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -48,6 +43,9 @@ public partial class StudentForm
 
     private IdentityInfo IdentityInfo { get; set; }
 
+    private const string InvalidEmailMessage = "Email không hợp lệ.";
+    private const string InvalidPhoneMessage = "Số điện thoại không hợp lệ.";
+
     public StudentForm(ConfigurationsService configurationsService)
     {
         _configurationsService = configurationsService;
@@ -55,6 +53,14 @@ public partial class StudentForm
 
     protected override void OnInitialized()
     {
+        if (Student == null)
+        {
+            Student = new StudentModel
+            {
+                Addresses = new List<Address>(),
+                IdentityInfo = new IdentityInfo(),
+            };
+        }
         if (Student != null && Student.Addresses != null)
         {
             PermanentAddress = Student.Addresses.FirstOrDefault(a => a.Type == "thuong_tru") ?? new Address { Type = "thuong_tru" };
@@ -100,31 +106,8 @@ public partial class StudentForm
 
     private void HandleIdentityInfoUpdate(IdentityInfo updatedIdentityInfo)
     {
-        if (updatedIdentityInfo == null || updatedIdentityInfo.AdditionalInfoForIdentityInfo == null)
-        {
-            return;
-        }
-
+        // Verify updatedIdentityInfo before copy to Student.IdentityInfo if needed
         Student.IdentityInfo = updatedIdentityInfo.DeepCopy();
-        if (updatedIdentityInfo.Type == "cccd")
-        {
-            Student.IdentityInfo.AdditionalInfo = new Dictionary<string, string>
-            {
-                ["has_chip"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.HasChip,
-            };
-        }
-        else if (updatedIdentityInfo.Type == "passport")
-        {
-            Student.IdentityInfo.AdditionalInfo = new Dictionary<string, string>
-            {
-                ["country_of_issue"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.CountryOfIssue,
-                ["note"] = updatedIdentityInfo.AdditionalInfoForIdentityInfo.Note
-            };
-        }
-        else if (updatedIdentityInfo.Type == "cmnd")
-        {
-            Student.IdentityInfo.AdditionalInfo = null;
-        }
     }
 
     private async Task<bool> HandleEmailChange(string email)
@@ -138,19 +121,19 @@ public partial class StudentForm
         var emailRegex = @"^([a-zA-Z0-9._%-]+@[^@]+\.[^@]+)$";
         if (!Regex.IsMatch(email, emailRegex))
         {
-            errorEmailMessage = "Email không hợp lệ.";
+            errorEmailMessage = InvalidEmailMessage;
             return false;
         }
 
         try
         {
             var result = await _configurationsService.CheckConfig("email", email);
-            errorEmailMessage = result ? string.Empty : "Email không hợp lệ.";
+            errorEmailMessage = result ? string.Empty : InvalidEmailMessage;
             return result;
         }
         catch (Exception e)
         {
-            errorEmailMessage = "Email không hợp lệ.";
+            errorEmailMessage = InvalidEmailMessage;
             return false;
         }
     }
@@ -166,12 +149,12 @@ public partial class StudentForm
         try
         {
             var result = await _configurationsService.CheckConfig("phone-number", phoneNumber);
-            errorPhoneNumberMessage = result ? string.Empty : "Số điện thoại không hợp lệ.";
+            errorPhoneNumberMessage = result ? string.Empty : InvalidPhoneMessage;
             return result;
         }
         catch (Exception e)
         {
-            errorPhoneNumberMessage = "Số điện thoại không hợp lệ.";
+            errorPhoneNumberMessage = InvalidPhoneMessage;
             return false;
         }
     }
