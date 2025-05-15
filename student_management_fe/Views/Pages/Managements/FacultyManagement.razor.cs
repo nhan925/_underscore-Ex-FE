@@ -4,7 +4,7 @@ using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
-using student_management_fe.Views.Shared;
+using student_management_fe.Views.Shared.ManagementsForm;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class FacultyManagement
@@ -59,7 +59,7 @@ public partial class FacultyManagement
     protected override async Task OnInitializedAsync()
     {
         await LoadFaculties();
-
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private async Task LoadFaculties(string? search = null)
@@ -77,8 +77,9 @@ public partial class FacultyManagement
         }
         else
         {
-            searchText.Trim();
-            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            searchText = searchText.Trim();
+            tempFaculties = faculties.Where(f => f.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                                 || f.Id.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
         }
     }
 
@@ -103,7 +104,6 @@ public partial class FacultyManagement
         var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
@@ -135,7 +135,6 @@ public partial class FacultyManagement
         var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);

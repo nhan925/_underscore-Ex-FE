@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static student_management_fe.Views.Shared.UploadFile;
 
 namespace student_management_fe.Models;
 
 public class IdentityInfo
 {
+    
+
     [Required(ErrorMessage = "Loại giấy tờ không được để trống.")]
     [RegularExpression("^(cmnd|cccd|passport)$", ErrorMessage = "Loại giấy tờ phải là 'cmnd', 'cccd' hoặc 'passport'.")]
     public string Type { get; set; }
@@ -30,6 +34,51 @@ public class IdentityInfo
 
 
     public Dictionary<string, string>? AdditionalInfo { get; set; }
+
+    private AdditionalInfoForIdentityInfo? _additionalInfoForIdentityInfo;
+
+    [NotMapped]
+    public AdditionalInfoForIdentityInfo? AdditionalInfoForIdentityInfo
+    {
+        get
+        {
+            if (_additionalInfoForIdentityInfo == null)
+            {
+                _additionalInfoForIdentityInfo = new AdditionalInfoForIdentityInfo
+                {
+                    HasChip = AdditionalInfo?.GetValueOrDefault("has_chip") ?? "",
+                    CountryOfIssue = AdditionalInfo?.GetValueOrDefault("country_of_issue") ?? "",
+                    Note = AdditionalInfo?.GetValueOrDefault("note") ?? ""
+                };
+            }
+            return _additionalInfoForIdentityInfo;
+        }
+        set
+        {
+            if (value == null)
+            {
+                value = new AdditionalInfoForIdentityInfo();
+                value.HasChip = AdditionalInfo?.GetValueOrDefault("has_chip") ?? "";
+                value.CountryOfIssue = AdditionalInfo?.GetValueOrDefault("country_of_issue") ?? "";
+                value.Note = AdditionalInfo?.GetValueOrDefault("note") ?? "";
+            }
+
+            _additionalInfoForIdentityInfo = value;
+        }
+    }
+
+
+    public IdentityInfo DeepCopy()
+    {
+        var copy = (IdentityInfo)this.MemberwiseClone();
+
+        if (this.AdditionalInfo != null)
+        {
+            copy.AdditionalInfo = new Dictionary<string, string>(this.AdditionalInfo);
+        }
+
+        return copy;
+    }
 
     public static ValidationResult ValidateExpiryDate(DateTime? expiryDate, ValidationContext context)
     {

@@ -76,7 +76,13 @@ public partial class Home
     private readonly ConfigurationsService _configService;
     private readonly CourseEnrollmentService _courseEnrollmentService;
 
-    public Home(StudentServices studentServices, FacultyService facultyService, StudentStatusService studentStatusService, StudyProgramService studyProgramService, ConfigurationsService configService, CourseEnrollmentService courseEnrollmentService)
+    public Home(
+        StudentServices studentServices, 
+        FacultyService facultyService, 
+        StudentStatusService studentStatusService, 
+        StudyProgramService studyProgramService, 
+        ConfigurationsService configService, 
+        CourseEnrollmentService courseEnrollmentService)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
@@ -92,6 +98,7 @@ public partial class Home
         faculties = await _facultyService.GetFaculties();
         studentStatuses = await _studentStatusService.GetStudentStatuses();
         studyPrograms = await _studyProgramService.GetPrograms();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
     }
 
     private string ConvertIdToFacultyName(int? id)
@@ -149,16 +156,19 @@ public partial class Home
         }
     }
 
+    private Radzen.DialogOptions GetDefaultDialogOptions() => new()
+    {
+        Resizable = false,
+        Draggable = false,
+        Width = "90%",
+        Height = "90%",
+        ContentCssClass = "custom-dialog"
+    };
+
     private async Task AddStudent()
     {
 
-        var options = new Radzen.DialogOptions(){
-            Resizable = false,
-            Draggable = false,
-            Width = "90%",
-            Height = "90%",
-            ContentCssClass= "custom-dialog"
-        };
+        var options = GetDefaultDialogOptions();
 
         var newStudent = new StudentModel
         {
@@ -178,8 +188,6 @@ public partial class Home
         var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
             try
             {
                 var studentId = await _studentServices.AddStudent(newStudent);
@@ -215,14 +223,7 @@ public partial class Home
                               ? await _configService.GetNextStatuses(student.StatusId)
                               : new List<StudentStatus>();
 
-        var options = new Radzen.DialogOptions()
-        {
-            Resizable = false,
-            Draggable = false,
-            Width = "90%",
-            Height = "90%",
-            ContentCssClass = "custom-dialog"
-        };
+        var options = GetDefaultDialogOptions();
 
         var parameters = new Dictionary<string, object>
         {
@@ -237,8 +238,6 @@ public partial class Home
         var result = await DialogService.OpenAsync<StudentForm>("Cập nhật thông tin sinh viên", parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
             try
             {
                 await _studentServices.UpdateStudent(student);
@@ -268,8 +267,6 @@ public partial class Home
 
         if (result is bool isConfirmed && isConfirmed)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-
             try
             {
                 await _studentServices.DeleteStudent(id);
@@ -292,18 +289,17 @@ public partial class Home
             { "AllowedExtensions", new string[] { format } }
         };
 
+        var sendFormat = GetFileFormat(format);
         var result = await DialogService.OpenAsync<UploadFile>(
-            $"Thêm sinh viên từ file {GetFileFormat(format).ToUpperInvariant()}",
+            $"Thêm sinh viên từ file {sendFormat.ToUpperInvariant()}",
             parameters,
             new Radzen.DialogOptions() { Width = "40%", CloseDialogOnOverlayClick = false }
         );
 
         if (result is IBrowserFile file && file != null)
         {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             try
             {
-                var sendFormat = GetFileFormat(format);
                 await _studentServices.UploadFiles(file, sendFormat);
                 await ResetPaging();
                 Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
@@ -346,14 +342,6 @@ public partial class Home
 
         if (!showFilter && selectedFaculties.Any()) { await ResetPaging(keepSearch: true); }
     }
-
-    private void RowClickEvent(TableRowClickEventArgs<StudentHomePageModel> tableRowClickEventArgs)
-    {
-        Console.WriteLine("Row Clicked");
-        Console.WriteLine(tableRowClickEventArgs.Item.Id);
-        // Open popup full information
-    }
-
 
     private async Task NextPage()
     {

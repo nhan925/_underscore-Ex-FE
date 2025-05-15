@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace student_management_fe.Models;
 
@@ -44,8 +45,10 @@ public class StudentModel
     [CustomValidation(typeof(StudentModel), nameof(ValidateAddresses))]
     public List<Address> Addresses { get; set; }
 
+
     [Required(ErrorMessage = "Giấy chứng minh nhân thân không được để trống.")]
     public IdentityInfo IdentityInfo { get; set; }
+
 
     [Required(ErrorMessage = "Email không được để trống.")]
     public string? Email { get; set; }
@@ -57,6 +60,7 @@ public class StudentModel
 
     [Required(ErrorMessage = "Trạng thái sinh viên không được để trống.")]
     public int? StatusId { get; set; }
+
 
     [Required(ErrorMessage = "Quốc tịch không được để trống.")]
     public string? Nationality { get; set; }

@@ -1,0 +1,108 @@
+﻿@using System.Text.Json
+@using System.ComponentModel.DataAnnotations
+
+<RadzenFieldset Text="Giấy chứng minh nhân thân">
+    <RadzenStack Gap="2rem">
+        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Loại giấy tờ" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenDropDown TValue="string" Style="width: 100%;"
+                                @bind-Value="Value.Type"
+                                Data=@(new List<KeyValuePair<string, string>>
+                                {
+                                new("cmnd", "Chứng minh nhân dân (CMND)"),
+                                new("cccd", "Căn cước công dân (CCCD)"),
+                                new("passport", "Hộ chiếu (Passport)")
+                                })
+                                TextProperty="Value" ValueProperty="Key" Name="Type" Change="UpdateAdditionalInfo"/>
+                <RadzenDataAnnotationValidator Component="Type" Popup="@popup" Style="position: relative" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Số giấy tờ" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="Value.Number" Name="Number" Change="ValidateAndUpdate"/>
+                <RadzenDataAnnotationValidator Component="Number" Popup="@popup" Style="position: relative" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Ngày cấp" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenDatePicker Style="width: 100%;" @bind-Value="Value.DateOfIssue"
+                                  DateFormat="dd/MM/yyyy" Name="DateOfIssue" Change="ValidateAndUpdate"/>
+                <RadzenDataAnnotationValidator Component="DateOfIssue" Popup="@popup" Style="position: relative" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Nơi cấp" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenTextBox Style="width: 100%;" @bind-Value="Value.PlaceOfIssue" Name="PlaceOfIssue" Change="ValidateAndUpdate"/>
+                <RadzenDataAnnotationValidator Component="PlaceOfIssue" Popup="@popup" Style="position: relative" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow AlignItems="Radzen.AlignItems.Center">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenLabel Text="Ngày hết hạn" />
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenDatePicker Style="width: 100%;" @bind-Value="Value.ExpiryDate"
+                                  DateFormat="dd/MM/yyyy" Name="ExpiryDate" Change="ValidateAndUpdate"/>
+                <RadzenDataAnnotationValidator Component="ExpiryDate" Popup="@popup" Style="position: relative" />
+            </RadzenColumn>
+        </RadzenRow>
+        @if (Value.Type == "cccd")
+        {
+            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="4">
+                    <RadzenLabel Text="Có gắn chip" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenDropDown TValue="string" Style="width: 100%;"
+                                    @bind-Value="Value.AdditionalInfoForIdentityInfo.HasChip"
+                                    Data=@(new List<KeyValuePair<string, string>>
+                                    {
+                                        new("yes", "Có"),
+                                        new("no", "Không")
+                                    })
+                                    TextProperty="Value" ValueProperty="Key" Name="HasChip" Change="UpdateAdditionalInfo" />
+                    <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
+                </RadzenColumn>
+            </RadzenRow>
+        }
+        @if (Value.Type == "passport")
+        {
+            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="4">
+                    <RadzenLabel Text="Quốc gia cấp" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.CountryOfIssue" Name="CountryOfIssue" Change="UpdateAdditionalInfo" />
+                    <RadzenDataAnnotationValidator Component="CountryOfIssue" Popup="@popup" Style="position: relative" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow AlignItems="Radzen.AlignItems.Center">
+                <RadzenColumn Size="12" SizeMD="4">
+                    <RadzenLabel Text="Ghi chú" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.Note" Name="Note" Change="UpdateAdditionalInfo" />
+                    <RadzenDataAnnotationValidator Component="Note" Popup="@popup" Style="position: relative" />
+                </RadzenColumn>
+            </RadzenRow>
+        }
+
+    </RadzenStack>
+</RadzenFieldset>

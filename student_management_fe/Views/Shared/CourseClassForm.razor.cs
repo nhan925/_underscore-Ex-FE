@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Models;
+using student_management_fe.Services;
 
 namespace student_management_fe.Views.Shared;
 
 public partial class CourseClassForm
 {
-    [Parameter] public CourseClass courseClass { get; set; } = new();
+    [Parameter] public CourseClass courseClass { get; set; } = new CourseClass
+    {
+        ScheduleParsed = new ScheduleForCourseClass()
+    };
 
     [Parameter] public List<CourseModel> courses { get; set; } = new();
 
@@ -16,19 +20,10 @@ public partial class CourseClassForm
 
     [Inject] Radzen.DialogService DialogService { get; set; }
 
+    [Inject] public ISnackbar Snackbar { get; set; } = default!;
+
     private bool popup = false;
-    private bool ShowStartTimeError { get; set; } = false;
-    private bool ShowEndTimeError { get; set; } = false;
-
-    //bool startTimeError = false;
-    //string startTimeErrorText = "";
-
-    //bool endTimeError = false;
-    //string endTimeErrorText = "";
-
-    //MudForm form;
-    //bool isValid;
-    //string[] errors = { };
+    private bool ShowTimeError { get; set; } = false;
 
     private List<string> DateOfWeek { get; set; } = new()
     {
@@ -41,55 +36,63 @@ public partial class CourseClassForm
         "Chủ nhật"
     };
 
-    //private IEnumerable<string> ValidateStartAndEndTime(TimeSpan? startTime, TimeSpan? endTime)
-    //{
+    private readonly CourseClassService _courseClassService;
 
-    //    if (startTime == null)
-    //    {
-    //        startTimeError = true;
-    //        startTimeErrorText = "Giờ bắt đầu không được để trống!";
-    //    }
-    //    else
-    //    {
-    //        startTimeError = false;
-    //        startTimeErrorText = "";
-    //    }
-
-    //    if (endTime == null)
-    //    {
-    //        endTimeError = true;
-    //        endTimeErrorText = "Giờ kết thúc không được để trống!";
-    //    }
-    //    else
-    //    {
-    //        endTimeError = false;
-    //        endTimeErrorText = "";
-    //    }
-
-    //    if (startTime != null && endTime != null && startTime >= endTime)
-    //    {
-    //        startTimeError = true;
-    //        startTimeErrorText = "Giờ bắt đầu phải nhỏ hơn giờ kết thúc!";
-    //        endTimeError = true;
-    //        endTimeErrorText = "Giờ kết thúc phải lớn hơn giờ bắt đầu!";
-    //    }
-
-    //    return errors;
-    //}
-
-    private void OnSubmit()
+    public CourseClassForm(CourseClassService courseClassService)
     {
-        if (courseClass.ScheduleParsed.StartTime == default || courseClass.ScheduleParsed.EndTime == default )
+        _courseClassService = courseClassService;
+    }
+
+    private bool isValidTimeRange()
+    {
+        bool isValid = true;
+
+        if (courseClass.ScheduleParsed.StartTime == null)
         {
-            ShowStartTimeError = true;
-            ShowEndTimeError = true;
-            return;
+            isValid = false;
         }
 
-        ShowStartTimeError = false;
-        ShowEndTimeError = false;
-        courseClass.ConvertScheduleParsedToString();
-        DialogService.Close(true);
+        if (courseClass.ScheduleParsed.EndTime == null)
+        {
+            isValid = false;
+        }
+
+        if (courseClass.ScheduleParsed.StartTime != null &&
+            courseClass.ScheduleParsed.EndTime != null &&
+            courseClass.ScheduleParsed.StartTime > courseClass.ScheduleParsed.EndTime)
+        {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private async Task ValidateAndSubmit()
+    {
+        var result = String.Empty;
+        try
+        {
+            if (!isValidTimeRange())
+            {
+                ShowTimeError = true;
+                return;
+            }
+
+            ShowTimeError = false;
+            courseClass.ConvertScheduleParsedToString();
+            result = await _courseClassService.AddCourseClass(courseClass);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+            return;
+        }
+        OnSubmit(result);
+    }
+
+    private void OnSubmit(string result)
+    {
+        DialogService.Close(result);
     }
 
     private void InvalidSubmit()
