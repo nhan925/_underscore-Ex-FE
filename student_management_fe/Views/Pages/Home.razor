@@ -4,15 +4,19 @@
 @using MudBlazor
 @using student_management_fe.Models
 
+
+<div style="position: absolute; right: 0; margin-right: 1rem">
+    <CultureSelector />
+</div>
 <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
-    Danh sách sinh viên
+    @_localizer["home_title_text"]
 </MudText>
 
 <MudPaper Class="search-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
     <MudGrid>
         <MudItem xs="12" sm="12">
             <MudTextField @bind-Value="searchText"
-                          Placeholder="Nhập tên hoặc MSSV"
+						  Placeholder=@_localizer["home_search_student_by_name_id_placeholder"]
                           Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search"
                           Immediate="true"
@@ -25,7 +29,7 @@
         {
             <MudItem xs="12" sm="12">
                 <MudSelect T="string"
-                           Label="Chọn khoa"
+                           Label=@_localizer["home_search_student_by_faculty_placeholder"]
                            @bind-SelectedValues="selectedFaculties"
                            MultiSelection="true"
                            Variant="MudBlazor.Variant.Outlined"
@@ -42,30 +46,30 @@
 
         <MudItem xs="12" sm="12" Class="d-flex justify-end">
             <MudButton Color="Color.Secondary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FilterList" OnClick="ToggleFilter" Class="me-2">
-                Bộ lọc
+				@_localizer["home_filter_button"]
             </MudButton>
             <MudButton Color="Color.Primary" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Search" OnClick="SearchStudents" Class="me-2">
-                Tìm kiếm
+				@_localizer["home_search_button"]
             </MudButton>
-            <MudMenu Label="Thêm mới" Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Class="me-2">
+            <MudMenu Label=@_localizer["home_add_new_menu"] Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Class="me-2">
 
                 <MudMenuItem OnClick="AddStudent">
-                    Thêm sinh viên
+					@_localizer["home_add_new_student_menu_item"]
                 </MudMenuItem>
                 <MudMenuItem OnClick="@(() => ImportFile(".xlsx"))">
-                    Nhập từ Excel
+					@_localizer["home_import_from_excel_menu_item"]
                 </MudMenuItem>
                 <MudMenuItem OnClick="@(() => ImportFile(".json"))">
-                    Nhập từ JSON
+					@_localizer["home_import_from_json_menu_item"]
                 </MudMenuItem>
             </MudMenu>
           
-            <MudMenu Label="Xuất File" Color="Color.Info" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" Class="me-2">
+            <MudMenu Label=@_localizer["home_export_file_menu"] Color="Color.Info" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.FileDownload" Class="me-2">
                 <MudMenuItem OnClick="@(() => ExportFile(".xlsx"))">
-                    Xuất file Excel
+					@_localizer["home_export_to_excel_menu_item"]
                 </MudMenuItem>
                 <MudMenuItem OnClick="@(() => ExportFile(".json"))">
-                    Xuất file JSON
+					@_localizer["home_export_to_json_menu_item"]
                 </MudMenuItem>
             </MudMenu>
         </MudItem>
@@ -75,40 +79,40 @@
 <MudPaper Class="table-container" Elevation="4">
     <MudTable RowClass="cursor-pointer" T="StudentHomePageModel" Items="students" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center; width: 3%">STT</MudTh>
-            <MudTh Style="text-align: center; width: 7%">MSSV</MudTh>
-            <MudTh Style="text-align: center; width: 16%">Họ và tên</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Ngày sinh</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Giới tính</MudTh>
-            <MudTh Style="text-align: center; width: 17%" >Khoa</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Khóa</MudTh>
-            <MudTh Style="text-align: center; width: 10%">Chương trình</MudTh>
-            <MudTh Style="text-align: center; width: 11%">Tình trạng</MudTh>
-            <MudTh Style="text-align: center; width: 12%">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 3%">@_localizer["home_column_order_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 7%">@_localizer["home_column_student_id_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 16%">@_localizer["home_column_full_name_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_date_of_birth_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_gender_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 17%" >@_localizer["home_column_faculty_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_intake_year_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 10%">@_localizer["home_column_study_program_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 11%">@_localizer["home_column_student_status_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 12%">@_localizer["home_column_actions_header"]</MudTh>
         </HeaderContent>
  
 
         <RowTemplate>
             <MudTd Style="text-align: center" DataLabel="STT">@((students.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
-            <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
-            <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
-            <MudTd DataLabel="Ngày sinh" Style="text-align: center">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>
-            <MudTd DataLabel="Giới tính">@context.Gender</MudTd>
-            <MudTd DataLabel="Khoa">@ConvertIdToFacultyName(context.FacultyId)</MudTd>
-            <MudTd DataLabel="Khóa" Style="text-align: center">@context.IntakeYear</MudTd>
-            <MudTd DataLabel="Chương trình">@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
-            <MudTd DataLabel="Tình trạng">@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_student_id_header"] Style="text-align: center">@context.Id</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_full_name_header"]>@context.FullName</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_date_of_birth_header"] Style="text-align: center">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_gender_header"]>@context.Gender</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_faculty_header"]>@ConvertIdToFacultyName(context.FacultyId)</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_intake_year_header"] Style="text-align: center">@context.IntakeYear</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_study_program_header"]>@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
+            <MudTd DataLabel=@_localizer["home_column_student_status_header"]>@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
             <MudTd Style="text-align: center" DataLabel="Thao tác">
                 <div class="action-buttons">
-                    <MudTooltip Text="Tải bảng điểm" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudTooltip Text=@_localizer["home_download_transcript_tooltip"] Color="Color.Info" Arrow="true" Placement="Placement.Top">
                         <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Info" OnClick="()=>ExportTranscript(context.Id)" />
                     </MudTooltip>
 
-                    <MudTooltip Text="Chỉnh sửa thông tin sinh viên" Color="Color.Info" Arrow="true" Placement="Placement.Top">
+                    <MudTooltip Text=@_localizer["home_edit_student_information_tooltip"] Color="Color.Info" Arrow="true" Placement="Placement.Top">
                         <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="()=>EditStudent(context.Id)" />
                     </MudTooltip>
 
-                    <MudTooltip Text="Xóa sinh viên" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+                    <MudTooltip Text=@_localizer["home_delete_student_tooltip"] Color="Color.Error" Arrow="true" Placement="Placement.Top">
                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudent(context.Id)" />
                     </MudTooltip>
                 </div>
@@ -116,10 +120,10 @@
         </RowTemplate>
 
          <NoRecordsContent>
-            <MudText>Không tìm thấy dữ liệu...</MudText>
+            <MudText>@_localizer["home_no_records_content"]</MudText>
         </NoRecordsContent>
         <LoadingContent>
-            <MudText>Đang tải...</MudText>
+            <MudText>@_localizer["home_loading_content"]</MudText>
         </LoadingContent>
     </MudTable>
 </MudPaper>
@@ -131,7 +135,7 @@
 
     <MudItem Style="padding: 12px 12px 12px 12px; text-align: center;">
         <MudText Typo="Typo.subtitle1" Class="mx-2" Style="white-space: nowrap; text-align: center">
-            Trang @(totalPages > 0 ? currentPage : 0) / @totalPages
+            @_localizer["home_pagination_text"] @(totalPages > 0 ? currentPage : 0) / @totalPages
         </MudText>
     </MudItem>
 

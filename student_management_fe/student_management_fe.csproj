@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.5" />
     <PackageReference Include="MudBlazor" Version="8.4.0" />
     <PackageReference Include="Radzen.Blazor" Version="6.3.0" />
     <PackageReference Include="ServiceStack.Common" Version="8.6.0" />

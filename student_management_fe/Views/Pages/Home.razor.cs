@@ -13,7 +13,9 @@ using static student_management_fe.Views.Shared.StudentForm;
 using Radzen;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages;
 
@@ -75,14 +77,16 @@ public partial class Home
     private readonly StudentServices _studentServices;
     private readonly ConfigurationsService _configService;
     private readonly CourseEnrollmentService _courseEnrollmentService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     public Home(
         StudentServices studentServices, 
-        FacultyService facultyService, 
-        StudentStatusService studentStatusService, 
-        StudyProgramService studyProgramService, 
-        ConfigurationsService configService, 
-        CourseEnrollmentService courseEnrollmentService)
+        FacultyService facultyService,
+        StudentStatusService studentStatusService,
+        StudyProgramService studyProgramService,
+        ConfigurationsService configService,
+        CourseEnrollmentService courseEnrollmentService,
+        IStringLocalizer<Content> localizer)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
@@ -90,6 +94,7 @@ public partial class Home
         _studyProgramService = studyProgramService;
         _configService = configService;
         _courseEnrollmentService = courseEnrollmentService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

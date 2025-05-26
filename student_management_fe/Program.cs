@@ -1,12 +1,18 @@
-﻿using Blazored.LocalStorage;
+﻿using System.Globalization;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Radzen;
+using ServiceStack;
 using student_management_fe.Authentication;
 using student_management_fe.Services;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using student_management_fe.Extensions;
 
 namespace student_management_fe;
 
@@ -20,6 +26,8 @@ public class Program
 
         var js = builder.Services.BuildServiceProvider().GetRequiredService<IJSRuntime>();
         var apiBaseUrl = await js.InvokeAsync<string>("eval", "window.AppConfig.API_BASE_URL");
+
+        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
         builder.Services.AddAuthorizationCore();
@@ -43,6 +51,9 @@ public class Program
         builder.Services.AddMudServices();
         builder.Services.AddRadzenComponents();
 
-        await builder.Build().RunAsync();
+        var host = builder.Build();
+        await host.SetDefaultCulture();
+
+        await host.RunAsync();
     }
 }
