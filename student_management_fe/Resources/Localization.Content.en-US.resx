@@ -283,4 +283,122 @@
   <data name="student_status_setting_toggle_button_text" xml:space="preserve">
     <value>On/Off Rule</value>
   </data>
+  <data name="all_actions_save_button_text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="all_actions_cancel_button_text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="address_form_adress_street_label" xml:space="preserve">
+    <value>House number / Street name</value>
+  </data>
+  <data name="address_form_address_country_label" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="address_form_address_village_label" xml:space="preserve">
+    <value>Ward / Commune</value>
+  </data>
+  <data name="address_form_address_district_label" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="address_form_address_city_label" xml:space="preserve">
+    <value>Province / City</value>
+  </data>
+  <data name="identity_form_title_label" xml:space="preserve">
+    <value>Identity Card</value>
+  </data>
+  <data name="identity_form_type_card_label" xml:space="preserve">
+    <value>ID Type</value>
+  </data>
+  <data name="identity_form_card_number_label" xml:space="preserve">
+    <value>ID Number</value>
+  </data>
+  <data name="identity_form_date_label" xml:space="preserve">
+    <value>Date of Issue</value>
+  </data>
+  <data name="identity_form_address_label" xml:space="preserve">
+    <value>Place of Issue</value>
+  </data>
+  <data name="identity_form_expired_label" xml:space="preserve">
+    <value>Expiration Date</value>
+  </data>
+  <data name="identity_form_country_label" xml:space="preserve">
+    <value>Issuing Country</value>
+  </data>
+  <data name="identity_form_note_label" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="identity_form_chip_label" xml:space="preserve">
+    <value>Chip-based
+</value>
+  </data>
+  <data name="identity_form_cmnd_dropdown" xml:space="preserve">
+    <value>Vietnamese Identity Card</value>
+  </data>
+  <data name="identity_form_cccd_dropdown" xml:space="preserve">
+    <value>Citizen Identification Card</value>
+  </data>
+  <data name="identity_form_passport_dropdown" xml:space="preserve">
+    <value>Passport</value>
+  </data>
+  <data name="address_form_title_label" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="student_form_general_title_label" xml:space="preserve">
+    <value>General Information</value>
+  </data>
+  <data name="student_form_full_name_label" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="student_form_dob_label" xml:space="preserve">
+    <value>Date Of Birth</value>
+  </data>
+  <data name="student_form_gender_label" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="student_form_faculty_label" xml:space="preserve">
+    <value>Faculty</value>
+  </data>
+  <data name="student_form_intake_year_label" xml:space="preserve">
+    <value>Intake Year</value>
+  </data>
+  <data name="student_form_study_program_label" xml:space="preserve">
+    <value>Study Program</value>
+  </data>
+  <data name="student_form_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="student_form_phone_number_label" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="student_form_status_label" xml:space="preserve">
+    <value>Student Status</value>
+  </data>
+  <data name="student_form_nationality_label" xml:space="preserve">
+    <value>Nationality</value>
+  </data>
+  <data name="student_form_student_id_label" xml:space="preserve">
+    <value>Student ID</value>
+  </data>
+  <data name="student_form_permanent_address_label" xml:space="preserve">
+    <value>Permanent</value>
+  </data>
+  <data name="student_form_temporary_address_label" xml:space="preserve">
+    <value>Temporary</value>
+  </data>
+  <data name="student_form_mailing_address_label" xml:space="preserve">
+    <value>Mailing</value>
+  </data>
+  <data name="student_form_permanent_adress_error" xml:space="preserve">
+    <value>Permanent address must not be empty</value>
+  </data>
+  <data name="gender_male_label" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="gender_female_label" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="gender_other_label" xml:space="preserve">
+    <value>Other</value>
+  </data>
 </root>
