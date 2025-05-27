@@ -5,9 +5,6 @@
 @using student_management_fe.Models
 
 
-<div style="position: absolute; right: 0; margin-right: 1rem">
-    <CultureSelector />
-</div>
 <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
     @_localizer["home_title_text"]
 </MudText>
@@ -79,7 +76,7 @@
 <MudPaper Class="table-container" Elevation="4">
     <MudTable RowClass="cursor-pointer" T="StudentHomePageModel" Items="students" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center; width: 3%">@_localizer["home_column_order_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 3%">@_localizer["column_order_header"]</MudTh>
             <MudTh Style="text-align: center; width: 7%">@_localizer["home_column_student_id_header"]</MudTh>
             <MudTh Style="text-align: center; width: 16%">@_localizer["home_column_full_name_header"]</MudTh>
             <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_date_of_birth_header"]</MudTh>
@@ -88,7 +85,7 @@
             <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_intake_year_header"]</MudTh>
             <MudTh Style="text-align: center; width: 10%">@_localizer["home_column_study_program_header"]</MudTh>
             <MudTh Style="text-align: center; width: 11%">@_localizer["home_column_student_status_header"]</MudTh>
-            <MudTh Style="text-align: center; width: 12%">@_localizer["home_column_actions_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 12%">@_localizer["column_actions_header"]</MudTh>
         </HeaderContent>
  
 
@@ -102,7 +99,7 @@
             <MudTd DataLabel=@_localizer["home_column_intake_year_header"] Style="text-align: center">@context.IntakeYear</MudTd>
             <MudTd DataLabel=@_localizer["home_column_study_program_header"]>@ConvertIdToStudyProgramName(context.ProgramId)</MudTd>
             <MudTd DataLabel=@_localizer["home_column_student_status_header"]>@ConvertIdToStudentStatusName(context.StatusId)</MudTd>
-            <MudTd Style="text-align: center" DataLabel="Thao tác">
+            <MudTd Style="text-align: center" DataLabel=@_localizer["column_actions_header"]>
                 <div class="action-buttons">
                     <MudTooltip Text=@_localizer["home_download_transcript_tooltip"] Color="Color.Info" Arrow="true" Placement="Placement.Top">
                         <MudIconButton Icon="@Icons.Material.Filled.FileDownload" Color="Color.Info" OnClick="()=>ExportTranscript(context.Id)" />
@@ -120,10 +117,10 @@
         </RowTemplate>
 
          <NoRecordsContent>
-            <MudText>@_localizer["home_no_records_content"]</MudText>
+            <MudText>@_localizer["no_records_content"]</MudText>
         </NoRecordsContent>
         <LoadingContent>
-            <MudText>@_localizer["home_loading_content"]</MudText>
+            <MudText>@_localizer["loading_content"]</MudText>
         </LoadingContent>
     </MudTable>
 </MudPaper>

@@ -5,6 +5,8 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared.ManagementsForm;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class FacultyManagement
@@ -50,10 +52,12 @@ public partial class FacultyManagement
     private List<Faculty> tempFaculties = new List<Faculty>();
 
     private readonly FacultyService _facultyService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public FacultyManagement(FacultyService facultyService)
+    public FacultyManagement(FacultyService facultyService, IStringLocalizer<Content> localizer)
     {
         _facultyService = facultyService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

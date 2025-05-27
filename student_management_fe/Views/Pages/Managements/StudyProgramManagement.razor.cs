@@ -6,6 +6,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Security.AccessControl;
 using student_management_fe.Views.Shared.ManagementsForm;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class StudyProgramManagement : ComponentBase
@@ -51,10 +53,12 @@ public partial class StudyProgramManagement : ComponentBase
     private List<StudyProgram> tempStudyPrograms = new List<StudyProgram>();
 
     private readonly StudyProgramService _studyProgramService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudyProgramManagement(StudyProgramService studyProgramService)
+    public StudyProgramManagement(StudyProgramService studyProgramService, IStringLocalizer<Content> localizer)
     {
         _studyProgramService = studyProgramService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

@@ -4,6 +4,8 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Views.Shared;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -32,17 +34,20 @@ public partial class RegistrationManagement
     private readonly DataService _dataService;
     private readonly YearAndSemesterService _yearAndSemesterService;
     private readonly CourseEnrollmentService _courseErollmentService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     public RegistrationManagement(
         CourseClassService courseClassService, 
         DataService dataService, 
         YearAndSemesterService yearAndSemesterService, 
-        CourseEnrollmentService courseErollmentService)
+        CourseEnrollmentService courseErollmentService,
+        IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
         _dataService = dataService;
         _yearAndSemesterService = yearAndSemesterService;
         _courseErollmentService = courseErollmentService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

@@ -6,6 +6,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Radzen;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -37,12 +39,17 @@ public partial class CourseManagement
 
     private readonly CourseService _courseService;
     private readonly FacultyService _facultyService;
+    private readonly IStringLocalizer<Content> _localizer;
 
 
-    public CourseManagement(CourseService courseService, FacultyService facultyService)
+    public CourseManagement(
+        CourseService courseService, 
+        FacultyService facultyService, 
+        IStringLocalizer<Content> localizer)
     {
         _courseService = courseService;
         _facultyService = facultyService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
