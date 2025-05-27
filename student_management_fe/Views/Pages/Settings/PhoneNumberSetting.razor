@@ -3,7 +3,7 @@
 @using MudBlazor
 
 <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
-    Cấu hình số điện thoại sinh viên
+    @_localizer["phone_number_setting_title_text"]
 </MudText>
 
 <MudPaper Class="config-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
@@ -15,7 +15,7 @@
                              @bind-Value="selectedCountry"
                              SearchFunc="@SearchCountries"
                              ToStringFunc="@(e => e == null ? null : $"{e.Name} ({e.CallingCode})")"
-                             Placeholder="Chọn quốc gia"
+                             Placeholder=@_localizer["phone_number_setting_input_placeholder"]
                              Variant="MudBlazor.Variant.Outlined"
                              Class="me-2"
                              MaxItems="@countryPhoneCodeInformations.Count()"
@@ -23,11 +23,11 @@
 
             <!-- Nút thêm -->
             <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddPhoneNumberSetting" Class="me-4" Style="height: 100%;">
-                Thêm mới
+                @_localizer["phone_number_setting_add_button_text"]
             </MudButton>
 
             <!-- Toggle Switch -->
-            <MudSwitch ValueChanged="OnSwitchChange" Value="@configInformations.IsActive" Color="Color.Primary" Label="Bật/Tắt quy định" T="bool" />
+            <MudSwitch ValueChanged="OnSwitchChange" Value="@configInformations.IsActive" Color="Color.Primary" Label=@_localizer["phone_number_setting_toggle_button_text"] T="bool" />
         </MudItem>
     </MudGrid>
 </MudPaper>
@@ -35,26 +35,26 @@
 <MudPaper Class="table-container" Elevation="4">
     <MudTable Items="mappedCountries" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center; width: 20%">STT</MudTh>
-            <MudTh Style="text-align: center; width: 35%">Quốc gia</MudTh>
-            <MudTh Style="text-align: center; width: 35%">Số điện thoại</MudTh>
-            <MudTh Style="text-align: center; width: 10%">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 20%">@_localizer["email_setting_column_id_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 35%">@_localizer["phone_number_setting_column_country_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 35%">@_localizer["phone_number_setting_column_phone_number_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 10%">@_localizer["phone_number_setting_column_actions_header"]</MudTh>
         </HeaderContent>
         <RowTemplate Context="country">
-            <MudTd Style="text-align: center" DataLabel="STT">@(mappedCountries.IndexOf(country) + 1)</MudTd>
-            <MudTd DataLabel="Quốc gia" Style="text-align: center">@country.Name</MudTd>
-            <MudTd DataLabel="Số điện thoại" Style="text-align: center">@country.CallingCode</MudTd>
-            <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudTooltip Text="Xóa" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+            <MudTd Style="text-align: center" DataLabel="@_localizer["email_setting_column_id_header"]">@(mappedCountries.IndexOf(country) + 1)</MudTd>
+            <MudTd DataLabel="@_localizer["phone_number_setting_column_country_header"]" Style="text-align: center">@country.Name</MudTd>
+            <MudTd DataLabel="@_localizer["phone_number_setting_column_phone_number_header"]" Style="text-align: center">@country.CallingCode</MudTd>
+            <MudTd Style="text-align: center" DataLabel="@_localizer["phone_number_setting_column_actions_header"]">
+                <MudTooltip Text="@_localizer["all_actions_delete_tooltip"]" Color="Color.Error" Arrow="true" Placement="Placement.Top">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeletePhoneNumberSetting(country.Code))" />
 				</MudTooltip>
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>
-            <MudText>Không tìm thấy dữ liệu...</MudText>
+            <MudText>@_localizer["all_no_records_content"]</MudText>
         </NoRecordsContent>
         <LoadingContent>
-            <MudText>Đang tải...</MudText>
+            <MudText>@_localizer["all_loading_content"]</MudText>
         </LoadingContent>
     </MudTable>
 </MudPaper>

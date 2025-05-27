@@ -3,6 +3,9 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using static ServiceStack.Diagnostics.Events;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Settings;
 
@@ -13,7 +16,7 @@ public partial class StudentStatusSetting
 
     private readonly ConfigurationsService _configurationsService;
     private readonly StudentStatusService _studentStatusService;
-
+    private readonly IStringLocalizer<Content> _localizer;
     private ConfigurationsModel<Dictionary<string, List<int>>> configInformations = new()
     {
         Value = new Dictionary<string, List<int>>()
@@ -26,10 +29,11 @@ public partial class StudentStatusSetting
 
 
 
-    public StudentStatusSetting(ConfigurationsService configurationsService, StudentStatusService studentServices)
+    public StudentStatusSetting(ConfigurationsService configurationsService, StudentStatusService studentServices, IStringLocalizer<Content> localizer)
     {
         _configurationsService = configurationsService;
         _studentStatusService = studentServices;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

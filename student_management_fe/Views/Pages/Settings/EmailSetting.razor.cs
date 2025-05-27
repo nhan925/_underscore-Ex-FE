@@ -4,6 +4,9 @@ using ServiceStack.Messaging;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Settings;
 public partial class EmailSetting
@@ -13,16 +16,17 @@ public partial class EmailSetting
 
     private readonly ConfigurationsService _configurationsService;
     private string newDomain { get; set; } = string.Empty;
+    private readonly IStringLocalizer<Content> _localizer;
 
-  
     private ConfigurationsModel<List<string>> configInformations = new()
     {
         Value = new List<string>()
     };
 
-    public EmailSetting(ConfigurationsService configurationsService)
+    public EmailSetting(ConfigurationsService configurationsService, IStringLocalizer<Content> localizer)
     {
         _configurationsService = configurationsService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

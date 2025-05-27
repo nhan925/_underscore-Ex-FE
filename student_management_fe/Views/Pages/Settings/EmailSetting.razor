@@ -2,7 +2,7 @@
 @using MudBlazor
 
 <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
-    Cấu hình Email sinh viên
+    @_localizer["email_setting_title_text"]
 </MudText>
 
 <MudPaper Class="config-bar" Elevation="3" Style="padding:16px; margin-bottom:20px;">
@@ -10,15 +10,15 @@
         <MudItem xs="12" Class="d-flex align-center justify-between">
 
             <!-- Input Text -->
-            <MudTextField @bind-Value="newDomain" Placeholder="Nhập domain email. Ví dụ hcmus.edu.vn" Variant="MudBlazor.Variant.Outlined" Class="me-2" Style="min-width: 250px;" />
+            <MudTextField @bind-Value="newDomain" Placeholder=@_localizer["email_setting_input_placeholder"] Variant="MudBlazor.Variant.Outlined" Class="me-2" Style="min-width: 250px;" />
 
             <!-- Nút thêm -->
             <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddEmailSetting" Class="me-4" Style="height: 100%;">
-                Thêm mới
+                @_localizer["email_setting_add_button_text"]
             </MudButton>
 
             <!-- Toggle Switch -->
-            <MudSwitch ValueChanged="OnSwitchChange" Value="@configInformations.IsActive" Color="Color.Primary" Label="Bật/Tắt quy định" T="bool" />
+            <MudSwitch ValueChanged="OnSwitchChange" Value="@configInformations.IsActive" Color="Color.Primary" Label=@_localizer["email_setting_toggle_button_text"] T="bool" />
         </MudItem>
     </MudGrid>
 </MudPaper>
@@ -26,26 +26,26 @@
 <MudPaper Class="table-container" Elevation="4">
     <MudTable Items="configInformations.Value" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center; width: 20%">STT</MudTh>
-            <MudTh Style="text-align: center; width: 70%">Domain Email</MudTh>
-            <MudTh Style="text-align: center; width: 10%">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 20%">@_localizer["email_setting_column_id_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 70%">@_localizer["email_setting_column_domain_email_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 10%">@_localizer["email_setting_column_actions_header"]</MudTh>
         </HeaderContent>
 
         <RowTemplate Context="domain">
-            <MudTd Style="text-align: center" DataLabel="STT">@(configInformations.Value.IndexOf(domain) + 1)</MudTd>
-            <MudTd DataLabel="Domain Email" Style="text-align: center">@domain</MudTd>
-            <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudTooltip Text="Xóa" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+            <MudTd Style="text-align: center" DataLabel=@_localizer["email_setting_column_id_header"]>@(configInformations.Value.IndexOf(domain) + 1)</MudTd>
+            <MudTd DataLabel=@_localizer["email_setting_column_domain_email_header"] Style="text-align: center">@domain</MudTd>
+            <MudTd Style="text-align: center" DataLabel=@_localizer["email_setting_column_actions_header"]>
+                <MudTooltip Text=@_localizer["all_actions_delete_tooltip"] Color="Color.Error" Arrow="true" Placement="Placement.Top">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteEmailSetting(domain))" />
 				</MudTooltip>
             </MudTd>
         </RowTemplate>
 
         <NoRecordsContent>
-            <MudText>Không tìm thấy dữ liệu...</MudText>
+            <MudText>@_localizer["all_no_records_contentp"]</MudText>
         </NoRecordsContent>
         <LoadingContent>
-            <MudText>Đang tải...</MudText>
+            <MudText>@_localizer["all_loading_content"]</MudText>
         </LoadingContent>
     </MudTable>
 </MudPaper>

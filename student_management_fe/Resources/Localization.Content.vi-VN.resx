@@ -198,7 +198,88 @@
   <data name="home_no_records_content" xml:space="preserve">
     <value>Không tìm thấy dữ liệu...</value>
   </data>
-  <data name="home_loading_content" xml:space="preserve">
+  <data name="all_no_records_content" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu...</value>
+  </data>
+  <data name="all_loading_content" xml:space="preserve">
     <value>Đang tải...</value>
+  </data>
+  <data name="home_loading_content1" xml:space="preserve">
+    <value>Đang tải...</value>
+  </data>
+  <data name="email_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Email Sinh Viên</value>
+  </data>
+  <data name="email_setting_input_placeholder" xml:space="preserve">
+    <value>Nhập doamin email. Ví dụ hcmus.edu.vn</value>
+  </data>
+  <data name="email_setting_add_button_text" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="email_setting_toggle_button_text" xml:space="preserve">
+    <value>Bật/Tắt quy định</value>
+  </data>
+  <data name="email_setting_column_id_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="email_setting_column_domain_email_header" xml:space="preserve">
+    <value>Đuôi Email</value>
+  </data>
+  <data name="email_setting_column_actions_header" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="phone_number_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Số Điện Thoại</value>
+  </data>
+  <data name="phone_number_setting_add_button_text" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="phone_number_setting_toggle_button_text" xml:space="preserve">
+    <value>Bất/Tắt quy định</value>
+  </data>
+  <data name=" phone_number_setting_column_id_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="phone_number_setting_column_country_header" xml:space="preserve">
+    <value>Quốc gia</value>
+  </data>
+  <data name="phone_number_setting_column_phone_number_header" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="phone_number_setting_column_actions_header" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="student_status_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_setting_source_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên cấu hình</value>
+  </data>
+  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên chuyển đến</value>
+  </data>
+  <data name="student_status_setting_column_id_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="student_status_setting_column_status_header" xml:space="preserve">
+    <value>Trạng thái sinh viên</value>
+  </data>
+  <data name="student_status_setting_column_actions_header" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="all_actions_delete_tooltip" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="all_actions_update_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa</value>
+  </data>
+  <data name="phone_number_setting_input_placeholder" xml:space="preserve">
+    <value>Nhập số điện thoại</value>
+  </data>
+  <data name="student_status_setting_undefined_state" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
+    <value>Bật/Tắt quy định</value>
   </data>
 </root>
