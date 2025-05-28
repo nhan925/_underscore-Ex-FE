@@ -363,4 +363,37 @@
   <data name="registration_management_unenroll_from_class_tooltip" xml:space="preserve">
     <value>Hủy đăng ký lớp</value>
   </data>
+  <data name="student_status_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_setting_source_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên cấu hình</value>
+  </data>
+  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên chuyển đến</value>
+  </data>
+  <data name="student_status_setting_column_id_header" xml:space="preserve">
+    <value>Mã Trạng Thái</value>
+  </data>
+  <data name="student_status_setting_column_status_header" xml:space="preserve">
+    <value>Trạng thái sinh viên</value>
+  </data>
+  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
+    <value>Bật/Tắt quy định</value>
+  </data>
+  <data name="all_actions_delete_tooltip" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="student_status_setting_source_required_error" xml:space="preserve">
+    <value>Tên trạng thái cấu hình không được để trống!</value>
+  </data>
+  <data name="student_status_setting_destination_required_error" xml:space="preserve">
+    <value>Tên trạng thái chuyển đến không được để trống!</value>
+  </data>
+  <data name="student_status_setting_no_valid_status_warning" xml:space="preserve">
+    <value>Không còn trạng thái hợp lệ nào để thêm</value>
+  </data>
+  <data name="student_status_setting_add_button" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
 </root>
