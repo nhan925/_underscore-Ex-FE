@@ -399,4 +399,112 @@
   <data name="gender_other_label" xml:space="preserve">
     <value>Khác</value>
   </data>
+  <data name="course_form_course_info_label" xml:space="preserve">
+    <value>Thông tin khóa học</value>
+  </data>
+  <data name="course_form_title_label" xml:space="preserve">
+    <value>Thêm khóa học</value>
+  </data>
+  <data name="course_form_id_label" xml:space="preserve">
+    <value>Mã khóa học</value>
+  </data>
+  <data name="course_form_name_label" xml:space="preserve">
+    <value>Tên khóa học</value>
+  </data>
+  <data name="course_form_credits_label" xml:space="preserve">
+    <value>Số tín chỉ</value>
+  </data>
+  <data name="course_form_faculty_label" xml:space="preserve">
+    <value>Khoa phụ trách</value>
+  </data>
+  <data name="course_form_prerequisites_label" xml:space="preserve">
+    <value>Môn tiên quyết</value>
+  </data>
+  <data name="course_form_description_label" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="course_form_credits_error" xml:space="preserve">
+    <value>Không thể thay đổi số tín chỉ vì khóa học đã có sinh viên đăng ký</value>
+  </data>
+  <data name="course_class_form_class_info_label" xml:space="preserve">
+    <value>Thông tin lớp học</value>
+  </data>
+  <data name="course_class_form_id_label" xml:space="preserve">
+    <value>Mã lớp học</value>
+  </data>
+  <data name="course_class_form_course_label" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="course_class_form_lecturer_label" xml:space="preserve">
+    <value>Giảng viên</value>
+  </data>
+  <data name="course_class_form_class_room_label" xml:space="preserve">
+    <value>Phòng học</value>
+  </data>
+  <data name="course_class_form_time_table_label" xml:space="preserve">
+    <value>Lịch học</value>
+  </data>
+  <data name="course_class_form_date_label" xml:space="preserve">
+    <value>Thứ</value>
+  </data>
+  <data name="course_class_form_start_label" xml:space="preserve">
+    <value>Giờ bắt đầu</value>
+  </data>
+  <data name="course_class_form_end_label" xml:space="preserve">
+    <value>Giờ kết thúc</value>
+  </data>
+  <data name="course_class_form_start_placeholder" xml:space="preserve">
+    <value>Chọn giờ bắt đầu</value>
+  </data>
+  <data name="course_class_form_end_placeholder" xml:space="preserve">
+    <value>Chọn giờ kết thúc</value>
+  </data>
+  <data name="course_class_form_time_error" xml:space="preserve">
+    <value>Thời gian bắt đầu và thời gian kết thúc không hợp lệ</value>
+  </data>
+  <data name="course_class_form_student_label" xml:space="preserve">
+    <value>Số lượng SV</value>
+  </data>
+  <data name="course_class_form_day_placeholder" xml:space="preserve">
+    <value>Chọn thứ</value>
+  </data>
+  <data name="add_student_to_class_form_student_info_lable" xml:space="preserve">
+    <value>Thông tin sinh viên</value>
+  </data>
+  <data name="add_student_to_class_form_id_label" xml:space="preserve">
+    <value>MSSV</value>
+  </data>
+  <data name="add_student_to_class_form_name_label" xml:space="preserve">
+    <value>Họ và tên</value>
+  </data>
+  <data name="add_student_to_class_form_dob_label" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="add_student_to_class_form_gender_label" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="add_student_to_class_form_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="add_student_to_class_form_intake_year_label" xml:space="preserve">
+    <value>Khóa</value>
+  </data>
+  <data name="add_student_to_class_form_program_label" xml:space="preserve">
+    <value>Chương trình</value>
+  </data>
+  <data name="add_student_to_class_form_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="add_student_to_class_form_phone_number_labe" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="add_student_to_class_form_status_label" xml:space="preserve">
+    <value>Tình trạng sinh viên</value>
+  </data>
+  <data name="add_student_to_class_form_nationality_label" xml:space="preserve">
+    <value>Quốc tịch</value>
+  </data>
+  <data name="add_student_to_class_form_title_text" xml:space="preserve">
+    <value>Thêm sinh viên vào lớp học</value>
+  </data>
 </root>

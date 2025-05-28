@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using student_management_fe.Services;
 
@@ -21,7 +23,7 @@ public partial class CourseClassForm
     [Inject] Radzen.DialogService DialogService { get; set; }
 
     [Inject] public ISnackbar Snackbar { get; set; } = default!;
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     private bool popup = false;
     private bool ShowTimeError { get; set; } = false;
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Radzen;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using student_management_fe.Services;
 
@@ -30,6 +32,8 @@ public partial class AddStudentToClassForm
     [Inject] public Radzen.DialogService DialogService { get; set; } = default!;
 
     [Inject] public ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     private List<Faculty> faculties = new();
     private List<StudentStatus> studentStatuses = new();
