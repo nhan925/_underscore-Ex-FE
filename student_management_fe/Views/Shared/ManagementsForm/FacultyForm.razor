@@ -1,4 +1,6 @@
-﻿<RadzenTemplateForm TItem="Faculty" Data="@Faculty" Submit="@Submit">
+﻿@using Microsoft.Extensions.Localization
+@using student_management_fe.Localization
+<RadzenTemplateForm TItem="Faculty" Data="@Faculty" Submit="@Submit">
     <RadzenStack>
         <RadzenColumn>
             <RadzenText Text="@TitleText" />
@@ -11,7 +13,7 @@
 
         <RadzenColumn>
             <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-                <RadzenButton ButtonStyle="ButtonStyle.Light" style="width: 100%" Text="Hủy" Click="Cancel" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="width: 100%" Text=@_localizer["all_actions_cancel_button_text"] Click="Cancel" />
                 <RadzenButton style="width: 100%" Text="@ButtonText" ButtonStyle="ButtonStyle.Success" Type="Submit" />
             </RadzenStack>
         </RadzenColumn>
@@ -21,7 +23,7 @@
 @code {
 
     [Inject] private Radzen.DialogService DialogService { get; set; }
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     [Parameter] public string TitleText { get; set; }
     [Parameter] public string ButtonText { get; set; }
 

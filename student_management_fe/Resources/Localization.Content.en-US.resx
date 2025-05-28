@@ -509,4 +509,31 @@
   <data name="add_student_to_class_form_title_text" xml:space="preserve">
     <value>Add Student To Class</value>
   </data>
+  <data name="upload_file_form_tip" xml:space="preserve">
+    <value>Drag and drop your file here, or click to browse</value>
+  </data>
+  <data name="upload_file_form_upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="upload_file_form_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="upload_file_form_at_least_warning" xml:space="preserve">
+    <value>Please select at least one file.</value>
+  </data>
+  <data name="upload_file_form_format_warning" xml:space="preserve">
+    <value>Only files with the following formats are accepted</value>
+  </data>
+  <data name="upload_file_form_size_warning" xml:space="preserve">
+    <value>File size exceeds 5MB!</value>
+  </data>
+  <data name="upload_file_message_1" xml:space="preserve">
+    <value>A file must be provided</value>
+  </data>
+  <data name="upload_file_message_2" xml:space="preserve">
+    <value>The file must be smaller than 5MB</value>
+  </data>
+  <data name="upload_file_message_3" xml:space="preserve">
+    <value> Invalid file</value>
+  </data>
 </root>
