@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
+using ServiceStack;
 using student_management_fe.Authentication;
 using student_management_fe.Models;
 using System.Diagnostics;
@@ -11,11 +13,13 @@ public class AuthService
 {
     private readonly HttpClient _httpClient;
     private readonly CustomAuthStateProvider _authStateProvider;
+    private readonly IJSRuntime _js;
 
-    public AuthService(HttpClient httpClient, AuthenticationStateProvider authStateProvider)
+    public AuthService(HttpClient httpClient, AuthenticationStateProvider authStateProvider, IJSRuntime js)
     {
         _httpClient = httpClient;
         _authStateProvider = (CustomAuthStateProvider)authStateProvider;
+        _js = js;
     }
 
     public async Task<bool> Login(LoginModel user)
@@ -55,6 +59,8 @@ public class AuthService
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+        var lang = await _js.InvokeAsync<string>("blazorCulture.get") ?? "en";
+        request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(lang));
 
         var response = await _httpClient.SendAsync(request);
 
