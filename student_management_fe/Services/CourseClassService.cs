@@ -40,9 +40,7 @@ public class CourseClassService
         if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
-            var errorMessage = (errorResponse == null || string.IsNullOrEmpty(errorResponse.Message) ? "Add class failed with unknown error"
-                                                                                                     : errorResponse.Message);
-            throw new Exception(errorMessage);
+            throw new Exception(errorResponse?.Message);
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();

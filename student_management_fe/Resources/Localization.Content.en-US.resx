@@ -257,7 +257,7 @@
     <value>Select transfer student status</value>
   </data>
   <data name="student_status_setting_column_id_header" xml:space="preserve">
-    <value>No.</value>
+    <value>Student Status ID</value>
   </data>
   <data name="student_status_setting_column_status_header" xml:space="preserve">
     <value>Student Status</value>
@@ -532,6 +532,7 @@
   </data>
   <data name="upload_file_message_3" xml:space="preserve">
     <value> Invalid file</value>
+  </data>
   <data name="loading_content" xml:space="preserve">
     <value>Loading...</value>
   </data>
@@ -560,16 +561,16 @@
     <value>Edit faculty information</value>
   </data>
   <data name="student_status_management_title_text" xml:space="preserve">
-    <value>List Of Status</value>
+    <value>List Of Student Status</value>
   </data>
   <data name="student_status_management_search_by_name_id_placeholder" xml:space="preserve">
     <value>Enter status name or status ID</value>
   </data>
   <data name="student_status_management_column_id_header" xml:space="preserve">
-    <value>Status ID</value>
+    <value>Student Status ID</value>
   </data>
   <data name="student_status_management_column_name_header" xml:space="preserve">
-    <value>Status Name</value>
+    <value>Student Status Name</value>
   </data>
   <data name="student_status_management_edit_status_information_tooltip" xml:space="preserve">
     <value>Edit status information</value>
@@ -700,27 +701,6 @@
   <data name="registration_management_unenroll_from_class_tooltip" xml:space="preserve">
     <value>Unenroll from class</value>
   </data>
-  <data name="student_status_setting_title_text" xml:space="preserve">
-    <value>Student Status Configuration</value>
-  </data>
-  <data name="student_status_setting_source_placeholder" xml:space="preserve">
-    <value>Select student configuration status</value>
-  </data>
-  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
-    <value>Select transfer student status</value>
-  </data>
-  <data name="student_status_setting_column_id_header" xml:space="preserve">
-    <value>Student Status ID</value>
-  </data>
-  <data name="student_status_setting_column_status_header" xml:space="preserve">
-    <value>Student Status</value>
-  </data>
-  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
-    <value>On/Off Rule</value>
-  </data>
-  <data name="all_actions_delete_tooltip" xml:space="preserve">
-    <value>Delete</value>
-  </data>
   <data name="student_status_setting_source_required_error" xml:space="preserve">
     <value>The status name must not be empty!</value>
   </data>
@@ -732,5 +712,50 @@
   </data>
   <data name="student_status_setting_add_button" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="login_title_text" xml:space="preserve">
+    <value>LOGIN</value>
+  </data>
+  <data name="login_subtitle_text" xml:space="preserve">
+    <value>Student Management</value>
+  </data>
+  <data name="login_username_label" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="login_password_label" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="login_username_placeholder_input" xml:space="preserve">
+    <value>Enter username</value>
+  </data>
+  <data name="login_password_placeholder_input" xml:space="preserve">
+    <value>Enter password</value>
+  </data>
+  <data name="login_button" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="login_username_password_required_error" xml:space="preserve">
+    <value>Please enter both username and password.</value>
   </data>
 </root>

@@ -23,27 +23,31 @@ public partial class CourseClassForm
     [Inject] Radzen.DialogService DialogService { get; set; }
 
     [Inject] public ISnackbar Snackbar { get; set; } = default!;
-    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     private bool popup = false;
     private bool ShowTimeError { get; set; } = false;
 
-    private List<string> DateOfWeek { get; set; } = new()
-    {
-        "Thứ 2",
-        "Thứ 3",
-        "Thứ 4",
-        "Thứ 5",
-        "Thứ 6",
-        "Thứ 7",
-        "Chủ nhật"
-    };
+    private List<string> DateOfWeek { get; set; } 
 
     private readonly CourseClassService _courseClassService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public CourseClassForm(CourseClassService courseClassService)
+    public CourseClassForm(CourseClassService courseClassService, IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
+        _localizer = localizer;
+        DateOfWeek = new List<string>
+        {
+            _localizer["monday"],
+            _localizer["tuesday"],
+            _localizer["wednesday"],
+            _localizer["thursday"],
+            _localizer["friday"],
+            _localizer["saturday"],
+            _localizer["sunday"]
+        };
     }
+
 
     private bool isValidTimeRange()
     {

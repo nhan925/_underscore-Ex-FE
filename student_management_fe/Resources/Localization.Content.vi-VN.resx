@@ -223,7 +223,7 @@
     <value>Đuôi Email</value>
   </data>
   <data name="email_setting_column_actions_header" xml:space="preserve">
-    <value>Thao tác</value>
+    <value>Thao Tác</value>
   </data>
   <data name="phone_number_setting_title_text" xml:space="preserve">
     <value>Cấu Hình Số Điện Thoại</value>
@@ -238,13 +238,13 @@
     <value>STT</value>
   </data>
   <data name="phone_number_setting_column_country_header" xml:space="preserve">
-    <value>Quốc gia</value>
+    <value>Quốc Gia</value>
   </data>
   <data name="phone_number_setting_column_phone_number_header" xml:space="preserve">
-    <value>Số điện thoại</value>
+    <value>Số Điện Thoại</value>
   </data>
   <data name="phone_number_setting_column_actions_header" xml:space="preserve">
-    <value>Thao tác</value>
+    <value>Thao Tác</value>
   </data>
   <data name="student_status_setting_title_text" xml:space="preserve">
     <value>Cấu Hình Trạng Thái Sinh Viên</value>
@@ -256,13 +256,13 @@
     <value>Chọn trạng thái sinh viên chuyển đến</value>
   </data>
   <data name="student_status_setting_column_id_header" xml:space="preserve">
-    <value>STT</value>
+    <value>Mã Trạng Thái</value>
   </data>
   <data name="student_status_setting_column_status_header" xml:space="preserve">
-    <value>Trạng thái sinh viên</value>
+    <value>Trạng Thái Sinh Viên</value>
   </data>
   <data name="student_status_setting_column_actions_header" xml:space="preserve">
-    <value>Thao tác</value>
+    <value>Thao Tác</value>
   </data>
   <data name="all_actions_delete_tooltip" xml:space="preserve">
     <value>Xóa</value>
@@ -530,6 +530,7 @@
   </data>
   <data name="upload_file_message_3" xml:space="preserve">
     <value>File không hợp lệ</value>
+  </data>
   <data name="loading_content" xml:space="preserve">
     <value>Đang tải...</value>
   </data>
@@ -558,7 +559,7 @@
     <value>Chỉnh sửa thông tin khoa</value>
   </data>
   <data name="student_status_management_title_text" xml:space="preserve">
-    <value>Danh Sách Trạng Thái</value>
+    <value>Danh Sách Trạng Thái Sinh Viên</value>
   </data>
   <data name="student_status_management_search_by_name_id_placeholder" xml:space="preserve">
     <value>Nhập tên trạng thái hoặc mã trạng thái</value>
@@ -567,7 +568,7 @@
     <value>Mã Trạng Thái</value>
   </data>
   <data name="student_status_management_column_name_header" xml:space="preserve">
-    <value>Tên Trạng Thái</value>
+    <value>Tên Trạng Thái Sinh Viên</value>
   </data>
   <data name="student_status_management_edit_status_information_tooltip" xml:space="preserve">
     <value>Chỉnh sửa thông tin trạng thái</value>
@@ -698,27 +699,6 @@
   <data name="registration_management_unenroll_from_class_tooltip" xml:space="preserve">
     <value>Hủy đăng ký lớp</value>
   </data>
-  <data name="student_status_setting_title_text" xml:space="preserve">
-    <value>Cấu Hình Trạng Thái Sinh Viên</value>
-  </data>
-  <data name="student_status_setting_source_placeholder" xml:space="preserve">
-    <value>Chọn trạng thái sinh viên cấu hình</value>
-  </data>
-  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
-    <value>Chọn trạng thái sinh viên chuyển đến</value>
-  </data>
-  <data name="student_status_setting_column_id_header" xml:space="preserve">
-    <value>Mã Trạng Thái</value>
-  </data>
-  <data name="student_status_setting_column_status_header" xml:space="preserve">
-    <value>Trạng thái sinh viên</value>
-  </data>
-  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
-    <value>Bật/Tắt quy định</value>
-  </data>
-  <data name="all_actions_delete_tooltip" xml:space="preserve">
-    <value>Xóa</value>
-  </data>
   <data name="student_status_setting_source_required_error" xml:space="preserve">
     <value>Tên trạng thái cấu hình không được để trống!</value>
   </data>
@@ -730,5 +710,50 @@
   </data>
   <data name="student_status_setting_add_button" xml:space="preserve">
     <value>Thêm</value>
+  </data>
+  <data name="monday" xml:space="preserve">
+    <value>Thứ 2</value>
+  </data>
+  <data name="tuesday" xml:space="preserve">
+    <value>Thứ 3</value>
+  </data>
+  <data name="wednesday" xml:space="preserve">
+    <value>Thứ 4</value>
+  </data>
+  <data name="thursday" xml:space="preserve">
+    <value>Thứ 5</value>
+  </data>
+  <data name="friday" xml:space="preserve">
+    <value>Thứ 6</value>
+  </data>
+  <data name="saturday" xml:space="preserve">
+    <value>Thứ 7</value>
+  </data>
+  <data name="sunday" xml:space="preserve">
+    <value>Chủ nhật</value>
+  </data>
+  <data name="login_title_text" xml:space="preserve">
+    <value>ĐĂNG NHẬP</value>
+  </data>
+  <data name="login_subtitle_text" xml:space="preserve">
+    <value>Quản Lý Sinh Viên</value>
+  </data>
+  <data name="login_username_label" xml:space="preserve">
+    <value>Tên đăng nhập</value>
+  </data>
+  <data name="login_password_label" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="login_username_placeholder_input" xml:space="preserve">
+    <value>Nhập tên đăng nhập</value>
+  </data>
+  <data name="login_password_placeholder_input" xml:space="preserve">
+    <value>Nhập mật khẩu</value>
+  </data>
+  <data name="login_button" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="login_username_password_required_error" xml:space="preserve">
+    <value>Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.</value>
   </data>
 </root>
