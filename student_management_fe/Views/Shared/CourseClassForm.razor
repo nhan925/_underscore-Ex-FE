@@ -4,11 +4,11 @@
         <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
             <RadzenColumn Size="12" SizeMD="6">
                 <RadzenStack>
-                    <RadzenFieldset Text="Thông tin lớp học">
+                    <RadzenFieldset Text=@_localizer["course_class_form_class_info_label"]>
                         <RadzenStack Gap="1.5rem" class="rz-p-4 rz-p-lg-6">
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Mã lớp học" Component="Id" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_id_label"] Component="Id" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox @bind-Value="courseClass.Id" Style="width: 100%;" Name="Id" />
@@ -17,7 +17,7 @@
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Khóa học" Component="CourseId" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_course_label"] Component="CourseId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDropDown TValue="string" @bind-Value="courseClass.CourseId" Placeholder="Chọn khóa học" Data="@courses" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="CourseId"/>
@@ -26,7 +26,7 @@
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giảng viên" Component="LecturerId" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_lecturer_label"] Component="LecturerId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDropDown TValue="string" @bind-Value="courseClass.LecturerId" Placeholder="Chọn giảng viên" Data="@lecturers" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="LecturerId"/>
@@ -35,7 +35,7 @@
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Số lượng SV" Component="MaxStudents" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_student_label"] Component="MaxStudents" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenNumeric TValue="int?" @bind-Value="courseClass.MaxStudents" Style="width: 100%;" Name="MaxStudents" />
@@ -44,7 +44,7 @@
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Phòng học" Component="Room" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_class_room_label"] Component="Room" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox @bind-Value="courseClass.Room" Style="width: 100%;" Name="Room" />
@@ -57,31 +57,31 @@
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="6">
 				<RadzenStack>
-					<RadzenFieldset Text="Lịch học">
+                    <RadzenFieldset Text=@_localizer["course_class_form_time_table_label"]>
 						<RadzenStack Gap="1.5rem" class="rz-p-4 rz-p-lg-6">
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Thứ" Component="DateOfWeek" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_date_label"] Component="DateOfWeek" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.ScheduleParsed.DateOfWeek" Placeholder="Chọn thứ" Data="@DateOfWeek" Style="width: 100%;" Name="DateOfWeek" />
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.ScheduleParsed.DateOfWeek" Placeholder=@_localizer["course_class_form_day_placeholder"] Data="@DateOfWeek" Style="width: 100%;" Name="DateOfWeek" />
                                     <RadzenDataAnnotationValidator Component="DateOfWeek" Popup=@popup Style="position: relative" />
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giờ bắt đầu" Component="StartTime" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_start_label"] Component="StartTime" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <MudTimePicker Label="Giờ bắt đầu" AmPm="true" TimeFormat="h:mm tt"
+                                    <MudTimePicker Label=@_localizer["course_class_form_start_placeholder"] AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.StartTime"
                                                    For="@(() => courseClass.ScheduleParsed.StartTime)" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giờ kết thúc" Component="EndTime" />
+                                    <RadzenLabel Text=@_localizer["course_class_form_end_label"] Component="EndTime" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <MudTimePicker Label="Giờ kết thúc" AmPm="true" TimeFormat="h:mm tt"
+                                    <MudTimePicker Label=@_localizer["course_class_form_end_placeholder"] AmPm="true" TimeFormat="h:mm tt"
                                                    @bind-Time="courseClass.ScheduleParsed.EndTime"
                                                    For="@(() => courseClass.ScheduleParsed.EndTime)" />
                                 </RadzenColumn>
@@ -90,7 +90,7 @@
                         @if (ShowTimeError)
                         {
                             <div class="error">
-                                Thời gian bắt đầu và thời gian kết thúc không hợp lệ
+                                @_localizer["course_class_form_time_error"]
                             </div>
                         }
 					</RadzenFieldset>
@@ -100,7 +100,7 @@
     </div>
     <div class="fixed-bottom-buttons">
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text=@_localizer["all_actions_cancel_button_text"] Click="@Cancel" />
             <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
         </RadzenStack>
     </div>

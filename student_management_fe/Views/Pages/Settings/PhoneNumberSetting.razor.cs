@@ -2,6 +2,9 @@
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Settings
 {
@@ -13,7 +16,7 @@ namespace student_management_fe.Views.Pages.Settings
 
         private readonly ConfigurationsService _configurationsService;
         private readonly CountryPhoneCodeService _countryPhoneCodeService;
-
+        private readonly IStringLocalizer<Content> _localizer;
         private ConfigurationsModel<List<string>> configInformations = new()
         {
             Value = new List<string>()
@@ -22,10 +25,11 @@ namespace student_management_fe.Views.Pages.Settings
         private CountryPhoneCodeModel selectedCountry { get; set; } = null!;
         private List<CountryPhoneCodeModel> mappedCountries = new();
 
-        public PhoneNumberSetting(ConfigurationsService configurationsService, CountryPhoneCodeService countryPhoneCodeService)
+        public PhoneNumberSetting(ConfigurationsService configurationsService, CountryPhoneCodeService countryPhoneCodeService, IStringLocalizer<Content> localizer)
         {
             _configurationsService = configurationsService;
             _countryPhoneCodeService = countryPhoneCodeService;
+            _localizer = localizer;
         }
 
 

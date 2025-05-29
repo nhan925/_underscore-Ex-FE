@@ -6,13 +6,13 @@
         <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
             <RadzenColumn Size="12">
                 <RadzenStack>
-                    <RadzenFieldset Text="Thông tin khóa học">
+                    <RadzenFieldset Text=@_localizer["course_form_course_info_label"]>
                         <RadzenStack Gap="2.5rem" class="rz-p-4 rz-p-lg-6">
 
                             <!-- Mã khóa học -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Mã khóa học" Component="Id" />
+                                    <RadzenLabel Text=@_localizer["course_form_id_label"] Component="Id" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" @bind-Value="Course.Id" Name="Id" Disabled="@IsUpdateMode" />
@@ -23,7 +23,7 @@
                             <!-- Tên khóa học -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Tên khóa học" Component="Name" />
+                                    <RadzenLabel Text=@_localizer["course_form_name_label"] Component="Name" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%" @bind-Value="Course.Name" Name="Name" />
@@ -34,7 +34,7 @@
                             <!-- Số tín chỉ -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Số tín chỉ" Component="Credits" />
+                                    <RadzenLabel Text=@_localizer["course_form_credits_label"] Component="Credits" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenNumeric TValue="int"
@@ -46,7 +46,7 @@
                                     @if (IsUpdateMode && HasEnrolledStudents)
                                     {
                                         <div class="rz-text-small rz-mt-1 rz-text-danger">
-                                            Không thể thay đổi số tín chỉ vì khóa học đã có sinh viên đăng ký
+                                            @_localizer["course_form_credits_error"]
                                         </div>
                                     }
                                 </RadzenColumn>
@@ -55,7 +55,7 @@
                             <!-- Khoa phụ trách -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Khoa phụ trách" Component="FacultyId" />
+                                    <RadzenLabel Text=@_localizer["course_form_faculty_label"] Component="FacultyId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDropDown @bind-Value="Course.FacultyId"
@@ -74,7 +74,7 @@
                             <!-- Môn tiên quyết -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Môn tiên quyết" Component="Prerequisites" />
+                                    <RadzenLabel Text=@_localizer["course_form_prerequisites_label"] Component="Prerequisites" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDropDown AllowFiltering="true"
@@ -93,7 +93,7 @@
                             <!-- Mô tả -->
                             <RadzenRow AlignItems="Radzen.AlignItems.Start">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Mô tả" Component="Description" />
+                                    <RadzenLabel Text=@_localizer["course_form_description_label"] Component="Description" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextArea Style="width: 100%; min-height: 100px;" @bind-Value="Course.Description" Name="Description" />

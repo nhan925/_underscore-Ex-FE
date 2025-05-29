@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Radzen;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System;
@@ -14,7 +16,7 @@ public partial class CourseForm
     [Parameter] public string ButtonText { get; set; } = "Lưu";
     [Inject] private DialogService DialogService { get; set; } = default!;
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     private int SelectedFacultyId { get; set; }
     private IEnumerable<string> SelectedPrerequisiteIds { get; set; } = new List<string>();
     bool popup = false;
@@ -23,6 +25,7 @@ public partial class CourseForm
     private List<CourseModel> CoursePrerequisites { get; set; } = new();
     private List<Faculty> Faculties { get; set; } = new();
     private bool HasEnrolledStudents { get; set; } = false;
+    
 
     public CourseForm(CourseService courseService, FacultyService facultyService)
     {

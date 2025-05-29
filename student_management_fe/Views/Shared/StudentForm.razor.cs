@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Radzen;
 using Radzen.Blazor;
 using ServiceStack;
 using ServiceStack.Text;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +30,7 @@ public partial class StudentForm
     [Parameter] public List<StudyProgram> StudyPrograms { get; set; } = new();
 
     [Parameter] public string ButtonText { get; set; }
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
     private ConfigurationsService _configurationsService;
