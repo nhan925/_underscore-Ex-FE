@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using ServiceStack;
 using student_management_fe.Authentication;
+using student_management_fe.Helpers;
 using student_management_fe.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -22,20 +23,28 @@ public class AuthService
         _js = js;
     }
 
-    public async Task<bool> Login(LoginModel user)
+    public async Task Login(LoginModel user)
     {
         var response = await _httpClient.PostAsJsonAsync("/api/auth/login", user);
 
         if (!response.IsSuccessStatusCode)
-            return false;
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = (errorResponse == null || string.IsNullOrEmpty(errorResponse.Message) ? "Login failed with unknown error"
+                                                                                                     : errorResponse.Message);
+            throw new Exception(errorMessage);
+        }
 
         var tokens = await response.Content.ReadFromJsonAsync<AuthResponse>();
 
         if (tokens is null || string.IsNullOrEmpty(tokens.AccessToken))
-            return false;
-
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = (errorResponse == null || string.IsNullOrEmpty(errorResponse.Message) ? "Login failed with unknown error"
+                                                                                                     : errorResponse.Message);
+            throw new Exception(errorMessage);
+        }
         await _authStateProvider.SetUserAuthenticated(tokens.AccessToken);
-        return true;
     }
 
     public async Task Logout()

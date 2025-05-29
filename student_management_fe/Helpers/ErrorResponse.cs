@@ -1,4 +1,4 @@
-﻿namespace student_management_fe.Models.Helpers;
+﻿namespace student_management_fe.Helpers;
 
 public class ErrorResponse<T>
 {

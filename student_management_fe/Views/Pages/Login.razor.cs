@@ -36,13 +36,14 @@ public partial class Login
             return;
         }
 
-        if (await _authService.Login(loginModel))
+        try
         {
+            await _authService.Login(loginModel);
             Navigation.NavigateTo("/");
         }
-        else
+        catch (Exception ex)
         {
-            errorMessage = "Tên đăng nhập hoặc mật khẩu không đúng.";
+            errorMessage = ex.Message;
         }
     }
 }
