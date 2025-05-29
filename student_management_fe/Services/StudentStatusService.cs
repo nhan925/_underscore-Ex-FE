@@ -1,4 +1,5 @@
-﻿using student_management_fe.Models;
+﻿using student_management_fe.Helpers;
+using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -19,17 +20,24 @@ public class StudentStatusService
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/student-status");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
+        }
+
         return await response.Content.ReadFromJsonAsync<List<StudentStatus>>() ?? new List<StudentStatus>();
     }
 
     public async Task<int> AddStudentStatus(string name)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, $"/api/student-status/{name}");
-
         var response = await _authService.SendRequestWithAuthAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"Thêm không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
@@ -52,7 +60,8 @@ public class StudentStatusService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật trạng thái sinh viên không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         return await response.Content.ReadAsStringAsync();
