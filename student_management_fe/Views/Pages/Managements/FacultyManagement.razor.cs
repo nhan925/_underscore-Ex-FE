@@ -148,22 +148,4 @@ public partial class FacultyManagement
         }
     }
 
-
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadFaculties();
-    //    }
-    //}
-
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadFaculties();
-    //    }
-    //}
 }
