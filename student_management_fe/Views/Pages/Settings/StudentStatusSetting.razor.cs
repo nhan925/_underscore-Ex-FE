@@ -90,8 +90,16 @@ public partial class StudentStatusSetting
 
     private async Task UpdateStudentStatusSetting()
     {
-        var message = await _configurationsService.UpdateStudentStatusConfig(configInformations);
-        Snackbar.Add("Cập nhật thành công!", Severity.Success);
+        try
+        {
+            var message = await _configurationsService.UpdateStudentStatusConfig(configInformations);
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            Snackbar.Add(message, Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
     }
 
     private async Task OnSwitchChange(bool value)

@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using student_management_fe.Models.Helpers;
 
 namespace student_management_fe.Services;
 
@@ -28,7 +29,11 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Thông tin không hợp lệ!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, bool>>();
@@ -47,7 +52,11 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi lấy danh sách trạng thái tiếp theo!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         var result = await response.Content.ReadFromJsonAsync<List<StudentStatus>>();
@@ -62,7 +71,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình email!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<List<string>>>()
@@ -81,10 +94,20 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình email không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 
     // Phone Number Configuration Methods
@@ -95,7 +118,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình số điện thoại!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<List<string>>>()
@@ -114,10 +141,20 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình số điện thoại không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 
     // Student Status Configuration Methods
@@ -128,7 +165,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình trạng thái sinh viên!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<Dictionary<string, List<int>>>>()
@@ -147,9 +188,19 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình trạng thái sinh viên không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 }
