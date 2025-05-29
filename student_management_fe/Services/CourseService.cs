@@ -1,5 +1,6 @@
 ﻿using Radzen.Blazor.Rendering;
 using student_management_fe.Models;
+using student_management_fe.Models.Helpers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -19,10 +20,18 @@ public class CourseService
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/course");
         var response = await _authService.SendRequestWithAuthAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+        }
         return await response.Content.ReadFromJsonAsync<List<CourseModel>>() ?? new List<CourseModel>();
     }
 
-    public async Task<CourseModel> AddCourse(CourseModel course)
+    public async Task<String> AddCourse(CourseModel course)
     {
         var json = JsonSerializer.Serialize(course);
         var request = new HttpRequestMessage(HttpMethod.Post, "/api/course")
@@ -33,18 +42,21 @@ public class CourseService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Thêm khóa học không thành công! {errorContent}");
+
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        // Phân tích response theo cấu trúc API trả về
         var responseObj = await response.Content.ReadFromJsonAsync<ApiResponse<CourseModel>>();
-        if (responseObj != null && responseObj.Data != null)
+        if (responseObj != null && responseObj.Message != null)
         {
-            return responseObj.Data;
+            return responseObj.Message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra khi xử lý phản hồi từ server!");
+        throw new Exception("Đã có lỗi xảy ra!");
+
     }
 
     // Lớp để parse response từ API
@@ -64,57 +76,22 @@ public class CourseService
 
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        // Đọc nội dung phản hồi
-        var content = await response.Content.ReadAsStringAsync();
-
         if (!response.IsSuccessStatusCode)
         {
-            // Xử lý các loại lỗi khác nhau dựa trên status code
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
-                // Cố gắng parse nội dung lỗi để lấy thông báo cụ thể
-                try
-                {
-                    var errorObj = JsonSerializer.Deserialize<ApiErrorResponse>(content);
-                    throw new Exception(errorObj?.Message ?? "Cập nhật khóa học không thành công: Dữ liệu không hợp lệ.");
-                }
-                catch (JsonException)
-                {
-                    throw new Exception($"Cập nhật khóa học không thành công: {content}");
-                }
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                throw new Exception("Không tìm thấy khóa học hoặc không có thay đổi nào được thực hiện.");
-            }
-            else
-            {
-                throw new Exception($"Cập nhật khóa học không thành công! Mã lỗi: {(int)response.StatusCode}");
-            }
+
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        // Parse response để lấy thông báo
-        try
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
         {
-            var responseObj = JsonSerializer.Deserialize<ApiSuccessResponse>(content);
-            return responseObj?.Message ?? "Cập nhật khóa học thành công";
+            return message;
         }
-        catch (JsonException)
-        {
-            return "Cập nhật khóa học thành công";
-        }
-    }
 
-    // Lớp để parse response error
-    public class ApiErrorResponse
-    {
-        public string Message { get; set; }
-    }
-
-    // Lớp để parse response success
-    public class ApiSuccessResponse
-    {
-        public string Message { get; set; }
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 
     public async Task<string> DeleteCourse(string id)
@@ -122,41 +99,26 @@ public class CourseService
         var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/course/{id}");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        // Đọc nội dung phản hồi
-        var content = await response.Content.ReadAsStringAsync();
-
         if (!response.IsSuccessStatusCode)
         {
-            // Cố gắng parse JSON để lấy thông báo lỗi chi tiết
-            try
-            {   
-                var errorDetail = JsonSerializer.Deserialize<JsonElement>(content).GetProperty("details").GetString();
 
-                throw new Exception(errorDetail);
-            }
-            catch (JsonException)
-            {
-                throw new Exception($"Xóa khóa học không thành công: {response.StatusCode}");
-            }
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        // Parse response để lấy thông báo thành công
-        try
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
         {
-            var responseObj = JsonSerializer.Deserialize<ApiResponse>(content);
-            return responseObj?.message ?? "Xóa khóa học thành công";
+            return message;
         }
-        catch (JsonException)
-        {
-            return content; // Trả về nội dung gốc nếu không parse được JSON
-        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
+
     }
 
-    public class ApiResponse
-    {
-        public string message { get; set; }
-    }
-
+  
     public async Task<bool> CheckCourseHasStudents(string courseId)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/api/course/{courseId}/has-students");

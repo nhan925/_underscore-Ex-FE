@@ -6,6 +6,7 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Radzen;
+using ServiceStack.Messaging;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -125,20 +126,13 @@ public partial class CourseManagement
         {
             try
             {
-                var addedCourse = await _courseService.AddCourse(newCourse);
-                if (addedCourse != null)
-                {
-                    Snackbar.Add("Thêm khóa học thành công", Severity.Success);
-                    await LoadCourses();
-                }
-                else
-                {
-                    Snackbar.Add("Thêm khóa học thất bại", Severity.Error);
-                }
+                var message = await _courseService.AddCourse(newCourse);
+                await LoadCourses();
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Lỗi khi thêm khóa học: {ex.Message}", Severity.Error);
+                Snackbar.Add(ex.Message, Severity.Error);
             }
         }
     }
