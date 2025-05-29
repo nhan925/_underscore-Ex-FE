@@ -5,6 +5,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Blazored.LocalStorage;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
@@ -37,21 +39,24 @@ public partial class CourseClassesManagement
     private readonly CourseService _courseService;
     private readonly LecturerService _lecturerService;
     private readonly DataService _dataService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     private bool firstLoad = true;
 
     public CourseClassesManagement(
         CourseClassService courseClassService, 
-        YearAndSemesterService yearAndSemesterService, 
-        CourseService courseService, 
-        LecturerService lecturerService, 
-        DataService dataService)
+        YearAndSemesterService yearAndSemesterService,
+        CourseService courseService,
+        LecturerService lecturerService,
+        DataService dataService,
+        IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
         _yearAndSemesterService = yearAndSemesterService;
         _courseService = courseService;
         _lecturerService = lecturerService;
         _dataService = dataService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()

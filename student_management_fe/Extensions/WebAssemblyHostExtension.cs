@@ -10,7 +10,7 @@ public static class WebAssemblyHostExtension
     {
         if (host != null)
         {
-            const string defaultCulture = "en-US";
+            const string defaultCulture = "vi-VN";
 
             var js = host.Services.GetRequiredService<IJSRuntime>();
             var result = await js.InvokeAsync<string>("blazorCulture.get");

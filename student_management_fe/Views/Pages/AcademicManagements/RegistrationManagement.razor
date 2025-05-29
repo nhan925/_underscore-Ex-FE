@@ -1,7 +1,7 @@
 ﻿@page "/student-registered"
 
 <MudText Typo="Typo.h4" Class="mb-4" Align="Align.Center" Color="Color.Primary" Style="font-weight: bold;">
-    Danh sách sinh viên của lớp học
+	@_localizer["registration_management_title_text"]
 </MudText>
 
 @if (isLoading)
@@ -17,25 +17,25 @@ else
 
                     <MudItem xs="12" sm="6" md="6">
                         <MudPaper Elevation="0" Class="pa-2">
-                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">Thông tin lớp học</MudText>
+                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">@_localizer["registration_management_class_information_subtitle"]</MudText>
 
                             <MudGrid>
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Mã lớp:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_class_id_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.Id</MudText>
                                 </MudItem>
 
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Khóa học:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_course_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.Course.Id - @courseClass.Course.Name</MudText>
                                 </MudItem>
 
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Năm học/Học kỳ:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_year_semester_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@yearAndSemesterText</MudText>
@@ -46,32 +46,32 @@ else
 
                     <MudItem xs="12" sm="6" md="6">
                         <MudPaper Elevation="0" Class="pa-2">
-                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">Chi tiết lớp</MudText>
+                            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Style="font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid var(--mud-palette-primary); padding-bottom: 4px;">@_localizer["registration_management_class_detail_subtitle"]</MudText>
 
                             <MudGrid>
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Giảng viên:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_lecturer_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.Lecturer.Id - @courseClass.Lecturer.FullName</MudText>
                                 </MudItem>
 
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Số lượng SV tối đa:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_max_students_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.MaxStudents</MudText>
                                 </MudItem>
 
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Lịch học:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_schedule_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.Schedule</MudText>
                                 </MudItem>
 
                                 <MudItem xs="4">
-                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">Phòng học:</MudText>
+                                    <MudText Typo="Typo.body2" Style="font-weight: bold;">@_localizer["registration_management_room_label"]:</MudText>
                                 </MudItem>
                                 <MudItem xs="8">
                                     <MudText Typo="Typo.body2">@courseClass.Room</MudText>
@@ -84,7 +84,7 @@ else
 
         <MudItem xs="12" sm="12" Class="d-flex justify-end">
             <MudButton Color="Color.Success" Variant="MudBlazor.Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="AddStudentToClass" Class="me-2">
-                Thêm sinh viên
+                @_localizer["registration_management_add_student_button"]
             </MudButton>
         </MudItem>
     </MudGrid>
@@ -93,19 +93,19 @@ else
 <MudPaper Class="table-container" Elevation="4">
     <MudTable RowClass="cursor-pointer" T="StudentInClass" Items="studentsInClass" Dense="true" Hover="true" Bordered="true" Striped="true">
         <HeaderContent>
-            <MudTh Style="text-align: center; width: 3%">STT</MudTh>
-            <MudTh Style="text-align: center; width: 7%">MSSV</MudTh>
-            <MudTh Style="text-align: center; width: 16%">Họ và tên</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Điểm số</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Trạng thái</MudTh>
-            <MudTh Style="text-align: center; width: 8%">Thao tác</MudTh>
+            <MudTh Style="text-align: center; width: 3%">@_localizer["column_order_header"]</MudTh>
+                <MudTh Style="text-align: center; width: 7%">@_localizer["registration_management_column_student_id_header"]</MudTh>
+                <MudTh Style="text-align: center; width: 16%">@_localizer["registration_management_column_student_fullname_header"]</MudTh>
+                <MudTh Style="text-align: center; width: 8%">@_localizer["registration_management_column_grade_header"]</MudTh>
+                <MudTh Style="text-align: center; width: 8%">@_localizer["registration_management_column_student_status_header"]</MudTh>
+                <MudTh Style="text-align: center; width: 8%">@_localizer["column_actions_header"]</MudTh>
         </HeaderContent>
 
         <RowTemplate>
-            <MudTd Style="text-align: center" DataLabel="STT">@((studentsInClass.IndexOf(context) + 1))</MudTd>
-            <MudTd DataLabel="MSSV" Style="text-align: center">@context.Id</MudTd>
-            <MudTd DataLabel="Họ và tên">@context.FullName</MudTd>
-            <MudTd DataLabel="Điểm số" Style="text-align: center" @ondblclick="() => StartEditingGrade(context)">
+            <MudTd Style="text-align: center" DataLabel=@_localizer["column_order_header"]>@((studentsInClass.IndexOf(context) + 1))</MudTd>
+            <MudTd DataLabel=@_localizer["registration_management_column_student_id_header"] Style="text-align: center">@context.Id</MudTd>
+            <MudTd DataLabel=@_localizer["registration_management_column_student_fullname_header"]>@context.FullName</MudTd>
+            <MudTd DataLabel=@_localizer["registration_management_column_grade_header"] Style="text-align: center" @ondblclick="() => StartEditingGrade(context)">
                 @if (editingStudent?.Id == context.Id)
                 {
                     <div class="d-flex align-center">
@@ -119,19 +119,19 @@ else
                     @(context.Grade.HasValue ? context.Grade.Value.ToString("F1") : null)
                 }
             </MudTd>
-                <MudTd DataLabel="Trạng thái" Style="text-align: center">@context.Status</MudTd>
-            <MudTd Style="text-align: center" DataLabel="Thao tác">
-                <MudTooltip Text="Hủy đăng ký lớp" Color="Color.Error" Arrow="true" Placement="Placement.Top">
+            <MudTd DataLabel=@_localizer["registration_management_column_student_status_header"] Style="text-align: center">@context.Status</MudTd>
+            <MudTd Style="text-align: center" DataLabel=@_localizer["column_actions_header"]>
+                <MudTooltip Text=@_localizer["registration_management_unenroll_from_class_tooltip"] Color="Color.Error" Arrow="true" Placement="Placement.Top">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="()=>DeleteStudentFromClass(context.Id)" />
                 </MudTooltip>
             </MudTd>
         </RowTemplate>
 
         <NoRecordsContent>
-            <MudText>Không tìm thấy dữ liệu...</MudText>
+            <MudText>@_localizer["no_records_content"]</MudText>
         </NoRecordsContent>
         <LoadingContent>
-            <MudText>Đang tải...</MudText>
+            <MudText>@_localizer["loading_content"]</MudText>
         </LoadingContent>
     </MudTable>
 </MudPaper>

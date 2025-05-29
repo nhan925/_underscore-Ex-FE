@@ -28,7 +28,7 @@
 
     private async Task ApplySelectedCultureAsync(CultureInfo culture)
     {
-		if (CultureInfo.CurrentCulture != culture)
+        if (!string.Equals(CultureInfo.CurrentCulture.Name, culture.Name, StringComparison.OrdinalIgnoreCase))
 		{
 			selectedCulture = culture;
 

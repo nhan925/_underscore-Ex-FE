@@ -145,10 +145,7 @@
     <value>Select faculty</value>
   </data>
   <data name="home_search_student_by_name_id_placeholder" xml:space="preserve">
-    <value>Enter name or student ID</value>
-  </data>
-  <data name="home_column_order_header" xml:space="preserve">
-    <value>No.</value>
+    <value>Enter student name or student ID</value>
   </data>
   <data name="home_column_student_id_header" xml:space="preserve">
     <value>Student ID</value>
@@ -180,7 +177,7 @@
   <data name="home_export_to_json_menu_item" xml:space="preserve">
     <value>Export to Json</value>
   </data>
-  <data name="home_column_actions_header" xml:space="preserve">
+  <data name="column_actions_header" xml:space="preserve">
     <value>Actions</value>
   </data>
   <data name="home_pagination_text" xml:space="preserve">
@@ -195,7 +192,7 @@
   <data name="home_delete_student_tooltip" xml:space="preserve">
     <value>Delete student</value>
   </data>
-  <data name="home_no_records_content" xml:space="preserve">
+  <data name="no_records_content" xml:space="preserve">
     <value>No data found...</value>
   </data>
   <data name="all_no_records_content" xml:space="preserve">
@@ -535,5 +532,205 @@
   </data>
   <data name="upload_file_message_3" xml:space="preserve">
     <value> Invalid file</value>
+  <data name="loading_content" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="faculty_management_title_text" xml:space="preserve">
+    <value>List Of Faculty</value>
+  </data>
+  <data name="faculty_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Enter faculty name or faculty ID</value>
+  </data>
+  <data name="search_button" xml:space="preserve">
+    <value>Search </value>
+  </data>
+  <data name="add_new_button" xml:space="preserve">
+    <value>Add new</value>
+  </data>
+  <data name="column_order_header" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="faculty_management_column_id_header" xml:space="preserve">
+    <value>Faculty ID</value>
+  </data>
+  <data name="faculty_management_column_name_header" xml:space="preserve">
+    <value>Faculty Name</value>
+  </data>
+  <data name="faculty_management_edit_faculty_information_tooltip" xml:space="preserve">
+    <value>Edit faculty information</value>
+  </data>
+  <data name="student_status_management_title_text" xml:space="preserve">
+    <value>List Of Status</value>
+  </data>
+  <data name="student_status_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Enter status name or status ID</value>
+  </data>
+  <data name="student_status_management_column_id_header" xml:space="preserve">
+    <value>Status ID</value>
+  </data>
+  <data name="student_status_management_column_name_header" xml:space="preserve">
+    <value>Status Name</value>
+  </data>
+  <data name="student_status_management_edit_status_information_tooltip" xml:space="preserve">
+    <value>Edit status information</value>
+  </data>
+  <data name="study_program_management_title_text" xml:space="preserve">
+    <value>List Of Study Program</value>
+  </data>
+  <data name="study_program_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Enter study program name or study program ID</value>
+  </data>
+  <data name="study_program_management_column_id_header" xml:space="preserve">
+    <value>Study Program ID</value>
+  </data>
+  <data name="study_program_management_column_name_header" xml:space="preserve">
+    <value>Study Program Name</value>
+  </data>
+  <data name="study_program_management_edit_study_program_information_tooltip" xml:space="preserve">
+    <value>Edit study program information</value>
+  </data>
+  <data name="course_management_title_text" xml:space="preserve">
+    <value>List Of Course</value>
+  </data>
+  <data name="course_management_search_placeholder" xml:space="preserve">
+    <value>Enter course name or course ID</value>
+  </data>
+  <data name="course_management_column_id_header" xml:space="preserve">
+    <value>Course ID</value>
+  </data>
+  <data name="course_management_column_name_header" xml:space="preserve">
+    <value>Course Name</value>
+  </data>
+  <data name="course_management_column_credits_header" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="course_management_column_faculty_header" xml:space="preserve">
+    <value>Faculty</value>
+  </data>
+  <data name="course_management_column_status_header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="course_management_active_course_status_chip" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="course_management_locked_course_status_chip" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="course_manaement_edit_course_information_tooltip" xml:space="preserve">
+    <value>Edit course information</value>
+  </data>
+  <data name="course_manaement_delete_course_tooltip" xml:space="preserve">
+    <value>Delete course</value>
+  </data>
+  <data name="course_classes_management_title_text" xml:space="preserve">
+    <value>List Of Class</value>
+  </data>
+  <data name="course_classes_management_select_year_dropdown" xml:space="preserve">
+    <value>Select Year</value>
+  </data>
+  <data name="course_classes_management_select_semester_dropdown" xml:space="preserve">
+    <value>Select Semester </value>
+  </data>
+  <data name="course_classes_management_search_placeholder" xml:space="preserve">
+    <value>Enter class ID or course name</value>
+  </data>
+  <data name="course_classes_management_column_id_header" xml:space="preserve">
+    <value>Class ID</value>
+  </data>
+  <data name="course_classes_management_column_course_header" xml:space="preserve">
+    <value>Course Name</value>
+  </data>
+  <data name="course_classes_management_column_lecturer_header" xml:space="preserve">
+    <value>Lecturer Name</value>
+  </data>
+  <data name="course_classes_management_column_number_of_student_header" xml:space="preserve">
+    <value>Max Students</value>
+  </data>
+  <data name="course_classes_management_column_schedule_header" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="course_classes_management_column_room_header" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="registration_management_title_text" xml:space="preserve">
+    <value>List Of Student</value>
+  </data>
+  <data name="registration_management_class_information_subtitle" xml:space="preserve">
+    <value>Class Information</value>
+  </data>
+  <data name="registration_management_class_detail_subtitle" xml:space="preserve">
+    <value>Class Detail</value>
+  </data>
+  <data name="registration_management_column_student_id_header" xml:space="preserve">
+    <value>Student ID</value>
+  </data>
+  <data name="registration_management_column_student_fullname_header" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="registration_management_column_grade_header" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="registration_management_column_student_status_header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="registration_management_class_id_label" xml:space="preserve">
+    <value>Class ID</value>
+  </data>
+  <data name="registration_management_course_label" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="registration_management_year_semester_label" xml:space="preserve">
+    <value>Year/Semester</value>
+  </data>
+  <data name="registration_management_lecturer_label" xml:space="preserve">
+    <value>Lecturer</value>
+  </data>
+  <data name="registration_management_max_students_label" xml:space="preserve">
+    <value>Max students</value>
+  </data>
+  <data name="registration_management_schedule_label" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="registration_management_room_label" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="registration_management_add_student_button" xml:space="preserve">
+    <value>Add Student</value>
+  </data>
+  <data name="registration_management_unenroll_from_class_tooltip" xml:space="preserve">
+    <value>Unenroll from class</value>
+  </data>
+  <data name="student_status_setting_title_text" xml:space="preserve">
+    <value>Student Status Configuration</value>
+  </data>
+  <data name="student_status_setting_source_placeholder" xml:space="preserve">
+    <value>Select student configuration status</value>
+  </data>
+  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
+    <value>Select transfer student status</value>
+  </data>
+  <data name="student_status_setting_column_id_header" xml:space="preserve">
+    <value>Student Status ID</value>
+  </data>
+  <data name="student_status_setting_column_status_header" xml:space="preserve">
+    <value>Student Status</value>
+  </data>
+  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
+    <value>On/Off Rule</value>
+  </data>
+  <data name="all_actions_delete_tooltip" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="student_status_setting_source_required_error" xml:space="preserve">
+    <value>The status name must not be empty!</value>
+  </data>
+  <data name="student_status_setting_destination_required_error" xml:space="preserve">
+    <value>The transfer status must not be empty!</value>
+  </data>
+  <data name="student_status_setting_no_valid_status_warning" xml:space="preserve">
+    <value>There are no valid statuses left to add!</value>
+  </data>
+  <data name="student_status_setting_add_button" xml:space="preserve">
+    <value>Add</value>
   </data>
 </root>

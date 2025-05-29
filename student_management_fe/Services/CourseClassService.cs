@@ -1,4 +1,6 @@
 ﻿using ServiceStack;
+using ServiceStack.Web;
+using student_management_fe.Helpers;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
@@ -32,24 +34,26 @@ public class CourseClassService
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         };
-        try
+
+        HttpResponseMessage? response = null;
+        response = await _authService.SendRequestWithAuthAsync(request);
+        if (!response.IsSuccessStatusCode)
         {
-            var response = await _authService.SendRequestWithAuthAsync(request);
-            var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-            if (responseObj != null && responseObj.TryGetValue("courseClassId", out var courseClassId))
-            {
-                return courseClassId;
-            }
-            else
-            {
-                throw new Exception("Thêm lớp học không thành công!");
-            }
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Lớp học bạn đang cố thêm có thể đã trùng đồng thời mã lớp và mã môn học hoặc trùng lịch học và phòng học với một lớp khác trong cùng học kỳ.");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = (errorResponse == null || string.IsNullOrEmpty(errorResponse.Message) ? "Add class failed with unknown error"
+                                                                                                     : errorResponse.Message);
+            throw new Exception(errorMessage);
         }
 
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("courseClassId", out var courseClassId))
+        {
+            return courseClassId;
+        }
+        else
+        {
+            throw new Exception("Add class failed");
+        } 
     }
 
     public async Task<List<StudentInClass>> GetStudentsInClass(GetCourseClassResult courseClass)
