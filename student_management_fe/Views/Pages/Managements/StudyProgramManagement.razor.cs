@@ -92,6 +92,37 @@ public partial class StudyProgramManagement : ComponentBase
         }
     }
 
+    private async Task EditStudyProgram(StudyProgram program)
+    {
+        var editProgram = new StudyProgram
+        {
+            Id = program.Id,
+            Name = program.Name
+        };
+
+        var parameters = new Dictionary<string, object>
+        {
+            {"StudyProgram", editProgram },
+            {"ButtonText", "Cập nhật" },
+            {"TitleText", "Tên chương trình học" },
+        };
+
+        var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            try
+            {
+                var message = await _studyProgramService.UpdateProgram(editProgram);
+                await LoadStudyPrograms();
+                Snackbar.Add(message, Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
+
     private async Task AddStudyProgram()
     {
         var program = new StudyProgram();
@@ -119,53 +150,5 @@ public partial class StudyProgramManagement : ComponentBase
 
     }
 
-    private async Task EditStudyProgram(StudyProgram program)
-    {
-        var editProgram = new StudyProgram
-        {
-            Id = program.Id,
-            Name = program.Name
-        };
-
-        var parameters = new Dictionary<string, object>
-        {
-            {"StudyProgram", editProgram },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên chương trình học" },
-        };
-
-        var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
-        if (result is bool isConfirmed && isConfirmed)
-        {
-            try
-            {
-                var message = await _studyProgramService.UpdateProgram(editProgram);
-                await LoadStudyPrograms();
-                Snackbar.Add($"Đã cập nhật chương trình học thành công !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
-    }
-
-
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadStudyPrograms();
-    //    }
-    //}
-
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadStudyPrograms();
-    //    }
-    //}
+    
 }

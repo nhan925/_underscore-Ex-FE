@@ -91,32 +91,6 @@ public partial class FacultyManagement
         }
     }
 
-    private async Task AddFaculty()
-    {
-        var faculty = new Faculty();
-        var parameters = new Dictionary<string, object>
-        {
-            {"Faculty", faculty },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên khoa" },
-        };
-
-        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
-        if (result is bool isConfirmed && isConfirmed)
-        {
-            try
-            {
-                var facultyId = await _facultyService.AddFaculty(faculty.Name);
-                await LoadFaculties();
-                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
-    }
-
     private async Task EditFaculty(Faculty faculty)
     {
         var editFaculty = new Faculty
@@ -139,7 +113,33 @@ public partial class FacultyManagement
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);
                 await LoadFaculties();
-                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
+
+    private async Task AddFaculty()
+    {
+        var faculty = new Faculty();
+        var parameters = new Dictionary<string, object>
+        {
+            {"Faculty", faculty },
+            {"ButtonText", "Lưu" },
+            {"TitleText", "Tên khoa" },
+        };
+
+        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            try
+            {
+                var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
+                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {

@@ -18,7 +18,15 @@ public class FacultyService
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/faculty");
         var response = await _authService.SendRequestWithAuthAsync(request);
-        
+        if (!response.IsSuccessStatusCode)
+        {
+
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+        }
+
         return await response.Content.ReadFromJsonAsync<List<Faculty>>() ?? new List<Faculty>();
     }
 
@@ -31,17 +39,21 @@ public class FacultyService
         };
 
         var response = await _authService.SendRequestWithAuthAsync(request);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadAsStringAsync();
-        }
-        else
+        if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
+           
         }
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 
     public async Task<int> AddFaculty(string name)
@@ -49,22 +61,23 @@ public class FacultyService
         var request = new HttpRequestMessage(HttpMethod.Post, $"/api/faculty/{name}");
 
         var response = await _authService.SendRequestWithAuthAsync(request);
-        if (response.IsSuccessStatusCode)
-        {
-            var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
-            if (responseObj != null && responseObj.TryGetValue("id", out var facultyID))
-            {
-                return facultyID;
-            }
-
-            throw new Exception("Phản hồi không hợp lệ từ server!");
-        }
-        else
+      
+        if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
             var errorMessage = errorResponse?.Message;
+
             throw new Exception(errorMessage);
+
         }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
+        if (responseObj != null && responseObj.TryGetValue("id", out var facultyID))
+        {
+            return facultyID;
+        }
+
+        throw new Exception("Đã có lỗi xảy ra!");
     }
 
 
