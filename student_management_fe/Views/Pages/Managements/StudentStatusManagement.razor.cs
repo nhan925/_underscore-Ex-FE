@@ -101,12 +101,10 @@ public partial class StudentStatusManagement
         var studentStatus = new StudentStatus();
         var parameters =new Dictionary<string, object>
         {
-            {"TitleText", "Tên trạng thái sinh viên"},
-            {"ButtonText", "Lưu"},
             {"StudentStatus", studentStatus}
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Thêm trạng thái sinh viên", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>(_localizer["student_status_management_header_form_add"].Value, parameters);
 
         if (result is bool isConfirmed && isConfirmed)
         {
@@ -114,7 +112,7 @@ public partial class StudentStatusManagement
             {
                 var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
                 await LoadStudentStatuses();
-                Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["student_status_management_add_success_noti"].Value}: {studentStatusId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -134,18 +132,16 @@ public partial class StudentStatusManagement
         var parameters = new Dictionary<string, object>
         {
             {"StudentStatus", editStudentStatus },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên trạng thái sinh viên" },
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>(_localizer["student_status_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _studentStatusService.UpdateStudentStatus(editStudentStatus);
                 await LoadStudentStatuses();
-                Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
+                Snackbar.Add($"{_localizer["student_status_management_update_success_noti"].Value}: {editStudentStatus.Id}", Severity.Success);
             }
             catch (Exception ex)
             {

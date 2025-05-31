@@ -102,18 +102,16 @@ public partial class StudyProgramManagement : ComponentBase
         var parameters = new Dictionary<string, object>
         {
             {"StudyProgram", program },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên chương trình học" },
         };
 
-        var result = await DialogService.OpenAsync<StudyProgramForm>("Thêm chương trình học", parameters);
+        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
                 await LoadStudyPrograms();
-                Snackbar.Add($"Đã thêm chương trình học với id {studyProgramId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["study_program_management_add_success_noti"].Value}: {studyProgramId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -134,18 +132,16 @@ public partial class StudyProgramManagement : ComponentBase
         var parameters = new Dictionary<string, object>
         {
             {"StudyProgram", editProgram },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên chương trình học" },
         };
 
-        var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
+        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _studyProgramService.UpdateProgram(editProgram);
                 await LoadStudyPrograms();
-                Snackbar.Add($"Đã cập nhật chương trình học thành công !", Severity.Success);
+                Snackbar.Add($"{_localizer["study_program_management_update_success_noti"].Value}: {editProgram.Id} !", Severity.Success);
             }
             catch (Exception ex)
             {

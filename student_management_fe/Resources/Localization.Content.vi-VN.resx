@@ -759,14 +759,8 @@
   <data name="course_classes_management_header_form_add_class" xml:space="preserve">
     <value>Thêm Lớp Học</value>
   </data>
-  <data name="all_actions_add_button_text" xml:space="preserve">
-    <value>Thêm</value>
-  </data>
   <data name="course_classes_management_add_class_success_noti" xml:space="preserve">
     <value>Đã thêm lớp với mã</value>
-  </data>
-  <data name="all_actions_update_button_text" xml:space="preserve">
-    <value>Cập nhật</value>
   </data>
   <data name="all_actions_delete_button_text" xml:space="preserve">
     <value>Xóa</value>
@@ -778,13 +772,13 @@
     <value>Đã thêm sinh viên với MSSV</value>
   </data>
   <data name="home_export_transcript_of_student_success_noti" xml:space="preserve">
-    <value>Đã xuất bảng điểm sinh viên với MSSV</value>
+    <value>Đã xuất bảng điểm sinh viên có MSSV</value>
   </data>
   <data name="home_header_form_update_student" xml:space="preserve">
     <value>Cập Nhật Sinh Viên</value>
   </data>
   <data name="home_update_student_success_noti" xml:space="preserve">
-    <value>Đã cập nhật sinh viên với MSSV</value>
+    <value>Đã cập nhật thông tin sinh viên có MSSV</value>
   </data>
   <data name="home_delete_student_confirmation_content" xml:space="preserve">
     <value>Sau khi xóa không thể khôi phục. Xác nhận xóa sinh viên với MSSV</value>
@@ -793,7 +787,7 @@
     <value>Bạn có chắc chắn muốn xóa?</value>
   </data>
   <data name="home_delete_student_success_noti" xml:space="preserve">
-    <value>Đã xóa sinh viên với MSSV</value>
+    <value>Đã xóa sinh viên có MSSV</value>
   </data>
   <data name="upload_file_add_student_header" xml:space="preserve">
     <value>Thêm sinh viên từ</value>
@@ -803,5 +797,50 @@
   </data>
   <data name="export_file_success_noti" xml:space="preserve">
     <value>Xuất file thành công.</value>
+  </data>
+  <data name="faculty_management_header_form_add" xml:space="preserve">
+    <value>Thêm Khoa</value>
+  </data>
+  <data name="faculty_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Khoa</value>
+  </data>
+  <data name="faculty_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm khoa với mã khoa</value>
+  </data>
+  <data name="faculty_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin khoa có mã khoa</value>
+  </data>
+  <data name="faculty_form_name_label" xml:space="preserve">
+    <value>Tên Khoa</value>
+  </data>
+  <data name="student_status_management_header_form_add" xml:space="preserve">
+    <value>Thêm Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm trạng thái sinh viên với mã</value>
+  </data>
+  <data name="student_status_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin trạng thái sinh viên có mã</value>
+  </data>
+  <data name="student_status_form_name_label" xml:space="preserve">
+    <value>Tên Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="study_program_management_header_form_add" xml:space="preserve">
+    <value>Thêm Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm chương trình học với mã</value>
+  </data>
+  <data name="study_program_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin chương trình học có mã</value>
+  </data>
+  <data name="study_program_form_name_label" xml:space="preserve">
+    <value>Tên Chương Trình Học</value>
   </data>
 </root>

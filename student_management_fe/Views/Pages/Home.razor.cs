@@ -183,7 +183,7 @@ public partial class Home
 
         var parameters = new Dictionary<string, object>
         {
-            { "ButtonText", _localizer["all_actions_add_button_text"].Value },
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value },
             { "Student", newStudent },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatuses },
@@ -232,7 +232,7 @@ public partial class Home
 
         var parameters = new Dictionary<string, object>
         {
-            { "ButtonText", _localizer["all_actions_update_button_text"].Value },
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value },
             { "Student", student },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatusesValid },

@@ -100,19 +100,17 @@ public partial class FacultyManagement
         var faculty = new Faculty();
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", faculty },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên khoa" },
+            {"Faculty", faculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
                 await LoadFaculties();
-                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["faculty_management_add_success_noti"].Value}: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -131,19 +129,17 @@ public partial class FacultyManagement
 
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên khoa" },
+            {"Faculty", editFaculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);
                 await LoadFaculties();
-                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
+                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {editFaculty.Id} !", Severity.Success);
             }
             catch (Exception ex)
             {

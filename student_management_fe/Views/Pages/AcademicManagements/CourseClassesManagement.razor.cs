@@ -98,7 +98,7 @@ public partial class CourseClassesManagement
             { "courseClass", courseClass },
             { "courses", activeCourses },
             { "lecturers", lecturers },
-            { "ButtonText", _localizer["all_actions_add_button_text"].Value }
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value }
         };
 
         var result = await DialogService.OpenAsync<CourseClassForm>(_localizer["course_classes_management_header_form_add_class"], parameters, options);

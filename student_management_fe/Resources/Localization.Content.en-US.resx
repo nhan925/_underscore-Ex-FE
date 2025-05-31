@@ -761,14 +761,8 @@
   <data name="course_classes_management_header_form_add_class" xml:space="preserve">
     <value>Add Class</value>
   </data>
-  <data name="all_actions_add_button_text" xml:space="preserve">
-    <value>Add</value>
-  </data>
   <data name="course_classes_management_add_class_success_noti" xml:space="preserve">
     <value>Successfully added class with ID</value>
-  </data>
-  <data name="all_actions_update_button_text" xml:space="preserve">
-    <value>Update</value>
   </data>
   <data name="all_actions_delete_button_text" xml:space="preserve">
     <value>Delete</value>
@@ -786,7 +780,7 @@
     <value>Update Student</value>
   </data>
   <data name="home_update_student_success_noti" xml:space="preserve">
-    <value>Successfully updated student with student ID</value>
+    <value>Successfully updated information of student with student ID</value>
   </data>
   <data name="home_delete_student_confirmation_content" xml:space="preserve">
     <value>After deletion, it cannot be restored. Confirm deletion of student with ID</value>
@@ -805,5 +799,50 @@
   </data>
   <data name="export_file_success_noti" xml:space="preserve">
     <value>Successfully exported file.</value>
+  </data>
+  <data name="faculty_management_header_form_add" xml:space="preserve">
+    <value>Add Faculty</value>
+  </data>
+  <data name="faculty_management_header_form_update" xml:space="preserve">
+    <value>Update Faculty</value>
+  </data>
+  <data name="faculty_management_add_success_noti" xml:space="preserve">
+    <value>Successfully added faculty with ID</value>
+  </data>
+  <data name="faculty_management_update_success_noti" xml:space="preserve">
+    <value>Successfully updated information of faculty with ID</value>
+  </data>
+  <data name="faculty_form_name_label" xml:space="preserve">
+    <value>Faculty Name</value>
+  </data>
+  <data name="student_status_management_header_form_add" xml:space="preserve">
+    <value>Add Student Status</value>
+  </data>
+  <data name="student_status_management_header_form_update" xml:space="preserve">
+    <value>Update Student Status</value>
+  </data>
+  <data name="student_status_management_add_success_noti" xml:space="preserve">
+    <value>Successfully added student status with ID</value>
+  </data>
+  <data name="student_status_management_update_success_noti" xml:space="preserve">
+    <value>Successfully updated information of student status with ID</value>
+  </data>
+  <data name="student_status_form_name_label" xml:space="preserve">
+    <value>Student Status Name</value>
+  </data>
+  <data name="study_program_management_header_form_add" xml:space="preserve">
+    <value>Add Study Program</value>
+  </data>
+  <data name="study_program_management_header_form_update" xml:space="preserve">
+    <value>Update Study Program</value>
+  </data>
+  <data name="study_program_management_add_success_noti" xml:space="preserve">
+    <value>Successfully added study program with ID</value>
+  </data>
+  <data name="study_program_management_update_success_noti" xml:space="preserve">
+    <value>Successfully updated information of study program with ID</value>
+  </data>
+  <data name="study_program_form_name_label" xml:space="preserve">
+    <value>Study Program Name</value>
   </data>
 </root>
