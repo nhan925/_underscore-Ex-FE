@@ -114,7 +114,7 @@
                             <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" 
                                                    @bind-Value="Student.PhoneNumber" 
-                                                   Name=@_localizer["student_form_phone_number_label"]
+                                                   Name="PhoneNumber"
                                                    Change="@(async args => await HandlePhoneNumberChange(args))" />
                                     <RadzenRequiredValidator Component="PhoneNumber" Popup=@popup Style="position: relative" Text="Số điện thoại không được để trống" />
                                     @if (!string.IsNullOrEmpty(errorPhoneNumberMessage))

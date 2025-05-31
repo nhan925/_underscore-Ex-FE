@@ -178,9 +178,5 @@ public partial class CourseClassesManagement
             await LocalStorage.SetItemAsync("cachedCourseClassSelected", myObject);
             NavigationManager.NavigateTo("/student-registered");
         }
-        else
-        {
-            Snackbar.Add("Selected course class is null.", Severity.Warning); 
-        }
     }
 }
