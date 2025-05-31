@@ -756,4 +756,52 @@
   <data name="login_username_password_required_error" xml:space="preserve">
     <value>Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.</value>
   </data>
+  <data name="course_classes_management_header_form_add_class" xml:space="preserve">
+    <value>Thêm Lớp Học</value>
+  </data>
+  <data name="all_actions_add_button_text" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="course_classes_management_add_class_success_noti" xml:space="preserve">
+    <value>Đã thêm lớp với mã</value>
+  </data>
+  <data name="all_actions_update_button_text" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="all_actions_delete_button_text" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="home_header_form_add_student" xml:space="preserve">
+    <value>Thêm Sinh Viên</value>
+  </data>
+  <data name="home_add_student_success_noti" xml:space="preserve">
+    <value>Đã thêm sinh viên với MSSV</value>
+  </data>
+  <data name="home_export_transcript_of_student_success_noti" xml:space="preserve">
+    <value>Đã xuất bảng điểm sinh viên với MSSV</value>
+  </data>
+  <data name="home_header_form_update_student" xml:space="preserve">
+    <value>Cập Nhật Sinh Viên</value>
+  </data>
+  <data name="home_update_student_success_noti" xml:space="preserve">
+    <value>Đã cập nhật sinh viên với MSSV</value>
+  </data>
+  <data name="home_delete_student_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa không thể khôi phục. Xác nhận xóa sinh viên với MSSV</value>
+  </data>
+  <data name="delete_confirmation_dialog_header" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa?</value>
+  </data>
+  <data name="home_delete_student_success_noti" xml:space="preserve">
+    <value>Đã xóa sinh viên với MSSV</value>
+  </data>
+  <data name="upload_file_add_student_header" xml:space="preserve">
+    <value>Thêm sinh viên từ</value>
+  </data>
+  <data name="home_add_students_success_from_file_noti" xml:space="preserve">
+    <value>Thêm sinh viên thành công</value>
+  </data>
+  <data name="export_file_success_noti" xml:space="preserve">
+    <value>Xuất file thành công.</value>
+  </data>
 </root>

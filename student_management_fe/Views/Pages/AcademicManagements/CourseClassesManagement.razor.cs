@@ -98,16 +98,16 @@ public partial class CourseClassesManagement
             { "courseClass", courseClass },
             { "courses", activeCourses },
             { "lecturers", lecturers },
-            { "ButtonText", "Thêm lớp học" }
+            { "ButtonText", _localizer["all_actions_add_button_text"].Value }
         };
 
-        var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
+        var result = await DialogService.OpenAsync<CourseClassForm>(_localizer["course_classes_management_header_form_add_class"], parameters, options);
         if (result is not null)
         {
             try
             {
                 await OnSelectedSemesterChanged(selectedSemester);
-                Snackbar.Add($"Đã thêm lớp học với mã {result}!", Severity.Success);
+                Snackbar.Add($"{_localizer["course_classes_management_add_class_success_noti"]} {result}!", Severity.Success);
             }
             catch (Exception ex)
             {

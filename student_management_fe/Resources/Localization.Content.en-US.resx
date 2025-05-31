@@ -758,4 +758,52 @@
   <data name="login_username_password_required_error" xml:space="preserve">
     <value>Please enter both username and password.</value>
   </data>
+  <data name="course_classes_management_header_form_add_class" xml:space="preserve">
+    <value>Add Class</value>
+  </data>
+  <data name="all_actions_add_button_text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="course_classes_management_add_class_success_noti" xml:space="preserve">
+    <value>Successfully added class with ID</value>
+  </data>
+  <data name="all_actions_update_button_text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="all_actions_delete_button_text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="home_header_form_add_student" xml:space="preserve">
+    <value>Add Student</value>
+  </data>
+  <data name="home_add_student_success_noti" xml:space="preserve">
+    <value>Successfully added student with student ID</value>
+  </data>
+  <data name="home_export_transcript_of_student_success_noti" xml:space="preserve">
+    <value>Exported transcript for student with ID</value>
+  </data>
+  <data name="home_header_form_update_student" xml:space="preserve">
+    <value>Update Student</value>
+  </data>
+  <data name="home_update_student_success_noti" xml:space="preserve">
+    <value>Successfully updated student with student ID</value>
+  </data>
+  <data name="home_delete_student_confirmation_content" xml:space="preserve">
+    <value>After deletion, it cannot be restored. Confirm deletion of student with ID</value>
+  </data>
+  <data name="delete_confirmation_dialog_header" xml:space="preserve">
+    <value> Are you sure you want to delete?</value>
+  </data>
+  <data name="home_delete_student_success_noti" xml:space="preserve">
+    <value>Successfully deleted student with student ID</value>
+  </data>
+  <data name="upload_file_add_student_header" xml:space="preserve">
+    <value>Add students from</value>
+  </data>
+  <data name="home_add_students_success_from_file_noti" xml:space="preserve">
+    <value>Added student successfully</value>
+  </data>
+  <data name="export_file_success_noti" xml:space="preserve">
+    <value>Successfully exported file.</value>
+  </data>
 </root>
