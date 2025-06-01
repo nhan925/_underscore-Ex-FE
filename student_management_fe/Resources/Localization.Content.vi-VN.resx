@@ -843,4 +843,43 @@
   <data name="study_program_form_name_label" xml:space="preserve">
     <value>Tên Chương Trình Học</value>
   </data>
+  <data name="navigation_home_label" xml:space="preserve">
+    <value>Trang Chủ</value>
+  </data>
+  <data name="navigation_management_label" xml:space="preserve">
+    <value>Quản Lý</value>
+  </data>
+  <data name="navigation_management_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="navigation_management_status_label" xml:space="preserve">
+    <value>Tình trạng</value>
+  </data>
+  <data name="navigation_management_program_label" xml:space="preserve">
+    <value>Chương Trình</value>
+  </data>
+  <data name="navigation_academic_label" xml:space="preserve">
+    <value>Quản Lý Học Tập</value>
+  </data>
+  <data name="navigation_academic_course_label" xml:space="preserve">
+    <value>Khóa Học</value>
+  </data>
+  <data name="navigation_academic_class_label" xml:space="preserve">
+    <value>Lớp Học</value>
+  </data>
+  <data name="navigation_settings_label" xml:space="preserve">
+    <value>Cài Đặt</value>
+  </data>
+  <data name="navigation_settings_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="navigation_settings_phone_number_label" xml:space="preserve">
+    <value>Số Điện Thoại</value>
+  </data>
+  <data name="navigation_settings_academic_status_label" xml:space="preserve">
+    <value>Tình Trạng Học</value>
+  </data>
+  <data name="navigation_logout_label" xml:space="preserve">
+    <value>Đăng Xuất</value>
+  </data>
 </root>

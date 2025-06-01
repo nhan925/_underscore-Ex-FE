@@ -845,4 +845,43 @@
   <data name="study_program_form_name_label" xml:space="preserve">
     <value>Study Program Name</value>
   </data>
+  <data name="navigation_home_label" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="navigation_management_label" xml:space="preserve">
+    <value>Management</value>
+  </data>
+  <data name="navigation_management_faculty_label" xml:space="preserve">
+    <value>Faculty</value>
+  </data>
+  <data name="navigation_management_status_label" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="navigation_management_program_label" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="navigation_academic_label" xml:space="preserve">
+    <value> Academics</value>
+  </data>
+  <data name="navigation_academic_course_label" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="navigation_academic_class_label" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="navigation_settings_label" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="navigation_settings_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="navigation_settings_phone_number_label" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="navigation_settings_academic_status_label" xml:space="preserve">
+    <value>Academic Status</value>
+  </data>
+  <data name="navigation_logout_label" xml:space="preserve">
+    <value>Logout</value>
+  </data>
 </root>
