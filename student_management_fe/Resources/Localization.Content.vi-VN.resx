@@ -900,4 +900,10 @@
   <data name="app_title" xml:space="preserve">
     <value>Quản Lý Sinh Viên</value>
   </data>
+  <data name="course_class_form_lecturer_placeholder" xml:space="preserve">
+    <value>Chọn giảng viên</value>
+  </data>
+  <data name="course_class_form_course_placeholder" xml:space="preserve">
+    <value>Chọn khóa học</value>
+  </data>
 </root>

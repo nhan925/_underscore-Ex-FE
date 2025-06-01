@@ -20,7 +20,7 @@
                                     <RadzenLabel Text=@_localizer["course_class_form_course_label"] Component="CourseId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.CourseId" Placeholder="Chọn khóa học" Data="@courses" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="CourseId"/>
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.CourseId" Placeholder=@_localizer["course_class_form_course_placeholder"] Data="@courses" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="CourseId"/>
                                     <RadzenDataAnnotationValidator Component="CourseId" Popup=@popup Style="position: relative" />
                                 </RadzenColumn>
                             </RadzenRow>
@@ -29,7 +29,7 @@
                                     <RadzenLabel Text=@_localizer["course_class_form_lecturer_label"] Component="LecturerId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
-                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.LecturerId" Placeholder="Chọn giảng viên" Data="@lecturers" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="LecturerId"/>
+                                    <RadzenDropDown TValue="string" @bind-Value="courseClass.LecturerId" Placeholder=@_localizer["course_class_form_lecturer_placeholder"] Data="@lecturers" Style="width: 100%;" TextProperty="IdWithName" ValueProperty="Id" Name="LecturerId" />
                                     <RadzenDataAnnotationValidator Component="LecturerId" Popup=@popup Style="position: relative" />
                                 </RadzenColumn>
                             </RadzenRow>

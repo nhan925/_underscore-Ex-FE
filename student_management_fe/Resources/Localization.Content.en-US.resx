@@ -902,4 +902,10 @@
   <data name="app_title" xml:space="preserve">
     <value>Student Management</value>
   </data>
+  <data name="course_class_form_lecturer_placeholder" xml:space="preserve">
+    <value>Select lecturer</value>
+  </data>
+  <data name="course_class_form_course_placeholder" xml:space="preserve">
+    <value>Select course</value>
+  </data>
 </root>
