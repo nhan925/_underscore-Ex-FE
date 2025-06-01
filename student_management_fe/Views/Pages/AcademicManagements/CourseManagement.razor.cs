@@ -75,7 +75,7 @@ public partial class CourseManagement
     private string GetFacultyName(int? id)
     {
         var faculty = faculties.FirstOrDefault(x => x.Id == id);
-        return faculty?.Name ?? "Không xác định";
+        return faculty?.Name ?? _localizer["course_management_undefined_noti"];
     }
 
     private void SearchCourse()
@@ -119,11 +119,11 @@ public partial class CourseManagement
         {
             ["IsUpdateMode"] = false,
             ["Course"] = newCourse,
-            ["ButtonText"] = "Thêm"
+            ["ButtonText"] = _localizer["all_actions_save_button_text"].Value
         };
 
         var result = await DialogService.OpenAsync<CourseForm>(
-            "Thêm khóa học",
+            _localizer["course_management_header_form_add"].Value,
             parameters,
             options
         );
@@ -135,17 +135,17 @@ public partial class CourseManagement
                 var addedCourse = await _courseService.AddCourse(newCourse);
                 if (addedCourse != null)
                 {
-                    Snackbar.Add("Thêm khóa học thành công", Severity.Success);
+                    Snackbar.Add(_localizer["course_management_add_course_success_noti"], Severity.Success);
                     await LoadCourses();
                 }
                 else
                 {
-                    Snackbar.Add("Thêm khóa học thất bại", Severity.Error);
+                    Snackbar.Add(_localizer["course_management_add_course_fail_noti"], Severity.Error);
                 }
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Lỗi khi thêm khóa học: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{_localizer["course_management_error_add_course"]}: {ex.Message}", Severity.Error);
             }
         }
     }
@@ -168,11 +168,11 @@ public partial class CourseManagement
         {
             ["IsUpdateMode"] = true,
             ["Course"] = editCourse,
-            ["ButtonText"] = "Cập nhật"
+            ["ButtonText"] = _localizer["all_actions_save_button_text"].Value
         };
 
         var result = await DialogService.OpenAsync<CourseForm>(
-            "Cập nhật khóa học",
+            _localizer["course_management_header_form_update"].Value,
             parameters,
             options
         );
@@ -196,12 +196,12 @@ public partial class CourseManagement
     {
         var parameters = new Dictionary<string, object>
         {
-            { "ContentText", $"Bạn có chắc chắn muốn xóa khóa học '{course.Name}' không? Sau khi xóa không thể khôi phục!" },
-            { "ButtonText", "Xóa" }
+            { "ContentText", $"{_localizer["course_management_delete_course_confirmation_content"].Value} {course.Name}" },
+            { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
         };
 
         var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
-            "Xác nhận xóa", parameters
+            _localizer["delete_confirmation_dialog_header"], parameters
         );
 
         if (result is bool isConfirmed && isConfirmed)
