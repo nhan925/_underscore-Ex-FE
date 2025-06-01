@@ -71,13 +71,13 @@ namespace student_management_fe.Views.Pages.Settings
 
             if (selectedCountry == null)
             {
-                Snackbar.Add("Vui lòng chọn quốc gia", Severity.Error);
+                Snackbar.Add(_localizer["phone_number_country_error_1"].Value, Severity.Error);
                 return;
             }
 
             if (configInformations.Value.Contains(selectedCountry.Code))
             {
-                Snackbar.Add("Quốc gia này đã được thêm vào danh sách", Severity.Warning);
+                Snackbar.Add(_localizer["phone_number_country_error_2"].Value, Severity.Warning);
                 selectedCountry = null!;
                 return;
             }

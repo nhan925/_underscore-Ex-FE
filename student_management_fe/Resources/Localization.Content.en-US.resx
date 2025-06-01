@@ -884,4 +884,22 @@
   <data name="navigation_logout_label" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="email_setting_domain_error_2" xml:space="preserve">
+    <value>Invalid format! Domain must not contain the '@' character and must include a dot ('.')</value>
+  </data>
+  <data name="email_setting_domain_error_1" xml:space="preserve">
+    <value>Domain cannot be empty</value>
+  </data>
+  <data name="email_setting_domain_error_3" xml:space="preserve">
+    <value>This domain has already been added to the list</value>
+  </data>
+  <data name="phone_number_country_error_1" xml:space="preserve">
+    <value>Please select a country</value>
+  </data>
+  <data name="phone_number_country_error_2" xml:space="preserve">
+    <value>This country has already been added to the list</value>
+  </data>
+  <data name="app_title" xml:space="preserve">
+    <value>Student Management</value>
+  </data>
 </root>
