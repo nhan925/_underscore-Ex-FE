@@ -1,6 +1,6 @@
-﻿using ServiceStack;
-using ServiceStack.Web;
+﻿using Microsoft.Extensions.Localization;
 using student_management_fe.Helpers;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
@@ -11,9 +11,11 @@ namespace student_management_fe.Services;
 public class CourseClassService
 {
     private readonly AuthService _authService;
-    public CourseClassService(AuthService authService)
+    private readonly IStringLocalizer<Content> _localizer;
+    public CourseClassService(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<List<GetCourseClassResult>> GetAllCourseClassesBySemester(int semesterId)
@@ -22,7 +24,8 @@ public class CourseClassService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi lấy danh sách lớp học!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
         return await response.Content.ReadFromJsonAsync<List<GetCourseClassResult>>() ?? new();
     }
@@ -39,7 +42,7 @@ public class CourseClassService
         response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             throw new Exception(errorResponse?.Message);
         }
 
@@ -50,7 +53,7 @@ public class CourseClassService
         }
         else
         {
-            throw new Exception("Add class failed");
+            throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
         } 
     }
 
@@ -62,7 +65,8 @@ public class CourseClassService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"error fetching students: {response.StatusCode}");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         var result = await response.Content.ReadFromJsonAsync<List<StudentInClass>>();

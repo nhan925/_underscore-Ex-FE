@@ -67,8 +67,8 @@ public partial class EmailSetting
     private async Task DeleteEmailSetting(string domain)
     {
         configInformations.Value.Remove(domain);
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
         await UpdateEmailSetting();
+
     }
 
     private async Task LoadEmailSetting()
@@ -79,10 +79,16 @@ public partial class EmailSetting
 
     private async Task UpdateEmailSetting()
     {
-
-        var message = await _configurationsService.UpdateEmailConfig(configInformations);
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-        Snackbar.Add("Cập nhật thành công!", Severity.Success);
+        try
+        {
+            var message = await _configurationsService.UpdateEmailConfig(configInformations);
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            Snackbar.Add(message, Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
     }
 
     private async Task OnSwitchChange(bool value)

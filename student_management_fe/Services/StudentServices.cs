@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using MudBlazor;
-using ServiceStack;
+using student_management_fe.Helpers;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -13,11 +15,13 @@ public class StudentServices
 {
     private readonly AuthService _authService;
     private readonly IJSRuntime _jsRuntime;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentServices(AuthService authService, IJSRuntime jsRuntime)
+    public StudentServices(AuthService authService, IJSRuntime jsRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jsRuntime;
+        _localizer = localizer;
     }
 
     public async Task<PagedResult<StudentHomePageModel>> GetAllStudents(int page, int pageSize, string? search = null, StudentFilter? filter = null)
@@ -44,7 +48,8 @@ public class StudentServices
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"error fetching students: {response.StatusCode}");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         // Deserialize response content into the object
@@ -52,20 +57,24 @@ public class StudentServices
         return result ?? new PagedResult<StudentHomePageModel>();
     }
 
-    public async Task DeleteStudent(string id)
+    public async Task<string> DeleteStudent(string id)
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/student/{id}");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-        {
-            throw new Exception($"Không tìm thấy sinh viên !");
-        }
-
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"Đã có lỗi xảy ra !");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<string> AddStudent(StudentModel student)
@@ -86,7 +95,8 @@ public class StudentServices
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Thêm không thành công !");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         // Deserialize the response
@@ -97,23 +107,25 @@ public class StudentServices
             return studentId;
         }
 
-        throw new Exception("Đã có lỗi xảy ra !");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<StudentModel> GetStudentById(string id)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/api/student/{id}");
         var response = await _authService.SendRequestWithAuthAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không tìm thấy sinh viên !");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         var student = await response.Content.ReadFromJsonAsync<StudentModel>();
         return student ?? new StudentModel();
     }
 
-    public async Task UpdateStudent(StudentModel student)
+    public async Task<string> UpdateStudent(StudentModel student)
     {
         var json = JsonSerializer.Serialize(student);
         var dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
@@ -128,10 +140,20 @@ public class StudentServices
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật không thành công !");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
+    // For add students from file
     public async Task<string> UploadFiles(IBrowserFile file, string format)
     {
         using var content = new MultipartFormDataContent();
@@ -149,12 +171,17 @@ public class StudentServices
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            var errorDetail = JsonSerializer.Deserialize<JsonElement>(errorMessage).GetProperty("details").GetString();
-            throw new Exception($"Tải lên thất bại: {errorDetail}");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task DownloadFile(string format)
@@ -164,7 +191,8 @@ public class StudentServices
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi tải file");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         using var fileStream = await response.Content.ReadAsStreamAsync(); 

@@ -1,18 +1,15 @@
 ﻿namespace student_management_fe.Helpers;
 
-public class ErrorResponse<T>
+public class ErrorResponse
 {
     public int Status { get; set; }
 
     public string Message { get; set; }
 
-    public T? Details { get; set; }
-
-    public ErrorResponse(int status, string message, T? details = default)
+    public ErrorResponse(int status, string message)
     {
         Status = status;
         Message = message;
-        Details = details;
     }
 }
 

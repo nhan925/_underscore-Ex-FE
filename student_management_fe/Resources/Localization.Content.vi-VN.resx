@@ -906,4 +906,58 @@
   <data name="course_class_form_course_placeholder" xml:space="preserve">
     <value>Chọn khóa học</value>
   </data>
+  <data name="course_management_undefined_noti" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="course_management_header_form_add" xml:space="preserve">
+    <value>Thêm Khóa Học</value>
+  </data>
+  <data name="course_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Khóa Học</value>
+  </data>
+  <data name="course_management_add_course_success_noti" xml:space="preserve">
+    <value>Thêm khóa học thành công</value>
+  </data>
+  <data name="course_management_add_course_fail_noti" xml:space="preserve">
+    <value>Thêm khóa học thất bại. Vui lòng thử lại.</value>
+  </data>
+  <data name="course_management_error_add_course" xml:space="preserve">
+    <value>Lỗi khi thêm khóa học</value>
+  </data>
+  <data name="course_management_delete_course_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa không thể khôi phục. Xác nhận xóa khóa học với tên</value>
+  </data>
+  <data name="registration_management_classes_info_not_found" xml:space="preserve">
+    <value>Không tìm thấy thông tin lớp học</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="registration_management_enroll_student" xml:space="preserve">
+    <value>Đăng Ký Lớp Học Cho Sinh Viên</value>
+  </data>
+  <data name="registration_management_register_button" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="registration_management_delete_student_confirmation_content" xml:space="preserve">
+    <value>Sau khi hủy đăng ký không thể khôi phục. Xác nhận hủy đăng ký lớp của sinh viên với MSSV</value>
+  </data>
+  <data name="registration_management_unenroll_button" xml:space="preserve">
+    <value>Hủy đăng ký</value>
+  </data>
+  <data name="registration_management_cannot_update_grade_before_semester" xml:space="preserve">
+    <value>Không thể cập nhật điểm số khi lớp học chưa bắt đầu</value>
+  </data>
+  <data name="registration_management_update_grade_success_noti" xml:space="preserve">
+    <value>Đã cập nhật điểm của sinh viên có MSSV</value>
+  </data>
+  <data name="registration_management_error_update_grade" xml:space="preserve">
+    <value>Lỗi khi cập nhật điểm</value>
+  </data>
+  <data name="registration_management_delete_confirmation_dialog_header" xml:space="preserve">
+    <value>Bạn có chắc muốn hủy đăng ký sinh viên này?</value>
+  </data>
+  <data name="an_unexpected_error_occurred_Please_try_again_later" xml:space="preserve">
+    <value>Đã có lỗi xảy ra. Vui lòng thử lại sau!</value>
+  </data>
 </root>

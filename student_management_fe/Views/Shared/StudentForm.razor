@@ -72,8 +72,7 @@
                                     <RadzenLabel Text=@_localizer["student_form_intake_year_label"] Component="IntakeYear" />
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
-                                <RadzenNumeric TValue="int?" Style="width: 100%;" @bind-Value="Student.IntakeYear"
-                                Name="IntakeYear" />
+                                <RadzenNumeric TValue="int?" Style="width: 100%;" @bind-Value="Student.IntakeYear" Name="IntakeYear" />
                                 <RadzenDataAnnotationValidator Component="IntakeYear" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -84,7 +83,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.ProgramId"
-                                Data="@StudyPrograms" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
+                                                Data="@StudyPrograms" TextProperty="Name" ValueProperty="Id" Name="ProgramId"/>
                                 <RadzenDataAnnotationValidator Component="ProgramId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>
@@ -130,7 +129,7 @@
                             </RadzenColumn>
                             <RadzenColumn Size="12" SizeMD="8">
                                 <RadzenDropDown TValue="int?" Style="width: 100%;" @bind-Value="Student.StatusId"
-                                Data="@StudentStatuses" TextProperty="Name" ValueProperty="Id" Name="StatusId" />
+                                                Data="@StudentStatuses" TextProperty="Name" ValueProperty="Id" Name="StatusId" />
                                 <RadzenDataAnnotationValidator Component="StatusId" Popup=@popup Style="position: relative" />
                             </RadzenColumn>
                         </RadzenRow>

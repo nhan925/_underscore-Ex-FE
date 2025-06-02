@@ -95,30 +95,6 @@ public partial class FacultyManagement
         }
     }
 
-    private async Task AddFaculty()
-    {
-        var faculty = new Faculty();
-        var parameters = new Dictionary<string, object>
-        {
-            {"Faculty", faculty }
-        };
-
-        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_add"].Value, parameters);
-        if (result is bool isConfirmed && isConfirmed)
-        {
-            try
-            {
-                var facultyId = await _facultyService.AddFaculty(faculty.Name);
-                await LoadFaculties();
-                Snackbar.Add($"{_localizer["faculty_management_add_success_noti"].Value}: {facultyId} !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
-    }
-
     private async Task EditFaculty(Faculty faculty)
     {
         var editFaculty = new Faculty
@@ -129,17 +105,17 @@ public partial class FacultyManagement
 
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty }
+            {"Faculty", faculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);
                 await LoadFaculties();
-                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {editFaculty.Id} !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -148,22 +124,28 @@ public partial class FacultyManagement
         }
     }
 
+    private async Task AddFaculty()
+    {
+        var faculty = new Faculty();
+        var parameters = new Dictionary<string, object>
+        {
+            {"Faculty", faculty }
+        };
 
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadFaculties();
-    //    }
-    //}
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            try
+            {
+                var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
+                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {facultyId} !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
 
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadFaculties();
-    //    }
-    //}
 }

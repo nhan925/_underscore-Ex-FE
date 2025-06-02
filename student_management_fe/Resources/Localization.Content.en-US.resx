@@ -208,8 +208,7 @@
     <value>Student Email Configuration</value>
   </data>
   <data name="email_setting_input_placeholder" xml:space="preserve">
-    <value>Enter email domain. For example hcmus.edu.vn
-</value>
+    <value>Enter email domain. For example hcmus.edu.vn</value>
   </data>
   <data name="email_setting_add_button_text" xml:space="preserve">
     <value>Add New</value>
@@ -326,8 +325,7 @@
     <value>Note</value>
   </data>
   <data name="identity_form_chip_label" xml:space="preserve">
-    <value>Chip-based
-</value>
+    <value>Chip-based</value>
   </data>
   <data name="identity_form_cmnd_dropdown" xml:space="preserve">
     <value>Vietnamese Identity Card</value>
@@ -907,5 +905,59 @@
   </data>
   <data name="course_class_form_course_placeholder" xml:space="preserve">
     <value>Select course</value>
+  </data>
+  <data name="course_management_undefined_noti" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="course_management_header_form_add" xml:space="preserve">
+    <value>Add Course</value>
+  </data>
+  <data name="course_management_header_form_update" xml:space="preserve">
+    <value>Update Course</value>
+  </data>
+  <data name="course_management_add_course_success_noti" xml:space="preserve">
+    <value>Successfully added course</value>
+  </data>
+  <data name="course_management_add_course_fail_noti" xml:space="preserve">
+    <value>Failed to add course. Please try again.</value>
+  </data>
+  <data name="course_management_error_add_course" xml:space="preserve">
+    <value>Error occurred while adding course</value>
+  </data>
+  <data name="course_management_delete_course_confirmation_content" xml:space="preserve">
+    <value>After deletion, it cannot be restored. Confirm deletion of course with name</value>
+  </data>
+  <data name="registration_management_classes_info_not_found" xml:space="preserve">
+    <value>The class information was not found.</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="registration_management_enroll_student" xml:space="preserve">
+    <value>Enroll Student in Class</value>
+  </data>
+  <data name="registration_management_register_button" xml:space="preserve">
+    <value>Enroll</value>
+  </data>
+  <data name="registration_management_delete_student_confirmation_content" xml:space="preserve">
+    <value>After unenrollment, it cannot be restored. Confirm unenrollment of student with ID</value>
+  </data>
+  <data name="registration_management_unenroll_button" xml:space="preserve">
+    <value>Unenroll</value>
+  </data>
+  <data name="registration_management_cannot_update_grade_before_semester" xml:space="preserve">
+    <value>Cannot update scores when the class has not started yet.</value>
+  </data>
+  <data name="registration_management_update_grade_success_noti" xml:space="preserve">
+    <value>Successfully updated grade of student with ID</value>
+  </data>
+  <data name="registration_management_error_update_grade" xml:space="preserve">
+    <value>Error occurred while updating grade</value>
+  </data>
+  <data name="registration_management_delete_confirmation_dialog_header" xml:space="preserve">
+    <value>Are you sure you want to unenroll this student?</value>
+  </data>
+  <data name="an_unexpected_error_occurred_Please_try_again_later" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again later!</value>
   </data>
 </root>

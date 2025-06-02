@@ -6,7 +6,6 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using static ServiceStack.Diagnostics.Events;
 using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Mvc.Localization;
 using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Settings;
@@ -149,8 +148,16 @@ public partial class StudentStatusSetting
 
     private async Task UpdateStudentStatusSetting()
     {
-        var message = await _configurationsService.UpdateStudentStatusConfig(configInformations);
-        Snackbar.Add("Cập nhật thành công!", Severity.Success);
+        try
+        {
+            var message = await _configurationsService.UpdateStudentStatusConfig(configInformations);
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+            Snackbar.Add(message, Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
     }
 
     private async Task OnSwitchChange(bool value)

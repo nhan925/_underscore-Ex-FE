@@ -1,4 +1,7 @@
-﻿using student_management_fe.Models;
+﻿using Microsoft.Extensions.Localization;
+using student_management_fe.Helpers;
+using student_management_fe.Localization;
+using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -8,10 +11,12 @@ namespace student_management_fe.Services;
 public class StudentStatusService
 {
     private readonly AuthService _authService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentStatusService(AuthService authService)
+    public StudentStatusService(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<List<StudentStatus>> GetStudentStatuses()
@@ -19,17 +24,24 @@ public class StudentStatusService
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/student-status");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
+        }
+
         return await response.Content.ReadFromJsonAsync<List<StudentStatus>>() ?? new List<StudentStatus>();
     }
 
     public async Task<int> AddStudentStatus(string name)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, $"/api/student-status/{name}");
-
         var response = await _authService.SendRequestWithAuthAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"Thêm không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
@@ -38,7 +50,7 @@ public class StudentStatusService
             return studentStatusID;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<string> UpdateStudentStatus(StudentStatus status)
@@ -52,10 +64,17 @@ public class StudentStatusService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật trạng thái sinh viên không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
 }
