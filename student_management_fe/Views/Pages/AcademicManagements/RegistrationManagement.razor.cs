@@ -185,16 +185,21 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     Grade = editingStudent.Grade
                 };
-                await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
+                //await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
+                //studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
+                //Snackbar.Add($"Đã cập nhật điểm số của sinh viên có MSSV {editingStudent.Id}", Severity.Success);
+
+                var messgae = await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
-                Snackbar.Add($"{_localizer["registration_management_update_grade_success_noti"]}: {editingStudent.Id}", Severity.Success);
+                Snackbar.Add(messgae, Severity.Success);
             }
             catch (Exception ex)
             {
                 if (editingStudent != null && originalGrade.HasValue)
                     editingStudent.Grade = originalGrade;
-
-                Snackbar.Add($"{_localizer["registration_management_error_update_grade"]}: {ex.Message}", Severity.Error);
+              
+                //Snackbar.Add($"Lỗi khi cập nhật điểm số: {ex.Message}", Severity.Error);
+                Snackbar.Add(ex.Message, Severity.Error);
             }
             finally
             {

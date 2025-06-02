@@ -96,31 +96,6 @@ public partial class StudyProgramManagement : ComponentBase
         }
     }
 
-    private async Task AddStudyProgram()
-    {
-        var program = new StudyProgram();
-        var parameters = new Dictionary<string, object>
-        {
-            {"StudyProgram", program },
-        };
-
-        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_add"].Value, parameters);
-        if (result is bool isConfirmed && isConfirmed)
-        {
-            try
-            {
-                var studyProgramId = await _studyProgramService.AddProgram(program.Name);
-                await LoadStudyPrograms();
-                Snackbar.Add($"{_localizer["study_program_management_add_success_noti"].Value}: {studyProgramId} !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
-
-    }
-
     private async Task EditStudyProgram(StudyProgram program)
     {
         var editProgram = new StudyProgram
@@ -131,6 +106,30 @@ public partial class StudyProgramManagement : ComponentBase
 
         var parameters = new Dictionary<string, object>
         {
+            {"StudyProgram", program },
+        };
+
+        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_add"].Value, parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            try
+            {
+                var message = await _studyProgramService.UpdateProgram(editProgram);
+                await LoadStudyPrograms();
+                Snackbar.Add(message, Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
+
+    private async Task AddStudyProgram()
+    {
+        var program = new StudyProgram();
+        var parameters = new Dictionary<string, object>
+        {
             {"StudyProgram", editProgram },
         };
 
@@ -139,7 +138,7 @@ public partial class StudyProgramManagement : ComponentBase
         {
             try
             {
-                var message = await _studyProgramService.UpdateProgram(editProgram);
+                var studyProgramId = await _studyProgramService.AddProgram(program.Name);
                 await LoadStudyPrograms();
                 Snackbar.Add($"{_localizer["study_program_management_update_success_noti"].Value}: {editProgram.Id} !", Severity.Success);
             }
@@ -149,23 +148,4 @@ public partial class StudyProgramManagement : ComponentBase
             }
         }
     }
-
-
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadStudyPrograms();
-    //    }
-    //}
-
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadStudyPrograms();
-    //    }
-    //}
 }

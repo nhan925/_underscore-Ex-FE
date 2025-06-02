@@ -6,6 +6,7 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Radzen;
+using ServiceStack.Messaging;
 using Microsoft.Extensions.Localization;
 using student_management_fe.Localization;
 
@@ -132,20 +133,13 @@ public partial class CourseManagement
         {
             try
             {
-                var addedCourse = await _courseService.AddCourse(newCourse);
-                if (addedCourse != null)
-                {
-                    Snackbar.Add(_localizer["course_management_add_course_success_noti"], Severity.Success);
-                    await LoadCourses();
-                }
-                else
-                {
-                    Snackbar.Add(_localizer["course_management_add_course_fail_noti"], Severity.Error);
-                }
+                var message = await _courseService.AddCourse(newCourse);
+                await LoadCourses();
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"{_localizer["course_management_error_add_course"]}: {ex.Message}", Severity.Error);
+                Snackbar.Add(ex.Message, Severity.Error);
             }
         }
     }

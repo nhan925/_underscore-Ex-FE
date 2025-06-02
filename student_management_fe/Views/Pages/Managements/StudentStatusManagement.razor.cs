@@ -150,22 +150,4 @@ public partial class StudentStatusManagement
         }
     }
 
-
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadStudentStatuses();
-    //    }
-    //}
-
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadStudentStatuses();
-    //    }
-    //}
 }

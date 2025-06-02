@@ -92,7 +92,6 @@ namespace student_management_fe.Views.Pages.Settings
         {
             configInformations.Value.Remove(code);
             MapConfigToPhoneInformation();
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
             await UpdatePhoneNumberSetting();
         }
 
@@ -105,10 +104,18 @@ namespace student_management_fe.Views.Pages.Settings
 
         private async Task UpdatePhoneNumberSetting()
         {
-
-            var message = await _configurationsService.UpdatePhoneNumberConfig(configInformations);
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-            Snackbar.Add("Cập nhật thành công", Severity.Success);
+            try
+            {
+                var message = await _configurationsService.UpdatePhoneNumberConfig(configInformations);
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+                Snackbar.Add(message, Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            
+           
         }
 
         private async Task OnSwitchChange(bool value)
