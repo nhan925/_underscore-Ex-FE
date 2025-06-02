@@ -1,6 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using student_management_fe.Localization;
+@using student_management_fe.Models;
+@using student_management_fe.Services;
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Quản lý sinh viên</a>
+        <a class="navbar-brand" href="">@_localizer["app_title"]</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,7 +15,7 @@
     <nav class="nav flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Trang chủ
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @_localizer["navigation_home_label"]
             </NavLink>
         </div>
 
@@ -19,7 +23,7 @@
         <div class="nav-item px-3">
             <a class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleQuanLy">
                 <div>
-                    <span class="bi bi-kanban-fill" aria-hidden="true"></span> Quản lý
+                    <span class="bi bi-kanban-fill" aria-hidden="true"></span> @_localizer["navigation_management_label"]
                 </div>
                 <span>@(showQuanLy ? "-" : "+")</span>
             </a>
@@ -28,13 +32,13 @@
             {
                 <div class="nav flex-column ms-4">
                     <NavLink class="nav-link" href="/faculties">
-                        <span class="bi"></span> Khoa
+                        <span class="bi"></span> @_localizer["navigation_management_faculty_label"]
                     </NavLink>
                     <NavLink class="nav-link" href="/statuses">
-                        <span class="bi"></span> Tình trạng
+                        <span class="bi"></span> @_localizer["navigation_management_status_label"]
                     </NavLink>
                     <NavLink class="nav-link" href="/programs">
-                        <span class="bi"></span> Chương trình
+                        <span class="bi"></span> @_localizer["navigation_management_program_label"]
                     </NavLink>
                 </div>
             }
@@ -45,7 +49,7 @@
         <div class="nav-item px-3">
             <a class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleQuanLyHocTap">
                 <div>
-                    <span class="bi bi-kanban-fill" aria-hidden="true"></span> Quản lý học tập
+                    <span class="bi bi-kanban-fill" aria-hidden="true"></span> @_localizer["navigation_academic_label"]
                 </div>
                 <span>@(showQuanLyHocTap ? "-" : "+")</span>
             </a>
@@ -54,10 +58,10 @@
             {
                 <div class="nav flex-column ms-4">
                     <NavLink class="nav-link" href="/course">
-                        <span class="bi"></span> Khóa học
+                        <span class="bi"></span> @_localizer["navigation_academic_course_label"]
                     </NavLink>
                     <NavLink class="nav-link" href="/classes">
-                        <span class="bi"></span> Lớp học
+                        <span class="bi"></span> @_localizer["navigation_academic_class_label"]
                     </NavLink>
                 </div>
             }
@@ -67,7 +71,7 @@
         <div class="nav-item px-3">
             <a class="nav-link d-flex justify-content-between align-items-center" @onclick="ToggleSettings">
                 <div>
-                    <span class="bi bi-gear-fill" aria-hidden="true"></span> Cài đặt
+                    <span class="bi bi-gear-fill" aria-hidden="true"></span> @_localizer["navigation_settings_label"]
                 </div>
                 <span>@(showSettings ? "-" : "+")</span>
             </a>
@@ -76,13 +80,13 @@
             {
                 <div class="nav flex-column ms-4">
                     <NavLink class="nav-link" href="/email-settings">
-                        <span class="bi"></span> Email
+                        <span class="bi"></span> @_localizer["navigation_settings_email_label"]
                     </NavLink>
                     <NavLink class="nav-link" href="/phone-number-settings">
-                        <span class="bi"></span> SĐT
+                        <span class="bi"></span> @_localizer["navigation_settings_phone_number_label"]
                     </NavLink>
                     <NavLink class="nav-link" href="/student-status-settings">
-                        <span class="bi"></span> Tình trạng học
+                        <span class="bi"></span> @_localizer["navigation_settings_academic_status_label"]
                     </NavLink>
                 </div>
             }
@@ -90,7 +94,7 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" @onclick="authService.Logout">
-                <span class="bi bi-logout-nav-menu" aria-hidden="true"></span> Đăng xuất
+                <span class="bi bi-logout-nav-menu" aria-hidden="true"></span> @_localizer["navigation_logout_label"]
             </NavLink>
         </div>
     </nav>
@@ -103,7 +107,7 @@
     private bool showQuanLy = false;
     private bool showSettings = false; 
     private bool showQuanLyHocTap = false;
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()

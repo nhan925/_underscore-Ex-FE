@@ -301,7 +301,7 @@
     <value>Tỉnh/Thành phố</value>
   </data>
   <data name="identity_form_title_label" xml:space="preserve">
-    <value>Giấy chứng minh nhân thân</value>
+    <value>Giấy Chứng Minh Nhân Dân</value>
   </data>
   <data name="identity_form_type_card_label" xml:space="preserve">
     <value>Loại giấy tờ</value>
@@ -337,10 +337,10 @@
     <value>Hộ chiếu (Passport)</value>
   </data>
   <data name="address_form_title_label" xml:space="preserve">
-    <value>Địa chỉ</value>
+    <value>Địa Chỉ</value>
   </data>
   <data name="student_form_general_title_label" xml:space="preserve">
-    <value>Thông tin chung</value>
+    <value>Thông Tin Chung</value>
   </data>
   <data name="student_form_full_name_label" xml:space="preserve">
     <value>Họ và tên</value>
@@ -400,7 +400,7 @@
     <value>Thông tin khóa học</value>
   </data>
   <data name="course_form_title_label" xml:space="preserve">
-    <value>Thêm khóa học</value>
+    <value>Thêm Khóa Học</value>
   </data>
   <data name="course_form_id_label" xml:space="preserve">
     <value>Mã khóa học</value>
@@ -502,7 +502,7 @@
     <value>Quốc tịch</value>
   </data>
   <data name="add_student_to_class_form_title_text" xml:space="preserve">
-    <value>Thêm sinh viên vào lớp học</value>
+    <value>Thêm Sinh Viên Vào Lớp Học</value>
   </data>
   <data name="upload_file_form_tip" xml:space="preserve">
     <value>Kéo và thả File hoặc nhấn chọn</value>
@@ -842,6 +842,69 @@
   </data>
   <data name="study_program_form_name_label" xml:space="preserve">
     <value>Tên Chương Trình Học</value>
+  </data>
+  <data name="navigation_home_label" xml:space="preserve">
+    <value>Trang Chủ</value>
+  </data>
+  <data name="navigation_management_label" xml:space="preserve">
+    <value>Quản Lý</value>
+  </data>
+  <data name="navigation_management_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="navigation_management_status_label" xml:space="preserve">
+    <value>Tình trạng</value>
+  </data>
+  <data name="navigation_management_program_label" xml:space="preserve">
+    <value>Chương Trình</value>
+  </data>
+  <data name="navigation_academic_label" xml:space="preserve">
+    <value>Quản Lý Học Tập</value>
+  </data>
+  <data name="navigation_academic_course_label" xml:space="preserve">
+    <value>Khóa Học</value>
+  </data>
+  <data name="navigation_academic_class_label" xml:space="preserve">
+    <value>Lớp Học</value>
+  </data>
+  <data name="navigation_settings_label" xml:space="preserve">
+    <value>Cài Đặt</value>
+  </data>
+  <data name="navigation_settings_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="navigation_settings_phone_number_label" xml:space="preserve">
+    <value>Số Điện Thoại</value>
+  </data>
+  <data name="navigation_settings_academic_status_label" xml:space="preserve">
+    <value>Tình Trạng Học</value>
+  </data>
+  <data name="navigation_logout_label" xml:space="preserve">
+    <value>Đăng Xuất</value>
+  </data>
+  <data name="email_setting_domain_error_2" xml:space="preserve">
+    <value>Sai quy định! Domain không được chứa ký tự '@' và phải chứa dấu .</value>
+  </data>
+  <data name="email_setting_domain_error_1" xml:space="preserve">
+    <value>Domain không được để trống</value>
+  </data>
+  <data name="email_setting_domain_error_3" xml:space="preserve">
+    <value>Domain này đã được thêm vào danh sách</value>
+  </data>
+  <data name="phone_number_country_error_1" xml:space="preserve">
+    <value>Vui lòng chọn quốc gia</value>
+  </data>
+  <data name="phone_number_country_error_2" xml:space="preserve">
+    <value>Quốc gia này đã được thêm vào danh sách</value>
+  </data>
+  <data name="app_title" xml:space="preserve">
+    <value>Quản Lý Sinh Viên</value>
+  </data>
+  <data name="course_class_form_lecturer_placeholder" xml:space="preserve">
+    <value>Chọn giảng viên</value>
+  </data>
+  <data name="course_class_form_course_placeholder" xml:space="preserve">
+    <value>Chọn khóa học</value>
   </data>
   <data name="course_management_undefined_noti" xml:space="preserve">
     <value>Không xác định</value>

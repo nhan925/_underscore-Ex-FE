@@ -41,17 +41,17 @@ public partial class EmailSetting
 
         if (string.IsNullOrWhiteSpace(newDomain))
         {
-            Snackbar.Add("Domain không được để trống", Severity.Error);
+            Snackbar.Add(_localizer["email_setting_domain_error_1"].Value, Severity.Error);
             return;
         }
         else if (!regex.IsMatch(newDomain))
         {
-            Snackbar.Add("Sai quy định! Domain không được chứa ký tự '@' và phải chứa dấu .", Severity.Error);
+            Snackbar.Add(_localizer["email_setting_domain_error_2"].Value, Severity.Error);
             return;
         }
         else if (configInformations.Value.Contains(newDomain))
         {
-            Snackbar.Add("Domain này đã được thêm vào danh sách", Severity.Error);
+            Snackbar.Add(_localizer["email_setting_domain_error_3"].Value, Severity.Error);
             newDomain = string.Empty;
             return;
         }
