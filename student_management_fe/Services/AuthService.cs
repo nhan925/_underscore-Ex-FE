@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.JSInterop;
-using ServiceStack;
-using ServiceStack.Web;
 using student_management_fe.Authentication;
 using student_management_fe.Helpers;
 using student_management_fe.Models;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -38,15 +38,15 @@ public class AuthService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
-            throw new Exception(errorResponse?.Message);
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message ?? "Login failed");
         }
 
         var tokens = await response.Content.ReadFromJsonAsync<AuthResponse>();
 
         if (tokens is null || string.IsNullOrEmpty(tokens.AccessToken))
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             throw new Exception(errorResponse?.Message);
         }
         
