@@ -2,17 +2,21 @@
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Resources;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Models;
 
 public class StudentModel
 {
-    [Required(ErrorMessage = "Mã sinh viên không được để trống.")]
+    [Required(ErrorMessageResourceType = typeof(Content),
+              ErrorMessageResourceName = "student_id_required")]
     [RegularExpression(@"^\d{8}$", ErrorMessage = "Mã sinh viên phải có đúng 8 chữ số.")]
     public string Id { get; set; } // 8-digit student ID (e.g., 22010001)
 
 
-    [Required(ErrorMessage = "Họ và tên không được để trống.")]
+    [Required(ErrorMessageResourceType = typeof(Content),
+              ErrorMessageResourceName = "student_fullname_required")]
     [StringLength(100, ErrorMessage = "Họ và tên không được dài quá 100 ký tự.")]
     public string? FullName { get; set; }
 

@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using student_management_fe.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using student_management_fe.Extensions;
+using Microsoft.AspNetCore.Components.Forms;
+using student_management_fe.Models;
+using System.Reflection;
 
 namespace student_management_fe;
 
@@ -28,6 +31,15 @@ public class Program
         var apiBaseUrl = await js.InvokeAsync<string>("eval", "window.AppConfig.API_BASE_URL");
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+        builder.Services.AddMvcCore()
+                        .AddViewLocalization()
+                        .AddDataAnnotationsLocalization(options => {
+                            options.DataAnnotationLocalizerProvider = (type, factory) =>
+                            {
+                                var assemblyName = new AssemblyName(typeof(Content).GetTypeInfo().Assembly.FullName);
+                                return factory.Create(nameof(Content), assemblyName.Name);
+                            };
+                        });
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
         builder.Services.AddAuthorizationCore();
