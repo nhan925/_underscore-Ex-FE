@@ -1,10 +1,12 @@
 ﻿using Microsoft.JSInterop;
 using student_management_fe.Models;
-using student_management_fe.Models.Helpers;
+using student_management_fe.Helpers;
 using System.Net.Http.Json;
 using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Services;
 
@@ -12,10 +14,12 @@ public class CourseEnrollmentService
 {
     private readonly AuthService _authService;
     private readonly IJSRuntime _jsRuntime;
-    public CourseEnrollmentService(AuthService authService, IJSRuntime jSRuntime)
+    private readonly IStringLocalizer<Content> _localizer;
+    public CourseEnrollmentService(AuthService authService, IJSRuntime jSRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jSRuntime;
+        _localizer = localizer;
     }
 
     public static class EnrollmentActions
@@ -51,7 +55,7 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -81,7 +85,7 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -93,7 +97,7 @@ public class CourseEnrollmentService
             return message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task DownloadTranscript(string studentId)
@@ -103,7 +107,7 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);

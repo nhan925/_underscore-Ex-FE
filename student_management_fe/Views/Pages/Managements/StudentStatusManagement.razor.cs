@@ -141,7 +141,7 @@ public partial class StudentStatusManagement
             {
                 var message = await _studentStatusService.UpdateStudentStatus(editStudentStatus);
                 await LoadStudentStatuses();
-                Snackbar.Add($"{_localizer["student_status_management_update_success_noti"].Value}: {editStudentStatus.Id}", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {

@@ -10,17 +10,21 @@ using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using student_management_fe.Models.Helpers;
+using student_management_fe.Helpers;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Services;
 
 public class ConfigurationsService
 {
     private readonly AuthService _authService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public ConfigurationsService(AuthService authService)
+    public ConfigurationsService(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<bool> CheckConfig(string type, string value)
@@ -29,7 +33,7 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -42,7 +46,7 @@ public class ConfigurationsService
             Console.WriteLine(result);
             return result;
         }
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
        
     }
 
@@ -52,7 +56,7 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -71,7 +75,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -94,7 +98,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -107,7 +111,7 @@ public class ConfigurationsService
             return message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     // Phone Number Configuration Methods
@@ -118,7 +122,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -141,7 +145,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -154,7 +158,7 @@ public class ConfigurationsService
             return message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     // Student Status Configuration Methods
@@ -165,7 +169,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -188,7 +192,7 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -201,6 +205,6 @@ public class ConfigurationsService
             return message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 }

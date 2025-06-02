@@ -894,4 +894,7 @@
   <data name="registration_management_delete_confirmation_dialog_header" xml:space="preserve">
     <value>Bạn có chắc muốn hủy đăng ký sinh viên này?</value>
   </data>
+  <data name="an_unexpected_error_occurred_Please_try_again_later" xml:space="preserve">
+    <value>Đã có lỗi xảy ra. Vui lòng thử lại sau!</value>
+  </data>
 </root>

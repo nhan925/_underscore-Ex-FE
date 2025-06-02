@@ -129,7 +129,7 @@ public partial class FacultyManagement
         var faculty = new Faculty();
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty }
+            {"Faculty", faculty }
         };
 
         var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
@@ -139,7 +139,7 @@ public partial class FacultyManagement
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
                 await LoadFaculties();
-                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {editFaculty.Id} !", Severity.Success);
+                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {facultyId} !", Severity.Success);
             }
             catch (Exception ex)
             {

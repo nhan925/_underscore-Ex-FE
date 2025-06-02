@@ -1,17 +1,21 @@
 ﻿using student_management_fe.Models;
-using student_management_fe.Models.Helpers;
+using student_management_fe.Helpers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Services;
 
 public class FacultyService
 {
     private readonly AuthService _authService;
-    public FacultyService(AuthService authService)
+    private readonly IStringLocalizer<Content> _localizer;
+    public FacultyService(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<List<Faculty>> GetFaculties()
@@ -21,7 +25,7 @@ public class FacultyService
         if (!response.IsSuccessStatusCode)
         {
 
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -41,7 +45,7 @@ public class FacultyService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -53,7 +57,7 @@ public class FacultyService
             return message;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<int> AddFaculty(string name)
@@ -64,7 +68,7 @@ public class FacultyService
       
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);
@@ -77,7 +81,7 @@ public class FacultyService
             return facultyID;
         }
 
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
 

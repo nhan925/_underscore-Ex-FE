@@ -245,9 +245,9 @@ public partial class Home
         {
             try
             {
-                await _studentServices.UpdateStudent(student);
+                var message = await _studentServices.UpdateStudent(student);
                 await ResetPaging();
-                Snackbar.Add($"{_localizer["home_update_student_success_noti"].Value}: {id} !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -274,9 +274,9 @@ public partial class Home
         {
             try
             {
-                await _studentServices.DeleteStudent(id);
+                var message = await _studentServices.DeleteStudent(id);
                 await ResetPaging();
-                Snackbar.Add($"{ _localizer["home_delete_student_success_noti"].Value}: {id}  !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -305,9 +305,9 @@ public partial class Home
         {
             try
             {
-                await _studentServices.UploadFiles(file, sendFormat);
+                var meesage = await _studentServices.UploadFiles(file, sendFormat);
                 await ResetPaging();
-                Snackbar.Add(_localizer["home_add_students_success_from_file_noti"], Severity.Success);
+                Snackbar.Add(meesage, Severity.Success);
             }
             catch (Exception ex)
             {

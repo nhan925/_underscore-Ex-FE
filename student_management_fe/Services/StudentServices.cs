@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using MudBlazor;
 using student_management_fe.Helpers;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -13,11 +15,13 @@ public class StudentServices
 {
     private readonly AuthService _authService;
     private readonly IJSRuntime _jsRuntime;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentServices(AuthService authService, IJSRuntime jsRuntime)
+    public StudentServices(AuthService authService, IJSRuntime jsRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jsRuntime;
+        _localizer = localizer;
     }
 
     public async Task<PagedResult<StudentHomePageModel>> GetAllStudents(int page, int pageSize, string? search = null, StudentFilter? filter = null)
@@ -53,7 +57,7 @@ public class StudentServices
         return result ?? new PagedResult<StudentHomePageModel>();
     }
 
-    public async Task DeleteStudent(string id)
+    public async Task<string> DeleteStudent(string id)
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/student/{id}");
         var response = await _authService.SendRequestWithAuthAsync(request);
@@ -63,6 +67,14 @@ public class StudentServices
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             throw new Exception(errorResponse?.Message);
         }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<string> AddStudent(StudentModel student)
@@ -95,7 +107,7 @@ public class StudentServices
             return studentId;
         }
 
-        throw new Exception("Add student failed");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<StudentModel> GetStudentById(string id)
@@ -113,7 +125,7 @@ public class StudentServices
         return student ?? new StudentModel();
     }
 
-    public async Task UpdateStudent(StudentModel student)
+    public async Task<string> UpdateStudent(StudentModel student)
     {
         var json = JsonSerializer.Serialize(student);
         var dictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
@@ -131,6 +143,14 @@ public class StudentServices
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             throw new Exception(errorResponse?.Message);
         }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     // For add students from file
@@ -155,7 +175,13 @@ public class StudentServices
             throw new Exception(errorResponse?.Message);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task DownloadFile(string format)

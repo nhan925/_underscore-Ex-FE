@@ -1,5 +1,5 @@
 ﻿using student_management_fe.Models;
-using student_management_fe.Models.Helpers;
+using student_management_fe.Helpers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -22,7 +22,7 @@ public class CountryPhoneCodeService
 
         if (!response.IsSuccessStatusCode)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse<string>>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             var errorMessage = errorResponse?.Message;
 
             throw new Exception(errorMessage);

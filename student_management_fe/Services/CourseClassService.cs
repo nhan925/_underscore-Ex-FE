@@ -1,4 +1,6 @@
-﻿using student_management_fe.Helpers;
+﻿using Microsoft.Extensions.Localization;
+using student_management_fe.Helpers;
+using student_management_fe.Localization;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
@@ -9,9 +11,11 @@ namespace student_management_fe.Services;
 public class CourseClassService
 {
     private readonly AuthService _authService;
-    public CourseClassService(AuthService authService)
+    private readonly IStringLocalizer<Content> _localizer;
+    public CourseClassService(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<List<GetCourseClassResult>> GetAllCourseClassesBySemester(int semesterId)
@@ -49,7 +53,7 @@ public class CourseClassService
         }
         else
         {
-            throw new Exception("Add class failed");
+            throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
         } 
     }
 
