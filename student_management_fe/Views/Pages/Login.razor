@@ -3,22 +3,27 @@
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 
+<MudPopoverProvider />
+
+<div style="position: absolute; right: 0; color: white; margin: 1rem">
+    <CultureSelector />
+</div>
 <div class="background">
     <div class="login-container">
-        <h1 class="login-title">ĐĂNG NHẬP</h1>
-        <h2 class="login-subtitle">QUẢN LÝ SINH VIÊN</h2>
+        <h1 class="login-title">@_localizer["login_title_text"]</h1>
+        <h2 class="login-subtitle">@_localizer["login_subtitle_text"]</h2>
 
         <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
             <div class="login-form">
-                <label for="username">Tên đăng nhập</label>
-                <input id="username" @bind="loginModel.Username" class="input" placeholder="Nhập tên đăng nhập" />
+                <label for="username">@_localizer["login_username_label"]</label>
+                <input id="username" @bind="loginModel.Username" class="input" placeholder=@_localizer["login_username_placeholder_input"] />
                 <ValidationMessage For="@(() => loginModel.Username)" class="error-message" />
 
-                <label for="password">Mật khẩu</label>
-                <input id="password" @bind="loginModel.Password" class="input" type="password" placeholder="Nhập mật khẩu" />
+                <label for="password">@_localizer["login_password_label"]</label>
+                <input id="password" @bind="loginModel.Password" class="input" type="password" placeholder=@_localizer["login_password_placeholder_input"] />
                 <ValidationMessage For="@(() => loginModel.Password)" class="error-message" />
 
-                <button type="submit" class="login-button">Đăng nhập</button>
+                <button type="submit" class="login-button">@_localizer["login_button"]</button>
 
                 @if (!string.IsNullOrEmpty(errorMessage))
                 {

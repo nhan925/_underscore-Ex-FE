@@ -6,6 +6,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Security.AccessControl;
 using student_management_fe.Views.Shared.ManagementsForm;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class StudyProgramManagement : ComponentBase
@@ -51,10 +53,12 @@ public partial class StudyProgramManagement : ComponentBase
     private List<StudyProgram> tempStudyPrograms = new List<StudyProgram>();
 
     private readonly StudyProgramService _studyProgramService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudyProgramManagement(StudyProgramService studyProgramService)
+    public StudyProgramManagement(StudyProgramService studyProgramService, IStringLocalizer<Content> localizer)
     {
         _studyProgramService = studyProgramService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -102,12 +106,10 @@ public partial class StudyProgramManagement : ComponentBase
 
         var parameters = new Dictionary<string, object>
         {
-            {"StudyProgram", editProgram },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên chương trình học" },
+            {"StudyProgram", program },
         };
 
-        var result = await DialogService.OpenAsync<StudyProgramForm>("Cập nhật chương trình học", parameters);
+        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
@@ -128,27 +130,22 @@ public partial class StudyProgramManagement : ComponentBase
         var program = new StudyProgram();
         var parameters = new Dictionary<string, object>
         {
-            {"StudyProgram", program },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên chương trình học" },
+            {"StudyProgram", editProgram },
         };
 
-        var result = await DialogService.OpenAsync<StudyProgramForm>("Thêm chương trình học", parameters);
+        var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
                 await LoadStudyPrograms();
-                Snackbar.Add($"Đã thêm chương trình học với id {studyProgramId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["study_program_management_update_success_noti"].Value}: {editProgram.Id} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
-
     }
-
-    
 }

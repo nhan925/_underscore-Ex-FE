@@ -3,10 +3,10 @@
 @inject NavigationManager Navigation
 
 <MudMenu Icon="@Icons.Material.Filled.Language" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
-    <MudMenuItem OnClick="@(() => ApplySelectedCultureAsync(supportedCultures[0]))">
+    <MudMenuItem style="background: white" OnClick="@(() => ApplySelectedCultureAsync(supportedCultures[0]))">
         <img src="images/flags/us.png" width="24" height="16" class="me-2" /> English
     </MudMenuItem>
-    <MudMenuItem OnClick="@(() => ApplySelectedCultureAsync(supportedCultures[1]))">
+    <MudMenuItem style="background: white" OnClick="@(() => ApplySelectedCultureAsync(supportedCultures[1]))">
         <img src="images/flags/vn.png" width="24" height="16" class="me-2" /> Tiếng Việt
     </MudMenuItem>
 </MudMenu>
@@ -28,7 +28,7 @@
 
     private async Task ApplySelectedCultureAsync(CultureInfo culture)
     {
-		if (CultureInfo.CurrentCulture != culture)
+        if (!string.Equals(CultureInfo.CurrentCulture.Name, culture.Name, StringComparison.OrdinalIgnoreCase))
 		{
 			selectedCulture = culture;
 

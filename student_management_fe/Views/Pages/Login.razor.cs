@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
+
 namespace student_management_fe.Views.Pages;
 
 public partial class Login
@@ -11,10 +14,12 @@ public partial class Login
     private LoginModel loginModel = new();
     private string errorMessage = "";
     private readonly AuthService _authService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public Login(AuthService authService)
+    public Login(AuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -32,17 +37,18 @@ public partial class Login
     {
         if (string.IsNullOrWhiteSpace(loginModel.Username) || string.IsNullOrWhiteSpace(loginModel.Password))
         {
-            errorMessage = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.";
+            errorMessage = _localizer["login_username_password_required_error"];
             return;
         }
 
-        if (await _authService.Login(loginModel))
+        try
         {
+            await _authService.Login(loginModel);
             Navigation.NavigateTo("/");
         }
-        else
+        catch (Exception ex)
         {
-            errorMessage = "Tên đăng nhập hoặc mật khẩu không đúng.";
+            errorMessage = ex.Message;
         }
     }
 }

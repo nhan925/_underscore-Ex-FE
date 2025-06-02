@@ -5,6 +5,8 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared.ManagementsForm;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class FacultyManagement
@@ -50,10 +52,12 @@ public partial class FacultyManagement
     private List<Faculty> tempFaculties = new List<Faculty>();
 
     private readonly FacultyService _facultyService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public FacultyManagement(FacultyService facultyService)
+    public FacultyManagement(FacultyService facultyService, IStringLocalizer<Content> localizer)
     {
         _facultyService = facultyService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -101,12 +105,10 @@ public partial class FacultyManagement
 
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên khoa" },
+            {"Faculty", faculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
@@ -127,19 +129,17 @@ public partial class FacultyManagement
         var faculty = new Faculty();
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", faculty },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên khoa" },
+            {"Faculty", editFaculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var facultyId = await _facultyService.AddFaculty(faculty.Name);
                 await LoadFaculties();
-                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["faculty_management_update_success_noti"].Value}: {editFaculty.Id} !", Severity.Success);
             }
             catch (Exception ex)
             {

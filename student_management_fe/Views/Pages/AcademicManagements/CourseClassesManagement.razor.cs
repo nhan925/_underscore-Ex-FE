@@ -5,6 +5,8 @@ using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Blazored.LocalStorage;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Localization;
 
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
@@ -37,21 +39,24 @@ public partial class CourseClassesManagement
     private readonly CourseService _courseService;
     private readonly LecturerService _lecturerService;
     private readonly DataService _dataService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     private bool firstLoad = true;
 
     public CourseClassesManagement(
         CourseClassService courseClassService, 
-        YearAndSemesterService yearAndSemesterService, 
-        CourseService courseService, 
-        LecturerService lecturerService, 
-        DataService dataService)
+        YearAndSemesterService yearAndSemesterService,
+        CourseService courseService,
+        LecturerService lecturerService,
+        DataService dataService,
+        IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
         _yearAndSemesterService = yearAndSemesterService;
         _courseService = courseService;
         _lecturerService = lecturerService;
         _dataService = dataService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -93,16 +98,16 @@ public partial class CourseClassesManagement
             { "courseClass", courseClass },
             { "courses", activeCourses },
             { "lecturers", lecturers },
-            { "ButtonText", "Thêm lớp học" }
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value }
         };
 
-        var result = await DialogService.OpenAsync<CourseClassForm>("Thêm lớp học", parameters, options);
+        var result = await DialogService.OpenAsync<CourseClassForm>(_localizer["course_classes_management_header_form_add_class"], parameters, options);
         if (result is not null)
         {
             try
             {
                 await OnSelectedSemesterChanged(selectedSemester);
-                Snackbar.Add($"Đã thêm lớp học với mã {result}!", Severity.Success);
+                Snackbar.Add($"{_localizer["course_classes_management_add_class_success_noti"]} {result}!", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -172,10 +177,6 @@ public partial class CourseClassesManagement
             _dataService.SetData(myObject);
             await LocalStorage.SetItemAsync("cachedCourseClassSelected", myObject);
             NavigationManager.NavigateTo("/student-registered");
-        }
-        else
-        {
-            Snackbar.Add("Selected course class is null.", Severity.Warning); 
         }
     }
 }
