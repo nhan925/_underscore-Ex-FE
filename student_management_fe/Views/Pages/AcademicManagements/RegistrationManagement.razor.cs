@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Views.Shared;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 

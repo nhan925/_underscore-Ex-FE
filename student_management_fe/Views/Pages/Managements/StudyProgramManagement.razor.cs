@@ -7,7 +7,7 @@ using student_management_fe.Services;
 using System.Security.AccessControl;
 using student_management_fe.Views.Shared.ManagementsForm;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class StudyProgramManagement : ComponentBase

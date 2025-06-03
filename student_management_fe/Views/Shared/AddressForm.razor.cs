@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 
 namespace student_management_fe.Views.Shared;

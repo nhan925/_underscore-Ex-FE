@@ -98,7 +98,7 @@
                                                    @bind-Value="Student.Email" 
                                                    Name="Email" 
                                                    Change="@(async args => await HandleEmailChange(args))" />
-									<RadzenRequiredValidator Component="Email" Popup=@popup Style="position: relative" Text="Email không được để trống"/>
+                                    <RadzenDataAnnotationValidator Component="Email" Popup=@popup Style="position: relative"/>
                                     @if (!string.IsNullOrEmpty(errorEmailMessage))
                                     {
                                         <div class="error">@errorEmailMessage</div>
@@ -115,7 +115,7 @@
                                                    @bind-Value="Student.PhoneNumber" 
                                                    Name="PhoneNumber"
                                                    Change="@(async args => await HandlePhoneNumberChange(args))" />
-                                    <RadzenRequiredValidator Component="PhoneNumber" Popup=@popup Style="position: relative" Text="Số điện thoại không được để trống" />
+                                    <RadzenDataAnnotationValidator Component="PhoneNumber" Popup=@popup Style="position: relative"/>
                                     @if (!string.IsNullOrEmpty(errorPhoneNumberMessage))
                                     {
                                         <div class="error">@errorPhoneNumberMessage</div>

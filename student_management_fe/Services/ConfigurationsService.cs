@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using student_management_fe.Helpers;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 

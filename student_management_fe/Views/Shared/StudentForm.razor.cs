@@ -7,7 +7,7 @@ using Radzen;
 using Radzen.Blazor;
 using ServiceStack;
 using ServiceStack.Text;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;

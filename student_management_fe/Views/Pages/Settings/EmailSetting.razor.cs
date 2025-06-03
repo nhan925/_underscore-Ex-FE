@@ -6,7 +6,7 @@ using student_management_fe.Services;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.Settings;
 public partial class EmailSetting

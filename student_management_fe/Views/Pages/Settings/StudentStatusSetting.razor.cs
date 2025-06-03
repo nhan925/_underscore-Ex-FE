@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using static ServiceStack.Diagnostics.Events;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.Settings;
 

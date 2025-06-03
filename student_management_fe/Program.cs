@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Radzen;
-using ServiceStack;
 using student_management_fe.Authentication;
 using student_management_fe.Services;
-using Microsoft.AspNetCore.Mvc.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using Microsoft.AspNetCore.Mvc.Razor;
 using student_management_fe.Extensions;
-using Microsoft.AspNetCore.Components.Forms;
 using student_management_fe.Models;
 using System.Reflection;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 namespace student_management_fe;
 
@@ -30,16 +29,10 @@ public class Program
         var js = builder.Services.BuildServiceProvider().GetRequiredService<IJSRuntime>();
         var apiBaseUrl = await js.InvokeAsync<string>("eval", "window.AppConfig.API_BASE_URL");
 
-        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+        builder.Services.AddLocalization();
         builder.Services.AddMvcCore()
-                        .AddViewLocalization()
-                        .AddDataAnnotationsLocalization(options => {
-                            options.DataAnnotationLocalizerProvider = (type, factory) =>
-                            {
-                                var assemblyName = new AssemblyName(typeof(Content).GetTypeInfo().Assembly.FullName);
-                                return factory.Create(nameof(Content), assemblyName.Name);
-                            };
-                        });
+                        .AddDataAnnotations()
+                        .AddDataAnnotationsLocalization();
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
         builder.Services.AddAuthorizationCore();
@@ -57,7 +50,7 @@ public class Program
         builder.Services.AddScoped<LecturerService>();
         builder.Services.AddScoped<CourseEnrollmentService>();
         builder.Services.AddScoped<Radzen.DialogService>();
-        builder.Services.AddScoped<MudBlazor.DialogService> ();
+        builder.Services.AddScoped<MudBlazor.DialogService>();
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddScoped<DataService>();
         builder.Services.AddMudServices();

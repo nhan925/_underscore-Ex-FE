@@ -6,7 +6,7 @@ using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
@@ -39,20 +39,6 @@ public class CourseEnrollmentService
         var response = await _authService.SendRequestWithAuthAsync(request);
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    try
-        //    {
-        //        var errorDetail = JsonSerializer.Deserialize<JsonElement>(responseContent).GetProperty("details").GetString();
-        //        throw new Exception(errorDetail);
-        //    }
-        //    catch (JsonException)
-        //    {
-        //        throw new Exception($"Đã có lỗi xảy ra. Vui lòng thử lại sau!");
-        //    }
-
-        //}
-
         if (!response.IsSuccessStatusCode)
         {
             var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
@@ -61,16 +47,13 @@ public class CourseEnrollmentService
             throw new Exception(errorMessage);
         }
 
-        try
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
         {
-            var message = JsonSerializer.Deserialize<JsonElement>(responseContent)
-                             .GetProperty("message").GetString();
-            return message ?? "Thao tác thành công.";
+            return message;
         }
-        catch (JsonException)
-        {
-            return "Thao tác thành công."; 
-        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<string> UpdateStudentGrade(UpdateStudentGradeRequest updateStudentGradeRequest)

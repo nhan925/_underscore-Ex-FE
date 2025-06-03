@@ -6,7 +6,7 @@ using student_management_fe.Services;
 using student_management_fe.Views.Shared;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 
 namespace student_management_fe.Views.Pages.AcademicManagements;

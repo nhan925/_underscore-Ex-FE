@@ -8,7 +8,7 @@ using student_management_fe.Views.Shared;
 using Radzen;
 using ServiceStack.Messaging;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 using Microsoft.Extensions.Localization;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 

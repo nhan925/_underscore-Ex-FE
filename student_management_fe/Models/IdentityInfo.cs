@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using student_management_fe.Resources;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static student_management_fe.Views.Shared.UploadFile;
 
@@ -8,26 +9,33 @@ public class IdentityInfo
 {
     
 
-    [Required(ErrorMessage = "Loại giấy tờ không được để trống.")]
-    [RegularExpression("^(cmnd|cccd|passport)$", ErrorMessage = "Loại giấy tờ phải là 'cmnd', 'cccd' hoặc 'passport'.")]
+    [Required(ErrorMessageResourceName = "identity_info_type_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [RegularExpression("^(cmnd|cccd|passport)$", ErrorMessageResourceName = "identity_info_type_invalid",
+                                                 ErrorMessageResourceType = typeof(Content))]
     public string Type { get; set; }
 
 
-    [Required(ErrorMessage = "Số giấy tờ không được để trống.")]
-    [StringLength(12, ErrorMessage = "Số giấy tờ không được quá 12 ký tự.")]
+    [Required(ErrorMessageResourceName = "identity_info_number_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(12, ErrorMessageResourceName = "identity_info_number_length",
+                      ErrorMessageResourceType = typeof(Content))]
     public string Number { get; set; }
 
 
-    [Required(ErrorMessage = "Nơi cấp không được để trống.")]
+    [Required(ErrorMessageResourceName = "identity_info_place_of_issue_required",
+              ErrorMessageResourceType = typeof(Content))]
     public string PlaceOfIssue { get; set; }
 
 
-    [Required(ErrorMessage = "Ngày cấp không được để trống.")]
+    [Required(ErrorMessageResourceName = "identity_info_date_of_issue_required",
+              ErrorMessageResourceType = typeof(Content))]
     [DataType(DataType.Date)]
     public DateTime? DateOfIssue { get; set; }
 
 
-    [Required(ErrorMessage = "Ngày hết hạn không được để trống.")]
+    [Required(ErrorMessageResourceName = "identity_info_expiry_date_required",
+              ErrorMessageResourceType = typeof(Content))]
     [DataType(DataType.Date)]
     [CustomValidation(typeof(IdentityInfo), nameof(ValidateExpiryDate))]
     public DateTime? ExpiryDate { get; set; }
@@ -87,7 +95,7 @@ public class IdentityInfo
 
         if (expiryDate.HasValue && instance.DateOfIssue.HasValue && expiryDate < instance.DateOfIssue)
         {
-            return new ValidationResult("Ngày hết hạn phải lớn hơn hoặc bằng ngày cấp.");
+            return new ValidationResult(Content.identity_info_expiry_date_invalid);
         }
 
         return ValidationResult.Success;

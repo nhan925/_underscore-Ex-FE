@@ -1,5 +1,5 @@
 ﻿@using Microsoft.Extensions.Localization
-@using student_management_fe.Localization
+@using student_management_fe.Resources
 <RadzenTemplateForm TItem="StudyProgram" Data="@StudyProgram" Submit="@Submit">
     <RadzenStack>
         <RadzenColumn>
@@ -27,7 +27,7 @@
 
     [Parameter] public StudyProgram StudyProgram { get; set; }
 
-	bool popup = true;
+	bool popup = false;
 
     private void Submit() => DialogService.Close(true);
     private void Cancel() => DialogService.Close(false);

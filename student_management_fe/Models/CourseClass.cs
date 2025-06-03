@@ -1,32 +1,42 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using student_management_fe.Resources;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace student_management_fe.Models;
 
 public class CourseClass
 {
-    [Required (ErrorMessage = "Mã lớp học không được để trống")]
-    [StringLength(20, MinimumLength = 4, ErrorMessage = "Mã lớp học phải từ 4 đến 20 ký tự")]
+    [Required (ErrorMessageResourceName = "course_class_model_id_required",
+               ErrorMessageResourceType = typeof(Content))]
+    [StringLength(20, MinimumLength = 4, ErrorMessageResourceName = "course_class_model_id_length",
+                                         ErrorMessageResourceType = typeof(Content))]
     public string? Id { get; set; }
 
-    [Required (ErrorMessage = "Khóa học không được để trống")]
+    [Required (ErrorMessageResourceName = "course_class_model_courseid_required",
+               ErrorMessageResourceType = typeof(Content))]
     public string? CourseId { get; set; }
 
     [Required]
     public int? SemesterId { get; set; }
 
-    [Required(ErrorMessage = "Giảng viên không được để trống")]
+    [Required(ErrorMessageResourceName = "course_class_model_lecturerid_required",
+              ErrorMessageResourceType = typeof(Content))]
     public string? LecturerId { get; set; }
 
-    [Required (ErrorMessage = "Số lượng sinh viên tối đa không được để trống")]
-    [Range(1, 500, ErrorMessage = "Số lượng sinh viên phải từ 1 đến 500")]
+    [Required (ErrorMessageResourceName = "course_class_model_maxstudents_required",
+               ErrorMessageResourceType = typeof(Content))]
+    [Range(1, 500, ErrorMessageResourceName = "course_class_model_maxstudents_range",
+                   ErrorMessageResourceType = typeof(Content))]
     public int? MaxStudents { get; set; }
 
-    [Required (ErrorMessage = "Lịch học không được để trống")]
+    [Required (ErrorMessageResourceName = "course_class_model_schedule_required",
+               ErrorMessageResourceType = typeof(Content))]
     public string? Schedule { get; set; }
 
-    [Required (ErrorMessage = "Phòng học không được để trống")]
-    [StringLength(20, MinimumLength = 4, ErrorMessage = "Phòng học phải từ 4 đến 20 ký tự")]
+    [Required (ErrorMessageResourceName = "course_class_model_room_required",
+               ErrorMessageResourceType = typeof(Content))]
+    [StringLength(20, MinimumLength = 4, ErrorMessageResourceName = "course_class_model_room_length",
+                                         ErrorMessageResourceType = typeof(Content))]
     public string? Room { get; set; }
 
 

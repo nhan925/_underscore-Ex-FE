@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using student_management_fe.Helpers;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;

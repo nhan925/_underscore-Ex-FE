@@ -5,7 +5,7 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared.ManagementsForm;
-using student_management_fe.Localization;
+using student_management_fe.Resources;
 using Microsoft.Extensions.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
