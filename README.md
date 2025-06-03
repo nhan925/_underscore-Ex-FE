@@ -75,6 +75,9 @@ student_management_fe/
 ### Quản lý lớp học
 <img src="./pics/class.gif" width=50%/>
 
+### Đa ngôn ngữ
+<img src="./pics/localization.gif" width=50%/>
+
 ## Các Business Rules
 ### MSSV phải là duy nhất
 - MSSV là khóa chính (PK) trong bảng students
