@@ -1161,4 +1161,10 @@
   <data name="identity_form_has_chip_no" xml:space="preserve">
     <value>Không</value>
   </data>
+  <data name="student_form_invalid_email" xml:space="preserve">
+    <value>Email không hợp lệ.</value>
+  </data>
+  <data name="student_form_invalid_phone_number" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ.</value>
+  </data>
 </root>

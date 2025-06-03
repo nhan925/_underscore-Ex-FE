@@ -2509,6 +2509,24 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email is invalid..
+        /// </summary>
+        public static string student_form_invalid_email {
+            get {
+                return ResourceManager.GetString("student_form_invalid_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number is invalid..
+        /// </summary>
+        public static string student_form_invalid_phone_number {
+            get {
+                return ResourceManager.GetString("student_form_invalid_phone_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mailing.
         /// </summary>
         public static string student_form_mailing_address_label {
