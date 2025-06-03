@@ -1155,4 +1155,10 @@
   <data name="delete_dialog_confirmation_content" xml:space="preserve">
     <value>Sau khi xóa sẽ không thể khôi phục. Bạn có chắc chắn muốn xóa không?</value>
   </data>
+  <data name="identity_form_has_chip_yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="identity_form_has_chip_no" xml:space="preserve">
+    <value>Không</value>
+  </data>
 </root>

@@ -106,7 +106,7 @@ public partial class StudyProgramManagement : ComponentBase
 
         var parameters = new Dictionary<string, object>
         {
-            {"StudyProgram", program },
+            {"StudyProgram", editProgram },
         };
 
         var result = await DialogService.OpenAsync<StudyProgramForm>(_localizer["study_program_management_header_form_add"].Value, parameters);
@@ -140,7 +140,7 @@ public partial class StudyProgramManagement : ComponentBase
             {
                 var studyProgramId = await _studyProgramService.AddProgram(program.Name);
                 await LoadStudyPrograms();
-                Snackbar.Add($"{_localizer["study_program_management_update_success_noti"].Value}: {studyProgramId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["study_program_management_add_success_noti"].Value}: {studyProgramId} !", Severity.Success);
             }
             catch (Exception ex)
             {

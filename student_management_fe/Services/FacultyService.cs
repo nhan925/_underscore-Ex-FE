@@ -36,6 +36,7 @@ public class FacultyService
 
     public async Task<string> UpdateFaculty(Faculty faculty)
     {
+        Console.WriteLine("Updating faculty: " + faculty.Name);
         var json = JsonSerializer.Serialize(faculty);
         var request = new HttpRequestMessage(HttpMethod.Put, "/api/faculty")
         {

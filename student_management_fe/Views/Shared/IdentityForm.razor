@@ -71,12 +71,8 @@
                 <RadzenColumn Size="12" SizeMD="8">
                     <RadzenDropDown TValue="string" Style="width: 100%;"
                                     @bind-Value="Value.AdditionalInfoForIdentityInfo.HasChip"
-                                    Data=@(new List<KeyValuePair<string, string>>
-                                    {
-                                        new("yes", "Có"),
-                                        new("no", "Không")
-                                    })
-                                    TextProperty="Value" ValueProperty="Key" Name="HasChip" Change="UpdateAdditionalInfo" />
+                                    Data=@(new List<string> { @_localizer["identity_form_has_chip_yes"], @_localizer["identity_form_has_chip_no"] })
+                                    Name="HasChip" Change="UpdateAdditionalInfo" />
                     <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>

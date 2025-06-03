@@ -1726,6 +1726,24 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to no.
+        /// </summary>
+        public static string identity_form_has_chip_no {
+            get {
+                return ResourceManager.GetString("identity_form_has_chip_no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yes.
+        /// </summary>
+        public static string identity_form_has_chip_yes {
+            get {
+                return ResourceManager.GetString("identity_form_has_chip_yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>
         public static string identity_form_note_label {

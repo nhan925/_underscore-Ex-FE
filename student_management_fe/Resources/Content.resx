@@ -1155,4 +1155,10 @@
   <data name="delete_dialog_confirmation_content" xml:space="preserve">
     <value>Once deleted, it cannot be restored. Do you confirm the deletion?</value>
   </data>
+  <data name="identity_form_has_chip_yes" xml:space="preserve">
+    <value>yes</value>
+  </data>
+  <data name="identity_form_has_chip_no" xml:space="preserve">
+    <value>no</value>
+  </data>
 </root>
