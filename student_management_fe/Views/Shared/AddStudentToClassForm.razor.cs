@@ -144,5 +144,5 @@ public partial class AddStudentToClassForm
         Console.WriteLine("Invalid submit");
     }
 
-    private void Cancel() => DialogService.Close(false);
+    private void Cancel() => DialogService.Close(null);
 }
