@@ -7,6 +7,7 @@ using student_management_fe.Services;
 using static ServiceStack.Diagnostics.Events;
 using Microsoft.Extensions.Localization;
 using student_management_fe.Resources;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages.Settings;
 
@@ -14,6 +15,9 @@ public partial class StudentStatusSetting
 {
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     private readonly ConfigurationsService _configurationsService;
     private readonly StudentStatusService _studentStatusService;
@@ -141,9 +145,20 @@ public partial class StudentStatusSetting
 
     private async Task DeleteStudentStatusSetting(int studentStatusId)
     {
-        configInformations.Value[selectedStudentStatus.Id.ToString()].Remove(studentStatusId);
-        availableNextStatus.RemoveAll(c => c.Id == studentStatusId);
-        await UpdateStudentStatusSetting();
+        var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+        title: _localizer["delete_confirmation_dialog_header"],
+        parameters: new Dictionary<string, object>
+        {
+            { "ContentText", _localizer["delete_dialog_confirmation_content"].Value },
+            { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
+        }
+        );
+        if (result is bool confirmed && confirmed)
+        {
+            configInformations.Value[selectedStudentStatus.Id.ToString()].Remove(studentStatusId);
+            availableNextStatus.RemoveAll(c => c.Id == studentStatusId);
+            await UpdateStudentStatusSetting();
+        }
     }
 
     private async Task UpdateStudentStatusSetting()

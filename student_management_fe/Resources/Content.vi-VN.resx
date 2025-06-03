@@ -1152,4 +1152,7 @@
   <data name="student_model_id_invalid_format" xml:space="preserve">
     <value>Mã sinh viên phải có đúng 8 chữ số.</value>
   </data>
+  <data name="delete_dialog_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa sẽ không thể khôi phục. Bạn có chắc chắn muốn xóa không?</value>
+  </data>
 </root>

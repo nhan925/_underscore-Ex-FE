@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
 using student_management_fe.Resources;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages.Settings;
 public partial class EmailSetting
 {
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
+    private Radzen.DialogService DialogService { get; set; } = default!;
 
     private readonly ConfigurationsService _configurationsService;
     private string newDomain { get; set; } = string.Empty;
@@ -66,9 +70,19 @@ public partial class EmailSetting
 
     private async Task DeleteEmailSetting(string domain)
     {
-        configInformations.Value.Remove(domain);
-        await UpdateEmailSetting();
-
+        var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+        title: _localizer["delete_confirmation_dialog_header"],
+        parameters: new Dictionary<string, object>
+        {
+            { "ContentText", _localizer["delete_dialog_confirmation_content"].Value },
+            { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
+        }
+        );
+        if (result is bool confirmed && confirmed)
+        {
+            configInformations.Value.Remove(domain);
+            await UpdateEmailSetting();
+        }
     }
 
     private async Task LoadEmailSetting()

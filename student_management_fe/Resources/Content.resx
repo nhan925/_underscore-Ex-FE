@@ -1152,4 +1152,7 @@
   <data name="student_model_id_invalid_format" xml:space="preserve">
     <value>Student ID must be exactly 8 digits.</value>
   </data>
+  <data name="delete_dialog_confirmation_content" xml:space="preserve">
+    <value>Once deleted, it cannot be restored. Do you confirm the deletion?</value>
+  </data>
 </root>

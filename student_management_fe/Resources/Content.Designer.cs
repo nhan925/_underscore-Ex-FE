@@ -1087,6 +1087,15 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Once deleted, it cannot be restored. Do you confirm the deletion?.
+        /// </summary>
+        public static string delete_dialog_confirmation_content {
+            get {
+                return ResourceManager.GetString("delete_dialog_confirmation_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         public static string email_setting_add_button_text {

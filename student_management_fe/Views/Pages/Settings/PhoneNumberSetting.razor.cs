@@ -5,6 +5,7 @@ using student_management_fe.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
 using student_management_fe.Resources;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages.Settings
 {
@@ -13,6 +14,9 @@ namespace student_management_fe.Views.Pages.Settings
 
         [Inject]
         private ISnackbar Snackbar { get; set; } = default!;
+
+        [Inject]
+        private Radzen.DialogService DialogService { get; set; } = default!;
 
         private readonly ConfigurationsService _configurationsService;
         private readonly CountryPhoneCodeService _countryPhoneCodeService;
@@ -90,9 +94,20 @@ namespace student_management_fe.Views.Pages.Settings
 
         private async Task DeletePhoneNumberSetting(string code)
         {
-            configInformations.Value.Remove(code);
-            MapConfigToPhoneInformation();
-            await UpdatePhoneNumberSetting();
+            var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+            title: _localizer["delete_confirmation_dialog_header"],
+            parameters: new Dictionary<string, object>
+            {
+                { "ContentText", _localizer["delete_dialog_confirmation_content"].Value },
+                { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
+            }
+            );
+            if (result is bool confirmed && confirmed)
+            {
+                configInformations.Value.Remove(code);
+                MapConfigToPhoneInformation();
+                await UpdatePhoneNumberSetting();
+            }
         }
 
         private async Task LoadPhoneNumberSetting()
