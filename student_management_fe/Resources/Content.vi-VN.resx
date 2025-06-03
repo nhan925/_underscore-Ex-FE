@@ -1167,4 +1167,16 @@
   <data name="student_form_invalid_phone_number" xml:space="preserve">
     <value>Số điện thoại không hợp lệ.</value>
   </data>
+  <data name="notification_title" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="course_form_update_has_students_warning" xml:space="preserve">
+    <value>Khóa học này đã có sinh viên đăng ký, một số thông tin sẽ không thể chỉnh sửa.</value>
+  </data>
+  <data name="error_title" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="course_form_check_failed_message" xml:space="preserve">
+    <value>Không thể kiểm tra thông tin đăng ký.</value>
+  </data>
 </root>

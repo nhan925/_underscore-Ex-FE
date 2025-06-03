@@ -1167,4 +1167,16 @@
   <data name="student_form_invalid_phone_number" xml:space="preserve">
     <value>Phone number is invalid.</value>
   </data>
+  <data name="notification_title" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="course_form_update_has_students_warning" xml:space="preserve">
+    <value>This course already has enrolled students. Some information cannot be edited.</value>
+  </data>
+  <data name="error_title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="course_form_check_failed_message" xml:space="preserve">
+    <value>Unable to check enrollment information.</value>
+  </data>
 </root>

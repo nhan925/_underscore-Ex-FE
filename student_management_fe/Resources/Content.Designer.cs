@@ -772,6 +772,15 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to check enrollment information..
+        /// </summary>
+        public static string course_form_check_failed_message {
+            get {
+                return ResourceManager.GetString("course_form_check_failed_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Course Information.
         /// </summary>
         public static string course_form_course_info_label {
@@ -849,6 +858,15 @@ namespace student_management_fe.Resources {
         public static string course_form_title_label {
             get {
                 return ResourceManager.GetString("course_form_title_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This course already has enrolled students. Some information cannot be edited..
+        /// </summary>
+        public static string course_form_update_has_students_warning {
+            get {
+                return ResourceManager.GetString("course_form_update_has_students_warning", resourceCulture);
             }
         }
         
@@ -1191,6 +1209,15 @@ namespace student_management_fe.Resources {
         public static string error {
             get {
                 return ResourceManager.GetString("error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string error_title {
+            get {
+                return ResourceManager.GetString("error_title", resourceCulture);
             }
         }
         
@@ -2082,6 +2109,15 @@ namespace student_management_fe.Resources {
         public static string no_records_content {
             get {
                 return ResourceManager.GetString("no_records_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification.
+        /// </summary>
+        public static string notification_title {
+            get {
+                return ResourceManager.GetString("notification_title", resourceCulture);
             }
         }
         
