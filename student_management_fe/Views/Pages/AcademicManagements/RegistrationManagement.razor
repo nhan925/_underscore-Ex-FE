@@ -105,18 +105,25 @@ else
             <MudTd Style="text-align: center" DataLabel=@_localizer["column_order_header"]>@((studentsInClass.IndexOf(context) + 1))</MudTd>
             <MudTd DataLabel=@_localizer["registration_management_column_student_id_header"] Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel=@_localizer["registration_management_column_student_fullname_header"]>@context.FullName</MudTd>
-            <MudTd DataLabel=@_localizer["registration_management_column_grade_header"] Style="text-align: center" @ondblclick="() => StartEditingGrade(context)">
+            <MudTd DataLabel=@_localizer["registration_management_column_grade_header"] Style="text-align: center">
                 @if (editingStudent?.Id == context.Id)
                 {
                     <div class="d-flex align-center">
-                        <MudNumericField T="float?" @bind-Value="editingGrade" HideSpinButtons="true" Step="0.1f" Format="F1" Min="0f" Max="10f" FullWidth="true" Style="margin-right: 8px;" />
+                        <MudNumericField T="float?" @bind-Value="editingGrade" HideSpinButtons="true" Step="0.1f" Format="F1" Min="0f" Max="10f" FullWidth="true" style="margin-right: 1rem"/>
                         <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="SaveGrade" />
                         <MudIconButton Icon="@Icons.Material.Filled.Close" Color="Color.Error" Size="Size.Small" OnClick="CancelEdit" />
                     </div>
                 }
                 else
                 {
-                    @(context.Grade.HasValue ? context.Grade.Value.ToString("F1") : null)
+                    <div Style="position: relative; text-align: center;">
+                        <span>@(context.Grade.HasValue ? context.Grade.Value.ToString("F1") : null)</span>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                       Color="Color.Default"
+                                       Size="Size.Small"
+                                       OnClick="() => StartEditingGrade(context)"
+                                       Style="position: absolute; top: 50%; right: 4px; transform: translateY(-50%);" />
+                    </div>
                 }
             </MudTd>
             <MudTd DataLabel=@_localizer["registration_management_column_student_status_header"] Style="text-align: center">@context.Status</MudTd>

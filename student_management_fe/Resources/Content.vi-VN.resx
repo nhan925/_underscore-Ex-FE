@@ -1179,4 +1179,7 @@
   <data name="course_form_check_failed_message" xml:space="preserve">
     <value>Không thể kiểm tra thông tin đăng ký.</value>
   </data>
+  <data name="warning_old_score_will_be_deleted_if_course_repeated" xml:space="preserve">
+    <value>Chú ý: nếu sinh viên đã học môn này thì điểm cũ sẽ bị xóa!</value>
+  </data>
 </root>

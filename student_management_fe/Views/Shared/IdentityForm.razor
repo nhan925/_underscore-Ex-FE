@@ -69,7 +69,7 @@
                         <RadzenCheckBox Style="margin-right: 1rem" @bind-Value=@Value.AdditionalInfoForIdentityInfo.HasChipBool Name="HasChip" Change="@((bool _) => UpdateAdditionalInfo())" />
                         <RadzenLabel Text=@_localizer["identity_form_chip_label"] Component="HasChip" />
                     </div>
-                </RadzenColumn>
+            </RadzenColumn>
         }
         @if (Value.Type == "passport")
         {

@@ -3238,6 +3238,15 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning: if the student has already taken this course, the previous score will be deleted!.
+        /// </summary>
+        public static string warning_old_score_will_be_deleted_if_course_repeated {
+            get {
+                return ResourceManager.GetString("warning_old_score_will_be_deleted_if_course_repeated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wednesday.
         /// </summary>
         public static string wednesday {

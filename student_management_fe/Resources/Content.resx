@@ -1179,4 +1179,7 @@
   <data name="course_form_check_failed_message" xml:space="preserve">
     <value>Unable to check enrollment information.</value>
   </data>
+  <data name="warning_old_score_will_be_deleted_if_course_repeated" xml:space="preserve">
+    <value>Warning: if the student has already taken this course, the previous score will be deleted!</value>
+  </data>
 </root>

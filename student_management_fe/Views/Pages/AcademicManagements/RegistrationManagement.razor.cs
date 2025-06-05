@@ -56,16 +56,18 @@ public partial class RegistrationManagement
         {
             isLoading = true;
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-            courseClass = _dataService.GetData<GetCourseClassResult>();
-            if (courseClass == null)
+            var courseClassTemp = _dataService.GetData<GetCourseClassResult>();
+            if (courseClassTemp == null)
             {
-                courseClass = await LocalStorage.GetItemAsync<GetCourseClassResult>("cachedCourseClassSelected");
-                if (courseClass == null)
+                courseClassTemp = await LocalStorage.GetItemAsync<GetCourseClassResult>("cachedCourseClassSelected");
+                if (courseClassTemp == null)
                 {
                     Snackbar.Add(_localizer["registration_management_classes_info_not_found"], Severity.Warning);
                     return;
                 }
             }
+            courseClass = await _courseClassService.GetCourseClassByIdAndCourseAndSemester(courseClassTemp.Id, courseClassTemp.Course.Id, courseClassTemp.Semester.Id);
+            
             years = await _yearAndSemesterService.GetAllYears();
             if (years != null && courseClass.Semester != null)
             {
@@ -198,7 +200,6 @@ public partial class RegistrationManagement
                 if (editingStudent != null && originalGrade.HasValue)
                     editingStudent.Grade = originalGrade;
               
-                //Snackbar.Add($"Lỗi khi cập nhật điểm số: {ex.Message}", Severity.Error);
                 Snackbar.Add(ex.Message, Severity.Error);
             }
             finally

@@ -5,6 +5,8 @@ using student_management_fe.Models;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using static MudBlazor.Defaults;
+using ServiceStack.Web;
 
 namespace student_management_fe.Services;
 
@@ -20,7 +22,7 @@ public class CourseClassService
 
     public async Task<List<GetCourseClassResult>> GetAllCourseClassesBySemester(int semesterId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/classes/{semesterId}");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/classes/in-semester/{semesterId}");
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
@@ -29,6 +31,25 @@ public class CourseClassService
         }
         return await response.Content.ReadFromJsonAsync<List<GetCourseClassResult>>() ?? new();
     }
+
+    public async Task<GetCourseClassResult> GetCourseClassByIdAndCourseAndSemester(string classId, string courseId, int semesterId)
+    {
+        var compositedId = $"{classId}-{courseId}-{semesterId}";
+        var apiEndpoint = $"api/classes/{compositedId}";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);
+        var response = await _authService.SendRequestWithAuthAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
+        }
+
+        var courseClass = await response.Content.ReadFromJsonAsync<GetCourseClassResult>();
+        return courseClass ?? new GetCourseClassResult();
+    }
+
 
     public async Task<string> AddCourseClass(CourseClass courseClass)
     {

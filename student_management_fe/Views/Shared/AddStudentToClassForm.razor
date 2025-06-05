@@ -122,9 +122,14 @@
         </RadzenRow>
     </div>
     <div class="fixed-bottom-buttons">
-        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text=@_localizer["all_actions_cancel_button_text"] Click="@Cancel" />
-            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
-        </RadzenStack>
+        <RadzenColumn Size="12" SizeMD="12" Style="padding: 0">
+            <RadzenRow AlignItems="Radzen.AlignItems.Center" Style="padding: 0">
+                <div class="error">@_localizer["warning_old_score_will_be_deleted_if_course_repeated"]</div>
+            </RadzenRow>
+            <RadzenRow AlignItems="Radzen.AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-4 rz-mb-4" Style="padding: 0">
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text=@_localizer["all_actions_cancel_button_text"] Click="@Cancel" />
+                <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+            </RadzenRow>
+		</RadzenColumn>
     </div>
 </RadzenTemplateForm>
