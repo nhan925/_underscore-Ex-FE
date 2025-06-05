@@ -48,7 +48,6 @@ public partial class IdentityForm
 
     private async Task ValidateAndUpdate()
     {
-        
         if (OnIdentityInfoUpdated.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);

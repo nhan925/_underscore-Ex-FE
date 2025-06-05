@@ -64,18 +64,12 @@
         </RadzenRow>
         @if (Value.Type == "cccd")
         {
-            <RadzenRow AlignItems="Radzen.AlignItems.Center">
-                <RadzenColumn Size="12" SizeMD="4">
-                    <RadzenLabel Text=@_localizer["identity_form_chip_label"] />
+            <RadzenColumn Size="12" SizeMD="4" Style="margin-left: 0; padding: 0">
+                    <div style="margin-left: 0; padding: 0; display: flex; align-items: center;">
+                        <RadzenCheckBox Style="margin-right: 1rem" @bind-Value=@Value.AdditionalInfoForIdentityInfo.HasChipBool Name="HasChip" Change="@((bool _) => UpdateAdditionalInfo())" />
+                        <RadzenLabel Text=@_localizer["identity_form_chip_label"] Component="HasChip" />
+                    </div>
                 </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenDropDown TValue="string" Style="width: 100%;"
-                                    @bind-Value="Value.AdditionalInfoForIdentityInfo.HasChip"
-                                    Data=@(new List<string> { @_localizer["identity_form_has_chip_yes"], @_localizer["identity_form_has_chip_no"] })
-                                    Name="HasChip" Change="UpdateAdditionalInfo" />
-                    <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
-                </RadzenColumn>
-            </RadzenRow>
         }
         @if (Value.Type == "passport")
         {
