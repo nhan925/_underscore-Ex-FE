@@ -22,6 +22,9 @@ student_management_fe/
 └── wwwroot/
 ```
 
+## Kiến trúc
+<img src="./pics/architecture.svg" width=100%/>
+
 ## Hướng dẫn cài đặt & chạy chương trình
 - Sử dụng Visual Studio 2022
 - Cài gói `ASP.NET and web development`
