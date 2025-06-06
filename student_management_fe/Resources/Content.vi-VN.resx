@@ -1,0 +1,1185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="home_title_text" xml:space="preserve">
+    <value>Danh Sách Sinh Viên</value>
+  </data>
+  <data name="home_filter_button" xml:space="preserve">
+    <value>Bộ lọc</value>
+  </data>
+  <data name="home_search_button" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="home_add_new_menu" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="home_add_new_student_menu_item" xml:space="preserve">
+    <value>Thêm sinh viên</value>
+  </data>
+  <data name="home_import_from_excel_menu_item" xml:space="preserve">
+    <value>Nhập từ Excel</value>
+  </data>
+  <data name="home_import_from_json_menu_item" xml:space="preserve">
+    <value>Nhập từ Json</value>
+  </data>
+  <data name="home_export_file_menu" xml:space="preserve">
+    <value>Xuất File</value>
+  </data>
+  <data name="home_search_student_by_faculty_placeholder" xml:space="preserve">
+    <value>Chọn khoa</value>
+  </data>
+  <data name="home_search_student_by_name_id_placeholder" xml:space="preserve">
+    <value>Nhập tên sinh viên hoặc MSSV</value>
+  </data>
+  <data name="home_column_student_id_header" xml:space="preserve">
+    <value>MSSV</value>
+  </data>
+  <data name="home_column_full_name_header" xml:space="preserve">
+    <value>Họ Và Tên</value>
+  </data>
+  <data name="home_column_date_of_birth_header" xml:space="preserve">
+    <value>Ngày Sinh</value>
+  </data>
+  <data name="home_column_gender_header" xml:space="preserve">
+    <value>Giới Tính</value>
+  </data>
+  <data name="home_column_faculty_header" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="home_column_study_program_header" xml:space="preserve">
+    <value>Chương Trình</value>
+  </data>
+  <data name="home_column_student_status_header" xml:space="preserve">
+    <value>Tình Trạng</value>
+  </data>
+  <data name="home_column_intake_year_header" xml:space="preserve">
+    <value>Khóa</value>
+  </data>
+  <data name="home_export_to_excel_menu_item" xml:space="preserve">
+    <value>Xuất file Excel</value>
+  </data>
+  <data name="home_export_to_json_menu_item" xml:space="preserve">
+    <value>Xuất file Json</value>
+  </data>
+  <data name="column_actions_header" xml:space="preserve">
+    <value>Thao Tác</value>
+  </data>
+  <data name="home_pagination_text" xml:space="preserve">
+    <value>Trang</value>
+  </data>
+  <data name="home_download_transcript_tooltip" xml:space="preserve">
+    <value>Tải bảng điểm</value>
+  </data>
+  <data name="home_edit_student_information_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa thông tin sinh viên</value>
+  </data>
+  <data name="home_delete_student_tooltip" xml:space="preserve">
+    <value>Xóa sinh viên</value>
+  </data>
+  <data name="no_records_content" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu...</value>
+  </data>
+  <data name="all_no_records_content" xml:space="preserve">
+    <value>Không tìm thấy dữ liệu...</value>
+  </data>
+  <data name="all_loading_content" xml:space="preserve">
+    <value>Đang tải...</value>
+  </data>
+  <data name="home_loading_content1" xml:space="preserve">
+    <value>Đang tải...</value>
+  </data>
+  <data name="email_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Email Sinh Viên</value>
+  </data>
+  <data name="email_setting_input_placeholder" xml:space="preserve">
+    <value>Nhập doamin email. Ví dụ hcmus.edu.vn</value>
+  </data>
+  <data name="email_setting_add_button_text" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="email_setting_toggle_button_text" xml:space="preserve">
+    <value>Bật/Tắt quy định</value>
+  </data>
+  <data name="email_setting_column_id_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="email_setting_column_domain_email_header" xml:space="preserve">
+    <value>Đuôi Email</value>
+  </data>
+  <data name="email_setting_column_actions_header" xml:space="preserve">
+    <value>Thao Tác</value>
+  </data>
+  <data name="phone_number_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Số Điện Thoại</value>
+  </data>
+  <data name="phone_number_setting_add_button_text" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="phone_number_setting_toggle_button_text" xml:space="preserve">
+    <value>Bất/Tắt quy định</value>
+  </data>
+  <data name="phone_number_setting_column_id_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="phone_number_setting_column_country_header" xml:space="preserve">
+    <value>Quốc Gia</value>
+  </data>
+  <data name="phone_number_setting_column_phone_number_header" xml:space="preserve">
+    <value>Số Điện Thoại</value>
+  </data>
+  <data name="phone_number_setting_column_actions_header" xml:space="preserve">
+    <value>Thao Tác</value>
+  </data>
+  <data name="student_status_setting_title_text" xml:space="preserve">
+    <value>Cấu Hình Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_setting_source_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên cấu hình</value>
+  </data>
+  <data name="student_status_setting_destination_placeholder" xml:space="preserve">
+    <value>Chọn trạng thái sinh viên chuyển đến</value>
+  </data>
+  <data name="student_status_setting_column_id_header" xml:space="preserve">
+    <value>Mã Trạng Thái</value>
+  </data>
+  <data name="student_status_setting_column_status_header" xml:space="preserve">
+    <value>Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_setting_column_actions_header" xml:space="preserve">
+    <value>Thao Tác</value>
+  </data>
+  <data name="all_actions_delete_tooltip" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="all_actions_update_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa</value>
+  </data>
+  <data name="phone_number_setting_input_placeholder" xml:space="preserve">
+    <value>Nhập số điện thoại</value>
+  </data>
+  <data name="student_status_setting_undefined_state" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="student_status_setting_toggle_button_text" xml:space="preserve">
+    <value>Bật/Tắt quy định</value>
+  </data>
+  <data name="all_actions_save_button_text" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="all_actions_cancel_button_text" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="address_form_adress_street_label" xml:space="preserve">
+    <value>Số nhà/Tên đường</value>
+  </data>
+  <data name="address_form_address_country_label" xml:space="preserve">
+    <value>Quốc gia</value>
+  </data>
+  <data name="address_form_address_village_label" xml:space="preserve">
+    <value>Phường/Xã</value>
+  </data>
+  <data name="address_form_address_district_label" xml:space="preserve">
+    <value>Quận/Huyện</value>
+  </data>
+  <data name="address_form_address_city_label" xml:space="preserve">
+    <value>Tỉnh/Thành phố</value>
+  </data>
+  <data name="identity_form_title_label" xml:space="preserve">
+    <value>Giấy Chứng Minh Nhân Dân</value>
+  </data>
+  <data name="identity_form_type_card_label" xml:space="preserve">
+    <value>Loại giấy tờ</value>
+  </data>
+  <data name="identity_form_card_number_label" xml:space="preserve">
+    <value>Số giấy tờ</value>
+  </data>
+  <data name="identity_form_date_label" xml:space="preserve">
+    <value>Ngày cấp</value>
+  </data>
+  <data name="identity_form_address_label" xml:space="preserve">
+    <value>Nơi cấp</value>
+  </data>
+  <data name="identity_form_expired_label" xml:space="preserve">
+    <value>Ngày hết hạn</value>
+  </data>
+  <data name="identity_form_country_label" xml:space="preserve">
+    <value>Quốc gia cấp</value>
+  </data>
+  <data name="identity_form_note_label" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="identity_form_chip_label" xml:space="preserve">
+    <value>Có gắn chip</value>
+  </data>
+  <data name="identity_form_cmnd_dropdown" xml:space="preserve">
+    <value>Chứng minh nhân dân (CMND)</value>
+  </data>
+  <data name="identity_form_cccd_dropdown" xml:space="preserve">
+    <value>Căn cước công dân (CCCD)</value>
+  </data>
+  <data name="identity_form_passport_dropdown" xml:space="preserve">
+    <value>Hộ chiếu (Passport)</value>
+  </data>
+  <data name="address_form_title_label" xml:space="preserve">
+    <value>Địa Chỉ</value>
+  </data>
+  <data name="student_form_general_title_label" xml:space="preserve">
+    <value>Thông Tin Chung</value>
+  </data>
+  <data name="student_form_full_name_label" xml:space="preserve">
+    <value>Họ và tên</value>
+  </data>
+  <data name="student_form_dob_label" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="student_form_gender_label" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="student_form_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="student_form_intake_year_label" xml:space="preserve">
+    <value>Khóa</value>
+  </data>
+  <data name="student_form_study_program_label" xml:space="preserve">
+    <value>Chương trình</value>
+  </data>
+  <data name="student_form_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="student_form_phone_number_label" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="student_form_status_label" xml:space="preserve">
+    <value>Tình trạng sinh viên</value>
+  </data>
+  <data name="student_form_nationality_label" xml:space="preserve">
+    <value>Quốc tịch</value>
+  </data>
+  <data name="student_form_student_id_label" xml:space="preserve">
+    <value>MSSV</value>
+  </data>
+  <data name="student_form_permanent_address_label" xml:space="preserve">
+    <value>Thường trú</value>
+  </data>
+  <data name="student_form_temporary_address_label" xml:space="preserve">
+    <value>Tạm trú</value>
+  </data>
+  <data name="student_form_mailing_address_label" xml:space="preserve">
+    <value>Nhận thư</value>
+  </data>
+  <data name="student_form_permanent_adress_error" xml:space="preserve">
+    <value>Địa chỉ thường trú không được để trống</value>
+  </data>
+  <data name="gender_male_label" xml:space="preserve">
+    <value>Nam</value>
+  </data>
+  <data name="gender_female_label" xml:space="preserve">
+    <value>Nữ</value>
+  </data>
+  <data name="gender_other_label" xml:space="preserve">
+    <value>Khác</value>
+  </data>
+  <data name="course_form_course_info_label" xml:space="preserve">
+    <value>Thông tin khóa học</value>
+  </data>
+  <data name="course_form_title_label" xml:space="preserve">
+    <value>Thêm Khóa Học</value>
+  </data>
+  <data name="course_form_id_label" xml:space="preserve">
+    <value>Mã khóa học</value>
+  </data>
+  <data name="course_form_name_label" xml:space="preserve">
+    <value>Tên khóa học</value>
+  </data>
+  <data name="course_form_credits_label" xml:space="preserve">
+    <value>Số tín chỉ</value>
+  </data>
+  <data name="course_form_faculty_label" xml:space="preserve">
+    <value>Khoa phụ trách</value>
+  </data>
+  <data name="course_form_prerequisites_label" xml:space="preserve">
+    <value>Môn tiên quyết</value>
+  </data>
+  <data name="course_form_description_label" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="course_form_credits_error" xml:space="preserve">
+    <value>Không thể thay đổi số tín chỉ vì khóa học đã có sinh viên đăng ký</value>
+  </data>
+  <data name="course_class_form_class_info_label" xml:space="preserve">
+    <value>Thông tin lớp học</value>
+  </data>
+  <data name="course_class_form_id_label" xml:space="preserve">
+    <value>Mã lớp học</value>
+  </data>
+  <data name="course_class_form_course_label" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="course_class_form_lecturer_label" xml:space="preserve">
+    <value>Giảng viên</value>
+  </data>
+  <data name="course_class_form_room_label" xml:space="preserve">
+    <value>Phòng học</value>
+  </data>
+  <data name="course_class_form_time_table_label" xml:space="preserve">
+    <value>Lịch học</value>
+  </data>
+  <data name="course_class_form_date_label" xml:space="preserve">
+    <value>Thứ</value>
+  </data>
+  <data name="course_class_form_start_label" xml:space="preserve">
+    <value>Giờ bắt đầu</value>
+  </data>
+  <data name="course_class_form_end_label" xml:space="preserve">
+    <value>Giờ kết thúc</value>
+  </data>
+  <data name="course_class_form_start_placeholder" xml:space="preserve">
+    <value>Chọn giờ bắt đầu</value>
+  </data>
+  <data name="course_class_form_end_placeholder" xml:space="preserve">
+    <value>Chọn giờ kết thúc</value>
+  </data>
+  <data name="course_class_form_time_error" xml:space="preserve">
+    <value>Thời gian bắt đầu và thời gian kết thúc không hợp lệ</value>
+  </data>
+  <data name="course_class_form_student_label" xml:space="preserve">
+    <value>Số lượng SV</value>
+  </data>
+  <data name="course_class_form_day_placeholder" xml:space="preserve">
+    <value>Chọn thứ</value>
+  </data>
+  <data name="add_student_to_class_form_student_info_lable" xml:space="preserve">
+    <value>Thông tin sinh viên</value>
+  </data>
+  <data name="add_student_to_class_form_id_label" xml:space="preserve">
+    <value>MSSV</value>
+  </data>
+  <data name="add_student_to_class_form_name_label" xml:space="preserve">
+    <value>Họ và tên</value>
+  </data>
+  <data name="add_student_to_class_form_dob_label" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="add_student_to_class_form_gender_label" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="add_student_to_class_form_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="add_student_to_class_form_intake_year_label" xml:space="preserve">
+    <value>Khóa</value>
+  </data>
+  <data name="add_student_to_class_form_program_label" xml:space="preserve">
+    <value>Chương trình</value>
+  </data>
+  <data name="add_student_to_class_form_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="add_student_to_class_form_phone_number_labe" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="add_student_to_class_form_status_label" xml:space="preserve">
+    <value>Tình trạng sinh viên</value>
+  </data>
+  <data name="add_student_to_class_form_nationality_label" xml:space="preserve">
+    <value>Quốc tịch</value>
+  </data>
+  <data name="add_student_to_class_form_title_text" xml:space="preserve">
+    <value>Thêm Sinh Viên Vào Lớp Học</value>
+  </data>
+  <data name="upload_file_form_tip" xml:space="preserve">
+    <value>Kéo và thả File hoặc nhấn chọn</value>
+  </data>
+  <data name="upload_file_form_upload" xml:space="preserve">
+    <value>Tải lên</value>
+  </data>
+  <data name="upload_file_form_delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="upload_file_form_at_least_warning" xml:space="preserve">
+    <value>Vui lòng chọn ít nhất một tệp.</value>
+  </data>
+  <data name="upload_file_form_format_warning" xml:space="preserve">
+    <value>Chỉ chấp nhận các tệp có định dạng</value>
+  </data>
+  <data name="upload_file_form_size_warning" xml:space="preserve">
+    <value>Tệp có kích thước lớn hơn 5MB!</value>
+  </data>
+  <data name="upload_file_message_1" xml:space="preserve">
+    <value>Phải có một tệp tin.</value>
+  </data>
+  <data name="upload_file_message_2" xml:space="preserve">
+    <value>Tệp tin phải nhỏ hơn 5MB.</value>
+  </data>
+  <data name="upload_file_message_3" xml:space="preserve">
+    <value>File không hợp lệ</value>
+  </data>
+  <data name="loading_content" xml:space="preserve">
+    <value>Đang tải...</value>
+  </data>
+  <data name="faculty_management_title_text" xml:space="preserve">
+    <value>Danh Sách Khoa</value>
+  </data>
+  <data name="faculty_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Nhập tên khoa hoặc mã khoa</value>
+  </data>
+  <data name="search_button" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="add_new_button" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="column_order_header" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="faculty_management_column_id_header" xml:space="preserve">
+    <value>Mã Khoa</value>
+  </data>
+  <data name="faculty_management_column_name_header" xml:space="preserve">
+    <value>Tên Khoa</value>
+  </data>
+  <data name="faculty_management_edit_faculty_information_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa thông tin khoa</value>
+  </data>
+  <data name="student_status_management_title_text" xml:space="preserve">
+    <value>Danh Sách Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Nhập tên trạng thái hoặc mã trạng thái</value>
+  </data>
+  <data name="student_status_management_column_id_header" xml:space="preserve">
+    <value>Mã Trạng Thái</value>
+  </data>
+  <data name="student_status_management_column_name_header" xml:space="preserve">
+    <value>Tên Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_edit_status_information_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa thông tin trạng thái</value>
+  </data>
+  <data name="study_program_management_title_text" xml:space="preserve">
+    <value>Danh Sách Chương Trình</value>
+  </data>
+  <data name="study_program_management_search_by_name_id_placeholder" xml:space="preserve">
+    <value>Nhập tên chương trình học hoặc mã chương trình học</value>
+  </data>
+  <data name="study_program_management_column_id_header" xml:space="preserve">
+    <value>Mã Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_column_name_header" xml:space="preserve">
+    <value>Tên Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_edit_study_program_information_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa thông tin chương trình học</value>
+  </data>
+  <data name="course_management_title_text" xml:space="preserve">
+    <value>Danh Sách Khóa Học</value>
+  </data>
+  <data name="course_management_search_placeholder" xml:space="preserve">
+    <value>Nhập tên khóa học hoặc mã khóa học</value>
+  </data>
+  <data name="course_management_column_id_header" xml:space="preserve">
+    <value>Mã Khóa Học</value>
+  </data>
+  <data name="course_management_column_name_header" xml:space="preserve">
+    <value>Tên Khóa Học</value>
+  </data>
+  <data name="course_management_column_credits_header" xml:space="preserve">
+    <value>Tín Chỉ</value>
+  </data>
+  <data name="course_management_column_faculty_header" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="course_management_column_status_header" xml:space="preserve">
+    <value>Trạng Thái</value>
+  </data>
+  <data name="course_management_active_course_status_chip" xml:space="preserve">
+    <value>Đang hoạt động</value>
+  </data>
+  <data name="course_management_locked_course_status_chip" xml:space="preserve">
+    <value>Đã khóa</value>
+  </data>
+  <data name="course_manaement_edit_course_information_tooltip" xml:space="preserve">
+    <value>Chỉnh sửa thông tin khóa học</value>
+  </data>
+  <data name="course_manaement_delete_course_tooltip" xml:space="preserve">
+    <value>Xóa khóa học</value>
+  </data>
+  <data name="course_classes_management_title_text" xml:space="preserve">
+    <value>Danh Sách Lớp Học</value>
+  </data>
+  <data name="course_classes_management_select_year_dropdown" xml:space="preserve">
+    <value>Chọn Năm Học</value>
+  </data>
+  <data name="course_classes_management_select_semester_dropdown" xml:space="preserve">
+    <value>Chọn Học Kỳ</value>
+  </data>
+  <data name="course_classes_management_search_placeholder" xml:space="preserve">
+    <value>Nhập mã lớp hoặc tên khóa học</value>
+  </data>
+  <data name="course_classes_management_column_id_header" xml:space="preserve">
+    <value>Mã Lớp</value>
+  </data>
+  <data name="course_classes_management_column_course_header" xml:space="preserve">
+    <value>Tên Khóa Học</value>
+  </data>
+  <data name="course_classes_management_column_lecturer_header" xml:space="preserve">
+    <value>Tên Giảng Viên</value>
+  </data>
+  <data name="course_classes_management_column_number_of_student_header" xml:space="preserve">
+    <value>Số Lượng SV tối đa</value>
+  </data>
+  <data name="course_classes_management_column_schedule_header" xml:space="preserve">
+    <value>Lịch Học</value>
+  </data>
+  <data name="course_classes_management_column_room_header" xml:space="preserve">
+    <value>Phòng Học</value>
+  </data>
+  <data name="registration_management_title_text" xml:space="preserve">
+    <value>Danh Sách Sinh Viên</value>
+  </data>
+  <data name="registration_management_class_information_subtitle" xml:space="preserve">
+    <value>Thông Tin Lớp Học</value>
+  </data>
+  <data name="registration_management_class_detail_subtitle" xml:space="preserve">
+    <value>Chi Tiết Lớp Học</value>
+  </data>
+  <data name="registration_management_column_student_id_header" xml:space="preserve">
+    <value>MSSV</value>
+  </data>
+  <data name="registration_management_column_student_fullname_header" xml:space="preserve">
+    <value>Họ Và Tên</value>
+  </data>
+  <data name="registration_management_column_grade_header" xml:space="preserve">
+    <value>Điểm Số</value>
+  </data>
+  <data name="registration_management_column_student_status_header" xml:space="preserve">
+    <value>Trạng Thái</value>
+  </data>
+  <data name="registration_management_class_id_label" xml:space="preserve">
+    <value>Mã lớp</value>
+  </data>
+  <data name="registration_management_course_label" xml:space="preserve">
+    <value>Khóa học</value>
+  </data>
+  <data name="registration_management_year_semester_label" xml:space="preserve">
+    <value>Năm học/Học kỳ</value>
+  </data>
+  <data name="registration_management_lecturer_label" xml:space="preserve">
+    <value>Giảng viên</value>
+  </data>
+  <data name="registration_management_max_students_label" xml:space="preserve">
+    <value>Số lượng SV tối đa</value>
+  </data>
+  <data name="registration_management_schedule_label" xml:space="preserve">
+    <value>Lịch học</value>
+  </data>
+  <data name="registration_management_room_label" xml:space="preserve">
+    <value>Phòng học</value>
+  </data>
+  <data name="registration_management_add_student_button" xml:space="preserve">
+    <value>Thêm Sinh Viên</value>
+  </data>
+  <data name="registration_management_unenroll_from_class_tooltip" xml:space="preserve">
+    <value>Hủy đăng ký lớp</value>
+  </data>
+  <data name="student_status_setting_source_required_error" xml:space="preserve">
+    <value>Tên trạng thái cấu hình không được để trống!</value>
+  </data>
+  <data name="student_status_setting_destination_required_error" xml:space="preserve">
+    <value>Tên trạng thái chuyển đến không được để trống!</value>
+  </data>
+  <data name="student_status_setting_no_valid_status_warning" xml:space="preserve">
+    <value>Không còn trạng thái hợp lệ nào để thêm</value>
+  </data>
+  <data name="student_status_setting_add_button" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="monday" xml:space="preserve">
+    <value>Thứ 2</value>
+  </data>
+  <data name="tuesday" xml:space="preserve">
+    <value>Thứ 3</value>
+  </data>
+  <data name="wednesday" xml:space="preserve">
+    <value>Thứ 4</value>
+  </data>
+  <data name="thursday" xml:space="preserve">
+    <value>Thứ 5</value>
+  </data>
+  <data name="friday" xml:space="preserve">
+    <value>Thứ 6</value>
+  </data>
+  <data name="saturday" xml:space="preserve">
+    <value>Thứ 7</value>
+  </data>
+  <data name="sunday" xml:space="preserve">
+    <value>Chủ nhật</value>
+  </data>
+  <data name="login_title_text" xml:space="preserve">
+    <value>ĐĂNG NHẬP</value>
+  </data>
+  <data name="login_subtitle_text" xml:space="preserve">
+    <value>Quản Lý Sinh Viên</value>
+  </data>
+  <data name="login_username_label" xml:space="preserve">
+    <value>Tên đăng nhập</value>
+  </data>
+  <data name="login_password_label" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="login_username_placeholder_input" xml:space="preserve">
+    <value>Nhập tên đăng nhập</value>
+  </data>
+  <data name="login_password_placeholder_input" xml:space="preserve">
+    <value>Nhập mật khẩu</value>
+  </data>
+  <data name="login_button" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="login_username_password_required_error" xml:space="preserve">
+    <value>Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.</value>
+  </data>
+  <data name="course_classes_management_header_form_add_class" xml:space="preserve">
+    <value>Thêm Lớp Học</value>
+  </data>
+  <data name="course_classes_management_add_class_success_noti" xml:space="preserve">
+    <value>Đã thêm lớp với mã</value>
+  </data>
+  <data name="all_actions_delete_button_text" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="home_header_form_add_student" xml:space="preserve">
+    <value>Thêm Sinh Viên</value>
+  </data>
+  <data name="home_add_student_success_noti" xml:space="preserve">
+    <value>Đã thêm sinh viên với MSSV</value>
+  </data>
+  <data name="home_export_transcript_of_student_success_noti" xml:space="preserve">
+    <value>Đã xuất bảng điểm sinh viên có MSSV</value>
+  </data>
+  <data name="home_header_form_update_student" xml:space="preserve">
+    <value>Cập Nhật Sinh Viên</value>
+  </data>
+  <data name="home_update_student_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin sinh viên có MSSV</value>
+  </data>
+  <data name="home_delete_student_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa không thể khôi phục. Xác nhận xóa sinh viên với MSSV</value>
+  </data>
+  <data name="delete_confirmation_dialog_header" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa?</value>
+  </data>
+  <data name="home_delete_student_success_noti" xml:space="preserve">
+    <value>Đã xóa sinh viên có MSSV</value>
+  </data>
+  <data name="upload_file_add_student_header" xml:space="preserve">
+    <value>Thêm sinh viên từ</value>
+  </data>
+  <data name="home_add_students_success_from_file_noti" xml:space="preserve">
+    <value>Thêm sinh viên thành công</value>
+  </data>
+  <data name="export_file_success_noti" xml:space="preserve">
+    <value>Xuất file thành công.</value>
+  </data>
+  <data name="faculty_management_header_form_add" xml:space="preserve">
+    <value>Thêm Khoa</value>
+  </data>
+  <data name="faculty_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Khoa</value>
+  </data>
+  <data name="faculty_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm khoa với mã khoa</value>
+  </data>
+  <data name="faculty_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin khoa có mã khoa</value>
+  </data>
+  <data name="faculty_form_name_label" xml:space="preserve">
+    <value>Tên Khoa</value>
+  </data>
+  <data name="student_status_management_header_form_add" xml:space="preserve">
+    <value>Thêm Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="student_status_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm trạng thái sinh viên với mã</value>
+  </data>
+  <data name="student_status_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin trạng thái sinh viên có mã</value>
+  </data>
+  <data name="student_status_form_name_label" xml:space="preserve">
+    <value>Tên Trạng Thái Sinh Viên</value>
+  </data>
+  <data name="study_program_management_header_form_add" xml:space="preserve">
+    <value>Thêm Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Chương Trình Học</value>
+  </data>
+  <data name="study_program_management_add_success_noti" xml:space="preserve">
+    <value>Đã thêm chương trình học với mã</value>
+  </data>
+  <data name="study_program_management_update_success_noti" xml:space="preserve">
+    <value>Đã cập nhật thông tin chương trình học có mã</value>
+  </data>
+  <data name="study_program_form_name_label" xml:space="preserve">
+    <value>Tên Chương Trình Học</value>
+  </data>
+  <data name="course_management_undefined_noti" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="course_management_header_form_add" xml:space="preserve">
+    <value>Thêm Khóa Học</value>
+  </data>
+  <data name="course_management_header_form_update" xml:space="preserve">
+    <value>Cập Nhật Khóa Học</value>
+  </data>
+  <data name="course_management_add_course_success_noti" xml:space="preserve">
+    <value>Thêm khóa học thành công</value>
+  </data>
+  <data name="course_management_add_course_fail_noti" xml:space="preserve">
+    <value>Thêm khóa học thất bại. Vui lòng thử lại.</value>
+  </data>
+  <data name="course_management_error_add_course" xml:space="preserve">
+    <value>Lỗi khi thêm khóa học</value>
+  </data>
+  <data name="course_management_delete_course_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa không thể khôi phục. Xác nhận xóa khóa học với tên</value>
+  </data>
+  <data name="registration_management_classes_info_not_found" xml:space="preserve">
+    <value>Không tìm thấy thông tin lớp học</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="registration_management_enroll_student" xml:space="preserve">
+    <value>Đăng Ký Lớp Học Cho Sinh Viên</value>
+  </data>
+  <data name="registration_management_register_button" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="registration_management_delete_student_confirmation_content" xml:space="preserve">
+    <value>Sau khi hủy đăng ký không thể khôi phục. Xác nhận hủy đăng ký lớp của sinh viên với MSSV</value>
+  </data>
+  <data name="registration_management_unenroll_button" xml:space="preserve">
+    <value>Hủy đăng ký</value>
+  </data>
+  <data name="registration_management_cannot_update_grade_before_semester" xml:space="preserve">
+    <value>Không thể cập nhật điểm số khi lớp học chưa bắt đầu</value>
+  </data>
+  <data name="registration_management_update_grade_success_noti" xml:space="preserve">
+    <value>Đã cập nhật điểm của sinh viên có MSSV</value>
+  </data>
+  <data name="registration_management_error_update_grade" xml:space="preserve">
+    <value>Lỗi khi cập nhật điểm</value>
+  </data>
+  <data name="registration_management_delete_confirmation_dialog_header" xml:space="preserve">
+    <value>Bạn có chắc muốn hủy đăng ký sinh viên này?</value>
+  </data>
+  <data name="an_unexpected_error_occurred_Please_try_again_later" xml:space="preserve">
+    <value>Đã có lỗi xảy ra. Vui lòng thử lại sau!</value>
+  </data>
+  <data name="navigation_home_label" xml:space="preserve">
+    <value>Trang Chủ</value>
+  </data>
+  <data name="navigation_management_label" xml:space="preserve">
+    <value>Quản Lý</value>
+  </data>
+  <data name="navigation_management_faculty_label" xml:space="preserve">
+    <value>Khoa</value>
+  </data>
+  <data name="navigation_management_student_status_label" xml:space="preserve">
+    <value>Tình Trạng Học</value>
+  </data>
+  <data name="navigation_management_study_program_label" xml:space="preserve">
+    <value>Chương Trình Học</value>
+  </data>
+  <data name="navigation_academic_label" xml:space="preserve">
+    <value>Quản Lý Học Tập</value>
+  </data>
+  <data name="navigation_academic_course_label" xml:space="preserve">
+    <value>Khóa Học</value>
+  </data>
+  <data name="navigation_academic_class_label" xml:space="preserve">
+    <value>Lớp Học</value>
+  </data>
+  <data name="navigation_settings_label" xml:space="preserve">
+    <value>Cài Đặt</value>
+  </data>
+  <data name="navigation_settings_email_label" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="navigation_settings_phone_number_label" xml:space="preserve">
+    <value>Số Điện Thoại</value>
+  </data>
+  <data name="navigation_settings_student_status_label" xml:space="preserve">
+    <value>Tình Trạng Học</value>
+  </data>
+  <data name="navigation_logout_label" xml:space="preserve">
+    <value>Đăng Xuất</value>
+  </data>
+  <data name="email_setting_domain_error_2" xml:space="preserve">
+    <value>Sai quy định! Domain không được chứa ký tự '@' và phải chứa dấu .</value>
+  </data>
+  <data name="email_setting_domain_error_1" xml:space="preserve">
+    <value>Domain không được để trống</value>
+  </data>
+  <data name="email_setting_domain_error_3" xml:space="preserve">
+    <value>Domain này đã được thêm vào danh sách</value>
+  </data>
+  <data name="phone_number_country_error_1" xml:space="preserve">
+    <value>Vui lòng chọn quốc gia</value>
+  </data>
+  <data name="phone_number_country_error_2" xml:space="preserve">
+    <value>Quốc gia này đã được thêm vào danh sách</value>
+  </data>
+  <data name="app_title" xml:space="preserve">
+    <value>Quản Lý Sinh Viên</value>
+  </data>
+  <data name="course_class_form_lecturer_placeholder" xml:space="preserve">
+    <value>Chọn giảng viên</value>
+  </data>
+  <data name="course_class_form_course_placeholder" xml:space="preserve">
+    <value>Chọn khóa học</value>
+  </data>
+  <data name="student_model_fullname_required" xml:space="preserve">
+    <value>Họ và tên không được để trống.</value>
+  </data>
+  <data name="student_model_date_of_birth_required" xml:space="preserve">
+    <value>Ngày sinh không được để trống.</value>
+  </data>
+  <data name="student_model_gender_required" xml:space="preserve">
+    <value>Giới tính không được để trống. </value>
+  </data>
+  <data name="student_model_fullname_maxlength" xml:space="preserve">
+    <value>Họ và tên không được dài quá 100 ký tự. </value>
+  </data>
+  <data name="student_model_date_of_birth_future_invalid" xml:space="preserve">
+    <value>Ngày sinh không thể lớn hơn ngày hiện tại. </value>
+  </data>
+  <data name="student_model_faculty_required" xml:space="preserve">
+    <value>Khoa không được để trống. </value>
+  </data>
+  <data name="student_model_intake_year_required" xml:space="preserve">
+    <value>Khóa học không được để trống. </value>
+  </data>
+  <data name="student_model_intake_year_invalid" xml:space="preserve">
+    <value>Khóa học không hợp lệ. </value>
+  </data>
+  <data name="student_model_intake_year_in_future" xml:space="preserve">
+    <value>Khóa học không thể lớn hơn năm hiện tại. </value>
+  </data>
+  <data name="student_model_program_required" xml:space="preserve">
+    <value>Chương trình học không được để trống. </value>
+  </data>
+  <data name="student_model_addresses_required" xml:space="preserve">
+    <value>Danh sách địa chỉ không được để trống. </value>
+  </data>
+  <data name="student_model_address_must_have_thuong_tru" xml:space="preserve">
+    <value>Phải có ít nhất một địa chỉ thường trú. </value>
+  </data>
+  <data name="student_model_identity_info_required" xml:space="preserve">
+    <value>Giấy tờ tùy thân không được để trống. </value>
+  </data>
+  <data name="student_model_email_required" xml:space="preserve">
+    <value>Email không được để trống.</value>
+  </data>
+  <data name="student_model_phone_required" xml:space="preserve">
+    <value>Số điện thoại không được để trống.</value>
+  </data>
+  <data name="student_model_status_required" xml:space="preserve">
+    <value>Trạng thái sinh viên không được để trống. </value>
+  </data>
+  <data name="student_model_nationality_required" xml:space="preserve">
+    <value>Quốc tịch không được để trống.</value>
+  </data>
+  <data name="address_model_type_required" xml:space="preserve">
+    <value>Loại địa chỉ không được để trống.</value>
+  </data>
+  <data name="address_model_other_required" xml:space="preserve">
+    <value>Số nhà/Tên đường không được để trống. </value>
+  </data>
+  <data name="address_model_other_maxlength" xml:space="preserve">
+    <value>Số nhà, Tên đường không được dài quá 200 ký tự. </value>
+  </data>
+  <data name="address_model_village_required" xml:space="preserve">
+    <value>Phường/Xã không được để trống. </value>
+  </data>
+  <data name="address_model_village_maxlength" xml:space="preserve">
+    <value>Phường/Xã không được dài quá 100 ký tự. </value>
+  </data>
+  <data name="address_model_district_required" xml:space="preserve">
+    <value>Quận/Huyện không được để trống. </value>
+  </data>
+  <data name="address_model_district_maxlength" xml:space="preserve">
+    <value>Quận/Huyện không được dài quá 100 ký tự. </value>
+  </data>
+  <data name="address_model_city_required" xml:space="preserve">
+    <value>Tỉnh/Thành phố không được để trống. </value>
+  </data>
+  <data name="address_model_city_maxlength" xml:space="preserve">
+    <value>Tỉnh/Thành phố không được dài quá 100 ký tự. </value>
+  </data>
+  <data name="address_model_country_required" xml:space="preserve">
+    <value>Quốc gia không được để trống.</value>
+  </data>
+  <data name="address_model_country_maxlength" xml:space="preserve">
+    <value>Quốc gia không được dài quá 100 ký tự.</value>
+  </data>
+  <data name="identity_additional_has_chip_required" xml:space="preserve">
+    <value>Thông tin chip không được để trống.</value>
+  </data>
+  <data name="identity_additional_country_of_issue_required" xml:space="preserve">
+    <value>Quốc gia cấp không được để trống. </value>
+  </data>
+  <data name="identity_info_type_required" xml:space="preserve">
+    <value>Loại giấy tờ không được để trống. </value>
+  </data>
+  <data name="identity_info_type_invalid" xml:space="preserve">
+    <value>Loại giấy tờ không hợp lệ.</value>
+  </data>
+  <data name="identity_info_number_required" xml:space="preserve">
+    <value>Số giấy tờ không được để trống. </value>
+  </data>
+  <data name="identity_info_number_length" xml:space="preserve">
+    <value>Số giấy tờ không được quá 12 ký tự. </value>
+  </data>
+  <data name="identity_info_place_of_issue_required" xml:space="preserve">
+    <value>Nơi cấp không được để trống. </value>
+  </data>
+  <data name="identity_info_date_of_issue_required" xml:space="preserve">
+    <value>Ngày cấp không được để trống. </value>
+  </data>
+  <data name="identity_info_expiry_date_required" xml:space="preserve">
+    <value>Ngày hết hạn không được để trống. </value>
+  </data>
+  <data name="identity_info_expiry_date_invalid" xml:space="preserve">
+    <value>Ngày hết hạn phải lớn hơn hoặc bằng ngày cấp. </value>
+  </data>
+  <data name="course_class_model_id_required" xml:space="preserve">
+    <value>Mã lớp học không được để trống.</value>
+  </data>
+  <data name="course_class_model_id_length" xml:space="preserve">
+    <value>Mã lớp học phải từ 4 đến 20 ký tự.</value>
+  </data>
+  <data name="course_class_model_courseid_required" xml:space="preserve">
+    <value>Khóa học không được để trống </value>
+  </data>
+  <data name="course_class_model_lecturerid_required" xml:space="preserve">
+    <value>Giảng viên không được để trống.</value>
+  </data>
+  <data name="course_class_model_maxstudents_required" xml:space="preserve">
+    <value>Số lượng sinh viên tối đa không được để trống.</value>
+  </data>
+  <data name="course_class_model_maxstudents_range" xml:space="preserve">
+    <value>Số lượng sinh viên phải từ 1 đến 500.</value>
+  </data>
+  <data name="course_class_model_schedule_required" xml:space="preserve">
+    <value>Lịch học không được để trống.</value>
+  </data>
+  <data name="course_class_model_room_required" xml:space="preserve">
+    <value>Phòng học không được để trống.</value>
+  </data>
+  <data name="course_class_model_room_length" xml:space="preserve">
+    <value>Phòng học phải từ 4 đến 20 ký tự.</value>
+  </data>
+  <data name="course_model_id_required" xml:space="preserve">
+    <value>Mã khóa học không được để trống.</value>
+  </data>
+  <data name="course_model_id_length" xml:space="preserve">
+    <value>Mã khóa học không được dài quá.</value>
+  </data>
+  <data name="course_model_name_required" xml:space="preserve">
+    <value>Tên khóa học không được để trống.</value>
+  </data>
+  <data name="course_model_name_length" xml:space="preserve">
+    <value>Tên khóa học không được dài quá 100 ký tự.</value>
+  </data>
+  <data name="course_model_credits_required" xml:space="preserve">
+    <value>Số tín chỉ không được để trống.</value>
+  </data>
+  <data name="course_model_credits_range" xml:space="preserve">
+    <value>Số tín chỉ phải lớn hơn 2.</value>
+  </data>
+  <data name="course_model_facultyid_required" xml:space="preserve">
+    <value>Khoa phụ trách không được để trống.</value>
+  </data>
+  <data name="faculty_model_name_required" xml:space="preserve">
+    <value>Tên khoa không được để trống.</value>
+  </data>
+  <data name="login_model_username_required" xml:space="preserve">
+    <value>Tên đăng nhập không được để trống.</value>
+  </data>
+  <data name="login_model_password_required" xml:space="preserve">
+    <value>Mật khẩu không được để trống.</value>
+  </data>
+  <data name="schedule_for_course_class_dateofweek_required" xml:space="preserve">
+    <value>Thứ không được để trống.</value>
+  </data>
+  <data name="schedule_for_course_class_starttime_required" xml:space="preserve">
+    <value>Thời gian bắt đầu không được để trống.</value>
+  </data>
+  <data name="schedule_for_course_class_endtime_required" xml:space="preserve">
+    <value>Thời gian kết thúc không được để trống.</value>
+  </data>
+  <data name="student_status_model_name_required" xml:space="preserve">
+    <value>Tên trạng thái sinh viên không được để trống.</value>
+  </data>
+  <data name="study_program_model_name_required" xml:space="preserve">
+    <value>Tên chương trình học không được để trống.</value>
+  </data>
+  <data name="student_model_id_required" xml:space="preserve">
+    <value>Mã sinh viên không được để trống.</value>
+  </data>
+  <data name="student_model_id_invalid_format" xml:space="preserve">
+    <value>Mã sinh viên phải có đúng 8 chữ số.</value>
+  </data>
+  <data name="delete_dialog_confirmation_content" xml:space="preserve">
+    <value>Sau khi xóa sẽ không thể khôi phục. Bạn có chắc chắn muốn xóa không?</value>
+  </data>
+  <data name="identity_form_has_chip_yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="identity_form_has_chip_no" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="student_form_invalid_email" xml:space="preserve">
+    <value>Email không hợp lệ.</value>
+  </data>
+  <data name="student_form_invalid_phone_number" xml:space="preserve">
+    <value>Số điện thoại không hợp lệ.</value>
+  </data>
+  <data name="notification_title" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="course_form_update_has_students_warning" xml:space="preserve">
+    <value>Khóa học này đã có sinh viên đăng ký, một số thông tin sẽ không thể chỉnh sửa.</value>
+  </data>
+  <data name="error_title" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="course_form_check_failed_message" xml:space="preserve">
+    <value>Không thể kiểm tra thông tin đăng ký.</value>
+  </data>
+  <data name="warning_old_score_will_be_deleted_if_course_repeated" xml:space="preserve">
+    <value>Chú ý: nếu sinh viên đã học môn này thì điểm cũ sẽ bị xóa!</value>
+  </data>
+</root>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using Radzen;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System;
@@ -11,10 +13,10 @@ public partial class CourseForm
 {
     [Parameter] public bool IsUpdateMode { get; set; } = false;
     [Parameter] public CourseModel Course { get; set; } = new();
-    [Parameter] public string ButtonText { get; set; } = "Lưu";
+    [Parameter] public string ButtonText { get; set; } = string.Empty;
     [Inject] private DialogService DialogService { get; set; } = default!;
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     private int SelectedFacultyId { get; set; }
     private IEnumerable<string> SelectedPrerequisiteIds { get; set; } = new List<string>();
     bool popup = false;
@@ -32,19 +34,22 @@ public partial class CourseForm
 
     protected override async Task OnInitializedAsync()
     {
-        // Khởi tạo danh sách khoa
+        // Initialize ButtonText using _localizer after dependency injection is complete
+        ButtonText = _localizer["all_actions_save_button_text"];
+
+        // Initialize faculties and prerequisites
         await LoadFaculties();
-        // Khởi tạo danh sách khóa học tiên quyết
         await LoadCoursePrerequisites();
-        // Nếu là update mode
+
+        // If in update mode
         if (IsUpdateMode && Course != null)
         {
-            // Hiển thị các khóa học tiên quyết đã chọn
+            // Display selected prerequisites
             if (Course.PrerequisitesId?.Any() == true)
             {
                 SelectedPrerequisiteIds = Course.PrerequisitesId;
             }
-            // Kiểm tra xem khóa học có sinh viên đăng ký không
+            // Check if the course has enrolled students
             await CheckCourseEnrollmentStatus();
         }
     }
@@ -59,8 +64,8 @@ public partial class CourseForm
                 NotificationService.Notify(new NotificationMessage
                 {
                     Severity = NotificationSeverity.Info,
-                    Summary = "Thông báo",
-                    Detail = "Khóa học này đã có sinh viên đăng ký, một số thông tin sẽ không thể chỉnh sửa.",
+                    Summary = _localizer["notification_title"],
+                    Detail = _localizer["course_form_update_has_students_warning"],
                     Duration = 2000,
                     Style = "margin-bottom: 1rem; margin-right: 1rem; position: fixed; bottom: 0; right: 0;"
                 });
@@ -71,8 +76,8 @@ public partial class CourseForm
             NotificationService.Notify(new NotificationMessage
             {
                 Severity = NotificationSeverity.Error,
-                Summary = "Lỗi",
-                Detail = $"Không thể kiểm tra thông tin đăng ký: {ex.Message}",
+                Summary = _localizer["error_title"],
+                Detail = _localizer["course_form_check_failed_message"] + ": " + ex.Message,
                 Duration = 2000,
                 Style = "margin-bottom: 1rem; margin-right: 1rem; position: fixed; bottom: 0; right: 0;"
             });
@@ -87,7 +92,7 @@ public partial class CourseForm
     private async Task LoadCoursePrerequisites()
     {
         var allCourses = await _courseService.GetAllCourses();
-        // Nếu đang ở chế độ cập nhật, loại bỏ khóa học hiện tại khỏi danh sách khóa học tiên quyết
+        // If in update mode, exclude the current course from prerequisites
         if (IsUpdateMode && !string.IsNullOrEmpty(Course.Id))
         {
             CoursePrerequisites = allCourses.Where(c => c.Id != Course.Id).ToList();
@@ -98,12 +103,11 @@ public partial class CourseForm
         }
     }
 
-  
     private void ValidateAndSubmit()
     {
-        // Gán lại PrerequisiteId cho Course
+        // Assign PrerequisiteId to Course
         Course.PrerequisitesId = SelectedPrerequisiteIds.ToList();
-        // Đóng dialog và trả về true (success)
+        // Close dialog and return true (success)
         DialogService.Close(true);
     }
 

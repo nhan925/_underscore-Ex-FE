@@ -1,29 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using student_management_fe.Resources;
+using System.ComponentModel.DataAnnotations;
 namespace student_management_fe.Models;
 
 public class Address
 {
-    [Required(ErrorMessage = "Loại địa chỉ không được để trống.")]
+    [Required(ErrorMessageResourceName = "address_model_type_required",
+              ErrorMessageResourceType = typeof(Content))]
     public string Type { get; set; }
 
-    [Required(ErrorMessage = "Số nhà, Tên đường không được để trống.")]
-    [StringLength(200, ErrorMessage = "Số nhà, Tên đường không được dài quá 200 ký tự.")]
+    [Required(ErrorMessageResourceName = "address_model_other_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(200, ErrorMessageResourceName = "address_model_other_maxlength",
+                       ErrorMessageResourceType = typeof(Content))]
     public string? Other { get; set; } 
 
-    [Required(ErrorMessage = "Phường/Xã không được để trống.")]
-    [StringLength(100, ErrorMessage = "Phường/Xã không được dài quá 100 ký tự.")]
+    [Required(ErrorMessageResourceName = "address_model_village_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "address_model_village_maxlength",
+                       ErrorMessageResourceType = typeof(Content))]
     public string Village { get; set; }
 
-    [Required(ErrorMessage = "Quận/Huyện không được để trống.")]
-    [StringLength(100, ErrorMessage = "Quận/Huyện không được dài quá 100 ký tự.")]
+    [Required(ErrorMessageResourceName = "address_model_district_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "address_model_district_maxlength",
+                       ErrorMessageResourceType = typeof(Content))]
     public string District { get; set; }
 
-    [Required(ErrorMessage = "Tỉnh/Thành phố không được để trống.")]
-    [StringLength(100, ErrorMessage = "Tỉnh/Thành phố không được dài quá 100 ký tự.")]
+    [Required(ErrorMessageResourceName = "address_model_city_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "address_model_city_maxlength",
+                       ErrorMessageResourceType = typeof(Content))]
     public string City { get; set; }
 
-    [Required(ErrorMessage = "Quốc gia không được để trống.")]
-    [StringLength(100, ErrorMessage = "Quốc gia không được dài quá 100 ký tự.")]
+    [Required(ErrorMessageResourceName = "address_model_country_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "address_model_country_maxlength",
+                       ErrorMessageResourceType = typeof(Content))]
     public string Country { get; set; }
 
     public bool IsValid()

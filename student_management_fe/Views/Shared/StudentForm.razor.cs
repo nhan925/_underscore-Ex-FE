@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Radzen;
 using Radzen.Blazor;
 using ServiceStack;
 using ServiceStack.Text;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +30,7 @@ public partial class StudentForm
     [Parameter] public List<StudyProgram> StudyPrograms { get; set; } = new();
 
     [Parameter] public string ButtonText { get; set; }
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
     private ConfigurationsService _configurationsService;
@@ -42,9 +45,6 @@ public partial class StudentForm
     private Address MailingAddress { get; set; } = new() { Type = "nhan_thu" };
 
     private IdentityInfo IdentityInfo { get; set; }
-
-    private const string InvalidEmailMessage = "Email không hợp lệ.";
-    private const string InvalidPhoneMessage = "Số điện thoại không hợp lệ.";
 
     public StudentForm(ConfigurationsService configurationsService)
     {
@@ -112,6 +112,8 @@ public partial class StudentForm
 
     private async Task<bool> HandleEmailChange(string email)
     {
+        var InvalidEmailMessage = _localizer["student_form_invalid_email"].Value;
+
         if (string.IsNullOrEmpty(email))
         {
             errorEmailMessage = string.Empty;
@@ -140,6 +142,8 @@ public partial class StudentForm
 
     private async Task<bool> HandlePhoneNumberChange(string phoneNumber)
     {
+        var InvalidPhoneMessage = _localizer["student_form_invalid_phone_number"].Value;
+
         if (string.IsNullOrEmpty(phoneNumber))
         {
             errorPhoneNumberMessage = string.Empty;

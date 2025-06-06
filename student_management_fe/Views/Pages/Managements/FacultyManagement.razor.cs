@@ -5,6 +5,8 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared.ManagementsForm;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.Managements;
 public partial class FacultyManagement
@@ -50,10 +52,12 @@ public partial class FacultyManagement
     private List<Faculty> tempFaculties = new List<Faculty>();
 
     private readonly FacultyService _facultyService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public FacultyManagement(FacultyService facultyService)
+    public FacultyManagement(FacultyService facultyService, IStringLocalizer<Content> localizer)
     {
         _facultyService = facultyService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -91,32 +95,6 @@ public partial class FacultyManagement
         }
     }
 
-    private async Task AddFaculty()
-    {
-        var faculty = new Faculty();
-        var parameters = new Dictionary<string, object>
-        {
-            {"Faculty", faculty },
-            {"ButtonText", "Lưu" },
-            {"TitleText", "Tên khoa" },
-        };
-
-        var result = await DialogService.OpenAsync<FacultyForm>("Thêm khoa", parameters);
-        if (result is bool isConfirmed && isConfirmed)
-        {
-            try
-            {
-                var facultyId = await _facultyService.AddFaculty(faculty.Name);
-                await LoadFaculties();
-                Snackbar.Add($"Đã thêm khoa thành công với id: {facultyId} !", Severity.Success);
-            }
-            catch (Exception ex)
-            {
-                Snackbar.Add(ex.Message, Severity.Error);
-            }
-        }
-    }
-
     private async Task EditFaculty(Faculty faculty)
     {
         var editFaculty = new Faculty
@@ -127,19 +105,17 @@ public partial class FacultyManagement
 
         var parameters = new Dictionary<string, object>
         {
-            {"Faculty", editFaculty },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên khoa" },
+            {"Faculty", editFaculty }
         };
 
-        var result = await DialogService.OpenAsync<FacultyForm>("Cập nhật khoa", parameters);
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_add"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _facultyService.UpdateFaculty(editFaculty);
                 await LoadFaculties();
-                Snackbar.Add($"Đã cập nhật khoa thành công !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -148,22 +124,28 @@ public partial class FacultyManagement
         }
     }
 
+    private async Task AddFaculty()
+    {
+        var faculty = new Faculty();
+        var parameters = new Dictionary<string, object>
+        {
+            {"Faculty", faculty }
+        };
 
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadFaculties();
-    //    }
-    //}
+        var result = await DialogService.OpenAsync<FacultyForm>(_localizer["faculty_management_header_form_update"].Value, parameters);
+        if (result is bool isConfirmed && isConfirmed)
+        {
+            try
+            {
+                var facultyId = await _facultyService.AddFaculty(faculty.Name);
+                await LoadFaculties();
+                Snackbar.Add($"{_localizer["faculty_management_add_success_noti"].Value}: {facultyId} !", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+        }
+    }
 
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadFaculties();
-    //    }
-    //}
 }

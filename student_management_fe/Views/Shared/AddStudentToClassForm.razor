@@ -7,11 +7,11 @@
         <RadzenRow Gap="1rem" class="rz-p-0 rz-p-lg-2">
             <RadzenColumn Size="12">
                 <RadzenStack>
-                    <RadzenFieldset Text="Thông tin sinh viên">
+                    <RadzenFieldset Text=@_localizer["add_student_to_class_form_student_info_lable"]>
                         <RadzenStack Gap="2.5rem" class="rz-p-4 rz-p-lg-6">
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="MSSV" Component="Id" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_id_label"] Component="Id" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" @bind-Value="Student.Id" Name="Id" Change="@(async () => OnStudentIdChange(Student.Id))" />
@@ -23,7 +23,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Họ và tên" Component="FullName" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_name_label"] Component="FullName" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%" Name="FullName" Value="@Student.FullName" Disabled="true" />
@@ -32,7 +32,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Ngày sinh" Component="DateOfBirth" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_dob_label"] Component="DateOfBirth" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDatePicker TValue="DateTime" Style="width: 100%;" Value="@Student.DateOfBirth"
@@ -42,7 +42,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Giới tính" Component="Gender" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_gender_label"] Component="Gender" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@Student.Gender" Name="Gender" Disabled="true" />
@@ -51,7 +51,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Khoa" Component="FacultyId" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_faculty_label"] Component="FacultyId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToFacultyName(Student.FacultyId)" Name="FacultyName" Disabled="true" />
@@ -60,7 +60,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Khóa" Component="IntakeYear" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_intake_year_label"] Component="IntakeYear" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@Student.IntakeYear?.ToString()" Name="IntakeYear" Disabled="true" />
@@ -69,7 +69,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Chương trình" Component="ProgramId" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_program_label"] Component="ProgramId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToStudyProgramName(Student.ProgramId)" Name="ProgramName" Disabled="true" />
@@ -78,7 +78,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Email" Component="Email" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_email_label"] Component="Email" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;"
@@ -89,7 +89,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Số điện thoại" Component="PhoneNumber" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_phone_number_labe"] Component="PhoneNumber" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;"
@@ -100,7 +100,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Tình trạng sinh viên" Component="StatusId" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_status_label"] Component="StatusId" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@ConvertIdToStudentStatusName(Student.StatusId)" Name="StatusName" Disabled="true" />
@@ -109,7 +109,7 @@
 
                             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Quốc tịch" Component="Nationality" />
+                                    <RadzenLabel Text=@_localizer["add_student_to_class_form_nationality_label"] Component="Nationality" />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenTextBox Style="width: 100%;" Value="@Student.Nationality" Name="Nationality" Disabled="true" />
@@ -122,9 +122,14 @@
         </RadzenRow>
     </div>
     <div class="fixed-bottom-buttons">
-        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text="Hủy" Click="@Cancel" />
-            <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
-        </RadzenStack>
+        <RadzenColumn Size="12" SizeMD="12" Style="padding: 0">
+            <RadzenRow AlignItems="Radzen.AlignItems.Center" Style="padding: 0">
+                <div class="error">@_localizer["warning_old_score_will_be_deleted_if_course_repeated"]</div>
+            </RadzenRow>
+            <RadzenRow AlignItems="Radzen.AlignItems.Center" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-4 rz-mb-4" Style="padding: 0">
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Text=@_localizer["all_actions_cancel_button_text"] Click="@Cancel" />
+                <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="Radzen.ButtonType.Submit" Size="ButtonSize.Large">@ButtonText</RadzenButton>
+            </RadzenRow>
+		</RadzenColumn>
     </div>
 </RadzenTemplateForm>

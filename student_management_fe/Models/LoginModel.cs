@@ -1,12 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using student_management_fe.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace student_management_fe.Models;
 
 public class LoginModel
 {
-    [Required(ErrorMessage = "Tên đăng nhập không được để trống.")]
+    [Required(ErrorMessageResourceName = "login_model_username_required",
+              ErrorMessageResourceType = typeof(Content))]
     public string Username { get; set; } = "";
 
-    [Required(ErrorMessage = "Mật khẩu không được để trống.")]
+    [Required(ErrorMessageResourceName = "login_model_password_required",
+              ErrorMessageResourceType = typeof(Content))]
     public string Password { get; set; } = "";
 }

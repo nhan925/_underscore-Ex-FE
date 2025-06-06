@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.JSInterop;
 using student_management_fe.Authentication;
+using student_management_fe.Helpers;
 using student_management_fe.Models;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -11,27 +15,42 @@ public class AuthService
 {
     private readonly HttpClient _httpClient;
     private readonly CustomAuthStateProvider _authStateProvider;
+    private readonly IJSRuntime _js;
 
-    public AuthService(HttpClient httpClient, AuthenticationStateProvider authStateProvider)
+    public AuthService(HttpClient httpClient, AuthenticationStateProvider authStateProvider, IJSRuntime js)
     {
         _httpClient = httpClient;
         _authStateProvider = (CustomAuthStateProvider)authStateProvider;
+        _js = js;
     }
 
-    public async Task<bool> Login(LoginModel user)
+    public async Task Login(LoginModel user)
     {
-        var response = await _httpClient.PostAsJsonAsync("/api/auth/login", user);
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/login")
+        {
+            Content = JsonContent.Create(user)
+        };
+
+        var lang = await _js.InvokeAsync<string>("blazorCulture.get") ?? "vi";
+        request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(lang));
+
+        var response = await _httpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode)
-            return false;
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message ?? "Login failed");
+        }
 
         var tokens = await response.Content.ReadFromJsonAsync<AuthResponse>();
 
         if (tokens is null || string.IsNullOrEmpty(tokens.AccessToken))
-            return false;
-
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
+        }
+        
         await _authStateProvider.SetUserAuthenticated(tokens.AccessToken);
-        return true;
     }
 
     public async Task Logout()
@@ -55,6 +74,8 @@ public class AuthService
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+        var lang = await _js.InvokeAsync<string>("blazorCulture.get") ?? "vi";
+        request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(lang));
 
         var response = await _httpClient.SendAsync(request);
 

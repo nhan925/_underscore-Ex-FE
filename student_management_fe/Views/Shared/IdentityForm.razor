@@ -1,20 +1,20 @@
 ﻿@using System.Text.Json
 @using System.ComponentModel.DataAnnotations
 
-<RadzenFieldset Text="Giấy chứng minh nhân thân">
+<RadzenFieldset Text=@_localizer["identity_form_title_label"]>
     <RadzenStack Gap="2rem">
         <RadzenRow AlignItems="Radzen.AlignItems.Center">
             <RadzenColumn Size="12" SizeMD="4">
-                <RadzenLabel Text="Loại giấy tờ" />
+                <RadzenLabel Text=@_localizer["identity_form_type_card_label"] />
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="8">
                 <RadzenDropDown TValue="string" Style="width: 100%;"
                                 @bind-Value="Value.Type"
                                 Data=@(new List<KeyValuePair<string, string>>
                                 {
-                                new("cmnd", "Chứng minh nhân dân (CMND)"),
-                                new("cccd", "Căn cước công dân (CCCD)"),
-                                new("passport", "Hộ chiếu (Passport)")
+                                new("cmnd", @_localizer["identity_form_cmnd_dropdown"]),
+                                new("cccd", @_localizer["identity_form_cccd_dropdown"]),
+                                new("passport", @_localizer["identity_form_passport_dropdown"])
                                 })
                                 TextProperty="Value" ValueProperty="Key" Name="Type" Change="UpdateAdditionalInfo"/>
                 <RadzenDataAnnotationValidator Component="Type" Popup="@popup" Style="position: relative" />
@@ -23,7 +23,7 @@
 
         <RadzenRow AlignItems="Radzen.AlignItems.Center">
             <RadzenColumn Size="12" SizeMD="4">
-                <RadzenLabel Text="Số giấy tờ" />
+                <RadzenLabel Text=@_localizer["identity_form_card_number_label"] />
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="8">
                 <RadzenTextBox Style="width: 100%;" @bind-Value="Value.Number" Name="Number" Change="ValidateAndUpdate"/>
@@ -33,7 +33,7 @@
 
         <RadzenRow AlignItems="Radzen.AlignItems.Center">
             <RadzenColumn Size="12" SizeMD="4">
-                <RadzenLabel Text="Ngày cấp" />
+                <RadzenLabel Text=@_localizer["identity_form_date_label"] />
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="8">
                 <RadzenDatePicker Style="width: 100%;" @bind-Value="Value.DateOfIssue"
@@ -44,7 +44,7 @@
 
         <RadzenRow AlignItems="Radzen.AlignItems.Center">
             <RadzenColumn Size="12" SizeMD="4">
-                <RadzenLabel Text="Nơi cấp" />
+                <RadzenLabel Text=@_localizer["identity_form_address_label"] />
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="8">
                 <RadzenTextBox Style="width: 100%;" @bind-Value="Value.PlaceOfIssue" Name="PlaceOfIssue" Change="ValidateAndUpdate"/>
@@ -54,7 +54,7 @@
 
         <RadzenRow AlignItems="Radzen.AlignItems.Center">
             <RadzenColumn Size="12" SizeMD="4">
-                <RadzenLabel Text="Ngày hết hạn" />
+                <RadzenLabel Text=@_localizer["identity_form_expired_label"] />
             </RadzenColumn>
             <RadzenColumn Size="12" SizeMD="8">
                 <RadzenDatePicker Style="width: 100%;" @bind-Value="Value.ExpiryDate"
@@ -64,28 +64,18 @@
         </RadzenRow>
         @if (Value.Type == "cccd")
         {
-            <RadzenRow AlignItems="Radzen.AlignItems.Center">
-                <RadzenColumn Size="12" SizeMD="4">
-                    <RadzenLabel Text="Có gắn chip" />
-                </RadzenColumn>
-                <RadzenColumn Size="12" SizeMD="8">
-                    <RadzenDropDown TValue="string" Style="width: 100%;"
-                                    @bind-Value="Value.AdditionalInfoForIdentityInfo.HasChip"
-                                    Data=@(new List<KeyValuePair<string, string>>
-                                    {
-                                        new("yes", "Có"),
-                                        new("no", "Không")
-                                    })
-                                    TextProperty="Value" ValueProperty="Key" Name="HasChip" Change="UpdateAdditionalInfo" />
-                    <RadzenDataAnnotationValidator Component="HasChip" Popup="@popup" Style="position: relative" />
-                </RadzenColumn>
-            </RadzenRow>
+            <RadzenColumn Size="12" SizeMD="4" Style="margin-left: 0; padding: 0">
+                    <div style="margin-left: 0; padding: 0; display: flex; align-items: center;">
+                        <RadzenCheckBox Style="margin-right: 1rem" @bind-Value=@Value.AdditionalInfoForIdentityInfo.HasChipBool Name="HasChip" Change="@((bool _) => UpdateAdditionalInfo())" />
+                        <RadzenLabel Text=@_localizer["identity_form_chip_label"] Component="HasChip" />
+                    </div>
+            </RadzenColumn>
         }
         @if (Value.Type == "passport")
         {
             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                 <RadzenColumn Size="12" SizeMD="4">
-                    <RadzenLabel Text="Quốc gia cấp" />
+                    <RadzenLabel Text=@_localizer["identity_form_country_label"] />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="8">
                     <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.CountryOfIssue" Name="CountryOfIssue" Change="UpdateAdditionalInfo" />
@@ -95,11 +85,10 @@
 
             <RadzenRow AlignItems="Radzen.AlignItems.Center">
                 <RadzenColumn Size="12" SizeMD="4">
-                    <RadzenLabel Text="Ghi chú" />
+                    <RadzenLabel Text=@_localizer["identity_form_note_label"] />
                 </RadzenColumn>
                 <RadzenColumn Size="12" SizeMD="8">
                     <RadzenTextBox style="width: 100%" @bind-Value="Value.AdditionalInfoForIdentityInfo.Note" Name="Note" Change="UpdateAdditionalInfo" />
-                    <RadzenDataAnnotationValidator Component="Note" Popup="@popup" Style="position: relative" />
                 </RadzenColumn>
             </RadzenRow>
         }

@@ -1,10 +1,12 @@
-﻿<RadzenStack>
+﻿@using Microsoft.Extensions.Localization
+@using student_management_fe.Resources
+<RadzenStack>
     <RadzenColumn>
         <RadzenText Text="@ContentText" />
     </RadzenColumn>
     <RadzenColumn>
         <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-            <RadzenButton style="width: 100%" Text="Hủy" Click="Cancel" ButtonStyle="ButtonStyle.Light" />
+            <RadzenButton style="width: 100%" Text=@_localizer["all_actions_cancel_button_text"] Click="Cancel" ButtonStyle="ButtonStyle.Light" />
             <RadzenButton style="width: 100%" Text="@ButtonText" Click="Submit" ButtonStyle="ButtonStyle.Danger" />
         </RadzenStack>
     </RadzenColumn>
@@ -12,7 +14,7 @@
 
 @code {
     [Inject] private Radzen.DialogService DialogService { get; set; }
-
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
     [Parameter] public string ContentText { get; set; }
     [Parameter] public string ButtonText { get; set; }
 
