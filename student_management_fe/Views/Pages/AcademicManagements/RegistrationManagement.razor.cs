@@ -187,9 +187,6 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     Grade = editingStudent.Grade
                 };
-                //await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
-                //studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
-                //Snackbar.Add($"Đã cập nhật điểm số của sinh viên có MSSV {editingStudent.Id}", Severity.Success);
 
                 var messgae = await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);

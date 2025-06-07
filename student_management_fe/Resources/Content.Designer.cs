@@ -421,6 +421,24 @@ namespace student_management_fe.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to check student enrollment information for the course!.
+        /// </summary>
+        public static string check_course_has_students_request_failed {
+            get {
+                return ResourceManager.GetString("check_course_has_students_request_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to read the response from the server!.
+        /// </summary>
+        public static string check_course_has_students_response_parse_failed {
+            get {
+                return ResourceManager.GetString("check_course_has_students_response_parse_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string column_actions_header {

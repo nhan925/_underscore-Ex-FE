@@ -129,7 +129,7 @@ public class CourseService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể kiểm tra thông tin sinh viên đăng ký khóa học!");
+            throw new Exception(_localizer["check_course_has_students_request_failed"]);
         }
 
         var content = await response.Content.ReadAsStringAsync();
@@ -143,7 +143,7 @@ public class CourseService
         }
         catch (JsonException)
         {
-            throw new Exception("Không thể đọc thông tin phản hồi từ server!");
+            throw new Exception(_localizer["check_course_has_students_response_parse_failed"]);
         }
     }
 
