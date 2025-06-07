@@ -204,8 +204,6 @@ public partial class Home
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
- 
-        Console.WriteLine($"Dialog closed with result: {result}");
     }
 
     private async Task ExportTranscript(string mssv)

@@ -1182,4 +1182,10 @@
   <data name="warning_old_score_will_be_deleted_if_course_repeated" xml:space="preserve">
     <value>Warning: if the student has already taken this course, the previous score will be deleted!</value>
   </data>
+  <data name="check_course_has_students_response_parse_failed" xml:space="preserve">
+    <value>Unable to read the response from the server!</value>
+  </data>
+  <data name="check_course_has_students_request_failed" xml:space="preserve">
+    <value>Failed to check student enrollment information for the course!</value>
+  </data>
 </root>

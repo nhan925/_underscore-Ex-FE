@@ -81,7 +81,7 @@
             <MudTh Style="text-align: center; width: 16%">@_localizer["home_column_full_name_header"]</MudTh>
             <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_date_of_birth_header"]</MudTh>
             <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_gender_header"]</MudTh>
-            <MudTh Style="text-align: center; width: 17%" >@_localizer["home_column_faculty_header"]</MudTh>
+            <MudTh Style="text-align: center; width: 17%">@_localizer["home_column_faculty_header"]</MudTh>
             <MudTh Style="text-align: center; width: 8%">@_localizer["home_column_intake_year_header"]</MudTh>
             <MudTh Style="text-align: center; width: 10%">@_localizer["home_column_study_program_header"]</MudTh>
             <MudTh Style="text-align: center; width: 11%">@_localizer["home_column_student_status_header"]</MudTh>
@@ -90,7 +90,7 @@
  
 
         <RowTemplate>
-            <MudTd Style="text-align: center" DataLabel="STT">@((students.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
+            <MudTd Style="text-align: center" DataLabel=@_localizer["column_order_header"]>@((students.IndexOf(context) + 1) + (currentPage - 1) * pageSize)</MudTd>
             <MudTd DataLabel=@_localizer["home_column_student_id_header"] Style="text-align: center">@context.Id</MudTd>
             <MudTd DataLabel=@_localizer["home_column_full_name_header"]>@context.FullName</MudTd>
             <MudTd DataLabel=@_localizer["home_column_date_of_birth_header"] Style="text-align: center">@context.DateOfBirth?.ToString("dd/MM/yyyy")</MudTd>

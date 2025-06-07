@@ -1182,4 +1182,10 @@
   <data name="warning_old_score_will_be_deleted_if_course_repeated" xml:space="preserve">
     <value>Chú ý: nếu sinh viên đã học môn này thì điểm cũ sẽ bị xóa!</value>
   </data>
+  <data name="check_course_has_students_response_parse_failed" xml:space="preserve">
+    <value>Không thể đọc thông tin phản hồi từ server!</value>
+  </data>
+  <data name="check_course_has_students_request_failed" xml:space="preserve">
+    <value>Không thể kiểm tra thông tin sinh viên đăng ký khóa học!</value>
+  </data>
 </root>

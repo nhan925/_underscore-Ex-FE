@@ -68,7 +68,7 @@
 
             <RowTemplate>
                 <MudTd DataLabel=@_localizer["column_order_header"] Style="text-align: center">@(availableNextStatus.IndexOf(context) + 1)</MudTd>
-			          <MudTd DataLabel=@_localizer["student_status_setting_column_id_header"] Style="text-align: center">@context.Id</MudTd>
+			    <MudTd DataLabel=@_localizer["student_status_setting_column_id_header"] Style="text-align: center">@context.Id</MudTd>
                 <MudTd DataLabel=@_localizer["student_status_setting_column_status_header"] Style="text-align: center">@context.Name</MudTd>
                 <MudTd DataLabel=@_localizer["column_actions_header"] Style="text-align: center">
                     <MudTooltip Text=@_localizer["all_actions_delete_tooltip"] Color="Color.Error" Arrow="true" Placement="Placement.Top">
