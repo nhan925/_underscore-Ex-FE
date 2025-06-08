@@ -29,10 +29,10 @@ public partial class CourseClassForm
 
     private List<string> DateOfWeek { get; set; } 
 
-    private readonly CourseClassService _courseClassService;
+    private readonly ICourseClassService _courseClassService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public CourseClassForm(CourseClassService courseClassService, IStringLocalizer<Content> localizer)
+    public CourseClassForm(ICourseClassService courseClassService, IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
         _localizer = localizer;

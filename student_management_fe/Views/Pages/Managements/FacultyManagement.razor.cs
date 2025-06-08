@@ -20,41 +20,15 @@ public partial class FacultyManagement
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
-    private int _currentPage = 1;
-    private int currentPage
-    {
-        get
-        {
-            if (totalPages == 0)
-            {
-                return 1;
-            }
-
-            return _currentPage;
-        }
-
-        set
-        {
-            if (value > 0 && value <= totalPages)
-            {
-                _currentPage = value;
-            }
-        }
-    }
-    private int pageSize = 10;
-    private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
-    private int totalCount { get; set; } = 100;
-
-
     private string? searchText;
 
     private List<Faculty> faculties = new List<Faculty>();
     private List<Faculty> tempFaculties = new List<Faculty>();
 
-    private readonly FacultyService _facultyService;
+    private readonly IFacultyService _facultyService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public FacultyManagement(FacultyService facultyService, IStringLocalizer<Content> localizer)
+    public FacultyManagement(IFacultyService facultyService, IStringLocalizer<Content> localizer)
     {
         _facultyService = facultyService;
         _localizer = localizer;

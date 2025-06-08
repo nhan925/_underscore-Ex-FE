@@ -8,12 +8,12 @@ using System.Text.Json;
 
 namespace student_management_fe.Services;
 
-public class StudentStatusService
+public class StudentStatusService : IStudentStatusService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentStatusService(AuthService authService, IStringLocalizer<Content> localizer)
+    public StudentStatusService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;

@@ -16,12 +16,12 @@ using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class ConfigurationsService
+public class ConfigurationsService : IConfigurationsService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public ConfigurationsService(AuthService authService, IStringLocalizer<Content> localizer)
+    public ConfigurationsService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;

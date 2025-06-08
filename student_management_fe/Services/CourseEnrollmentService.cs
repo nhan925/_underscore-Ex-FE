@@ -10,22 +10,16 @@ using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class CourseEnrollmentService
+public class CourseEnrollmentService : ICourseEnrollmentService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IJSRuntime _jsRuntime;
     private readonly IStringLocalizer<Content> _localizer;
-    public CourseEnrollmentService(AuthService authService, IJSRuntime jSRuntime, IStringLocalizer<Content> localizer)
+    public CourseEnrollmentService(IAuthService authService, IJSRuntime jSRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jSRuntime;
         _localizer = localizer;
-    }
-
-    public static class EnrollmentActions
-    {
-        public const string Register = "register";
-        public const string Unregister = "unregister";
     }
 
     public async Task<string> RegisterAndUnregisterClass(string action, CourseEnrollmentRequest courseEnrollmentRequest)

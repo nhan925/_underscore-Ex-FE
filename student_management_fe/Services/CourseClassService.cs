@@ -10,11 +10,11 @@ using ServiceStack.Web;
 
 namespace student_management_fe.Services;
 
-public class CourseClassService
+public class CourseClassService : ICourseClassService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
-    public CourseClassService(AuthService authService, IStringLocalizer<Content> localizer)
+    public CourseClassService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;

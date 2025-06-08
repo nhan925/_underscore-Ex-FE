@@ -28,27 +28,26 @@ public partial class CourseClassesManagement
     private string? searchText;
     private Year selectedYear = new();
     private Semester selectedSemester = new();
+    private bool firstLoad = true;
 
     private List<GetCourseClassResult> courseClasses = new();
     private List<GetCourseClassResult> filteredCourseClasses = new();
     private List<Year> years = new();
     private List<Semester> semesters = new();
 
-    private readonly CourseClassService _courseClassService;
-    private readonly YearAndSemesterService _yearAndSemesterService;
-    private readonly CourseService _courseService;
-    private readonly LecturerService _lecturerService;
-    private readonly DataService _dataService;
+    private readonly ICourseClassService _courseClassService;
+    private readonly IYearAndSemesterService _yearAndSemesterService;
+    private readonly ICourseService _courseService;
+    private readonly ILecturerService _lecturerService;
+    private readonly IDataService _dataService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    private bool firstLoad = true;
-
     public CourseClassesManagement(
-        CourseClassService courseClassService, 
-        YearAndSemesterService yearAndSemesterService,
-        CourseService courseService,
-        LecturerService lecturerService,
-        DataService dataService,
+        ICourseClassService courseClassService, 
+        IYearAndSemesterService yearAndSemesterService,
+        ICourseService courseService,
+        ILecturerService lecturerService,
+        IDataService dataService,
         IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;

@@ -38,14 +38,13 @@ public partial class CourseManagement
     private List<CourseModel> tempCourses = new();
     private List<Faculty> faculties = new();
 
-    private readonly CourseService _courseService;
-    private readonly FacultyService _facultyService;
+    private readonly ICourseService _courseService;
+    private readonly IFacultyService _facultyService;
     private readonly IStringLocalizer<Content> _localizer;
 
-
     public CourseManagement(
-        CourseService courseService, 
-        FacultyService facultyService, 
+        ICourseService courseService, 
+        IFacultyService facultyService, 
         IStringLocalizer<Content> localizer)
     {
         _courseService = courseService;

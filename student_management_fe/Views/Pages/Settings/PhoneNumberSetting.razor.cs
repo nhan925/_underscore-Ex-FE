@@ -11,16 +11,12 @@ namespace student_management_fe.Views.Pages.Settings
 {
     public partial class PhoneNumberSetting
     {
-
         [Inject]
         private ISnackbar Snackbar { get; set; } = default!;
 
         [Inject]
         private Radzen.DialogService DialogService { get; set; } = default!;
 
-        private readonly ConfigurationsService _configurationsService;
-        private readonly CountryPhoneCodeService _countryPhoneCodeService;
-        private readonly IStringLocalizer<Content> _localizer;
         private ConfigurationsModel<List<string>> configInformations = new()
         {
             Value = new List<string>()
@@ -29,7 +25,14 @@ namespace student_management_fe.Views.Pages.Settings
         private CountryPhoneCodeModel selectedCountry { get; set; } = null!;
         private List<CountryPhoneCodeModel> mappedCountries = new();
 
-        public PhoneNumberSetting(ConfigurationsService configurationsService, CountryPhoneCodeService countryPhoneCodeService, IStringLocalizer<Content> localizer)
+        private readonly IConfigurationsService _configurationsService;
+        private readonly ICountryPhoneCodeService _countryPhoneCodeService;
+        private readonly IStringLocalizer<Content> _localizer;
+
+        public PhoneNumberSetting(
+            IConfigurationsService configurationsService, 
+            ICountryPhoneCodeService countryPhoneCodeService, 
+            IStringLocalizer<Content> localizer)
         {
             _configurationsService = configurationsService;
             _countryPhoneCodeService = countryPhoneCodeService;

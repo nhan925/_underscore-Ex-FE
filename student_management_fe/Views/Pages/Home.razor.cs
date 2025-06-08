@@ -71,21 +71,21 @@ public partial class Home
     private StudentHomePageModel SelectedStudent { get; set; }
 
 
-    private readonly FacultyService _facultyService;
-    private readonly StudyProgramService _studyProgramService;
-    private readonly StudentStatusService _studentStatusService;
-    private readonly StudentServices _studentServices;
-    private readonly ConfigurationsService _configService;
-    private readonly CourseEnrollmentService _courseEnrollmentService;
+    private readonly IFacultyService _facultyService;
+    private readonly IStudyProgramService _studyProgramService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStudentServices _studentServices;
+    private readonly IConfigurationsService _configService;
+    private readonly ICourseEnrollmentService _courseEnrollmentService;
     private readonly IStringLocalizer<Content> _localizer;
 
     public Home(
-        StudentServices studentServices, 
-        FacultyService facultyService,
-        StudentStatusService studentStatusService,
-        StudyProgramService studyProgramService,
-        ConfigurationsService configService,
-        CourseEnrollmentService courseEnrollmentService,
+        IStudentServices studentServices, 
+        IFacultyService facultyService,
+        IStudentStatusService studentStatusService,
+        IStudyProgramService studyProgramService,
+        IConfigurationsService configService,
+        ICourseEnrollmentService courseEnrollmentService,
         IStringLocalizer<Content> localizer)
     {
         _studentServices = studentServices;

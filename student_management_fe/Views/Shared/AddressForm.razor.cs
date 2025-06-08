@@ -7,10 +7,13 @@ namespace student_management_fe.Views.Shared;
 
 public partial class AddressForm
 {
+    bool popup = false;
+
     [Parameter] public Address Value { get; set; }
     [Parameter] public EventCallback<Address> ValueChanged { get; set; }
     [Parameter] public EventCallback<Address> OnAddressUpdated { get; set; }
     [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     private async Task ValidateAndUpdate()
     {
         if (OnAddressUpdated.HasDelegate)
@@ -19,6 +22,4 @@ public partial class AddressForm
             await OnAddressUpdated.InvokeAsync(Value); 
         }
     }
-
-    bool popup = false;
 }

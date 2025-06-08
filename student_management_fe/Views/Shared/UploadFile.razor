@@ -65,9 +65,10 @@
     {
         public IBrowserFile? File { get; set; }  
     }
-    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
-    private Model _model = new();
 
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
+    private Model _model = new();
     private MudFileUpload<IBrowserFile>? _fileUpload;
     private bool _isValid;
     private bool _isTouched;

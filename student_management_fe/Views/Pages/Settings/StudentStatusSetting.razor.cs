@@ -18,10 +18,6 @@ public partial class StudentStatusSetting
 
     [Inject]
     private Radzen.DialogService DialogService { get; set; } = default!;
-
-    private readonly ConfigurationsService _configurationsService;
-    private readonly StudentStatusService _studentStatusService;
-    private readonly IStringLocalizer<Content> _localizer;
   
     private ConfigurationsModel<Dictionary<string, List<int>>> configInformations = new()
     {
@@ -35,10 +31,13 @@ public partial class StudentStatusSetting
     private StudentStatus selectedStudentStatus { get; set; } = null;
     private StudentStatus selectedTransferStudentStatus { get; set; } = null;
 
+    private readonly IConfigurationsService _configurationsService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     public StudentStatusSetting(
-        ConfigurationsService configurationsService, 
-        StudentStatusService studentServices,
+        IConfigurationsService configurationsService, 
+        IStudentStatusService studentServices,
         IStringLocalizer<Content> localizer)
     {
         _configurationsService = configurationsService;
@@ -67,11 +66,11 @@ public partial class StudentStatusSetting
     private async Task OnSelectedStudentStatusChanged(StudentStatus status)
     {
         selectedStudentStatus = status;
+        selectedTransferStudentStatus = null;
         if (status != null)
         {
             var tempAvailableNextStatus = await _configurationsService.GetNextStatuses(status.Id);
             availableNextStatus = tempAvailableNextStatus.Where(c => c.Id != selectedStudentStatus.Id).ToList();
-            SearchValidTransferStudentStatus();
         }
         else
         {
@@ -104,6 +103,7 @@ public partial class StudentStatusSetting
 
     private void OnTransferStatusSelectOpened()
     {
+        SearchValidTransferStudentStatus();
         if (!studentStatusesValidTransfer.Any())
         {
             Snackbar.Add(_localizer["student_status_setting_no_valid_status_warning"], Severity.Warning);

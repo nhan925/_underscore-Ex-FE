@@ -11,13 +11,13 @@ using System.Text.Json;
 
 namespace student_management_fe.Services;
 
-public class StudentServices
+public class StudentServices : IStudentServices
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IJSRuntime _jsRuntime;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentServices(AuthService authService, IJSRuntime jsRuntime, IStringLocalizer<Content> localizer)
+    public StudentServices(IAuthService authService, IJSRuntime jsRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jsRuntime;

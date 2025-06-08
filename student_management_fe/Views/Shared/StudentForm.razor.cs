@@ -18,8 +18,7 @@ namespace student_management_fe.Views.Shared;
 
 public partial class StudentForm
 {
-    [Parameter]
-    public StudentModel Student { get; set; }
+    [Parameter] public StudentModel Student { get; set; }
 
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -30,10 +29,10 @@ public partial class StudentForm
     [Parameter] public List<StudyProgram> StudyPrograms { get; set; } = new();
 
     [Parameter] public string ButtonText { get; set; }
+
     [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
-    private ConfigurationsService _configurationsService;
 
     string errorEmailMessage = string.Empty;
     string errorPhoneNumberMessage = string.Empty;
@@ -46,7 +45,9 @@ public partial class StudentForm
 
     private IdentityInfo IdentityInfo { get; set; }
 
-    public StudentForm(ConfigurationsService configurationsService)
+    private IConfigurationsService _configurationsService;
+
+    public StudentForm(IConfigurationsService configurationsService)
     {
         _configurationsService = configurationsService;
     }

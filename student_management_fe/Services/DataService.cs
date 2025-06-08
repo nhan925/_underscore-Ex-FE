@@ -1,6 +1,6 @@
 ﻿namespace student_management_fe.Services;
 
-public class DataService
+public class DataService : IDataService
 {
     public object Data { get; set; }
 

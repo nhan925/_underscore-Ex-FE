@@ -30,17 +30,17 @@ public partial class RegistrationManagement
     private float? originalGrade;
     private bool isLoading = true;
 
-    private readonly CourseClassService _courseClassService;
-    private readonly DataService _dataService;
-    private readonly YearAndSemesterService _yearAndSemesterService;
-    private readonly CourseEnrollmentService _courseErollmentService;
+    private readonly ICourseClassService _courseClassService;
+    private readonly IDataService _dataService;
+    private readonly IYearAndSemesterService _yearAndSemesterService;
+    private readonly ICourseEnrollmentService _courseErollmentService;
     private readonly IStringLocalizer<Content> _localizer;
 
     public RegistrationManagement(
-        CourseClassService courseClassService, 
-        DataService dataService, 
-        YearAndSemesterService yearAndSemesterService, 
-        CourseEnrollmentService courseErollmentService,
+        ICourseClassService courseClassService, 
+        IDataService dataService, 
+        IYearAndSemesterService yearAndSemesterService, 
+        ICourseEnrollmentService courseErollmentService,
         IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
@@ -151,7 +151,7 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     SemesterId = courseClass.Semester.Id
                 };
-                var result = await _courseErollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
+                var result = await _courseErollmentService.RegisterAndUnregisterClass(ICourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
                 Snackbar.Add(result, Severity.Success);
             }

@@ -8,11 +8,11 @@ using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class FacultyService
+public class FacultyService : IFacultyService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
-    public FacultyService(AuthService authService, IStringLocalizer<Content> localizer)
+    public FacultyService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;
