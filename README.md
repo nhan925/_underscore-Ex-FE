@@ -4,22 +4,39 @@
 ```
 student_management_fe/
 │
-├── Program.cs                   
+├── Program.cs              # The entry point of the application
 │
-├── App.razor                   
+├── App.razor               # Root component, sets up routing and layout usage
 │
-├── Views/
-│   ├── Pages/
-│   ├── Layout/
-│   └── Shared/
+├── Views/                  # Contains all UI components and page layouts
+│   ├── Pages/              # Holds the core pages of the application
+│   │   ├── AcademicManagements
+│   │   │
+│   │   ├── Managements
+│   │   │
+│   │   ├── Settings
+│   │   │
+│   │   ├── Home.razor
+│   │   │
+│   │   └── Login.razor
+│   │   
+│   ├── Layout/             # Contains the main layout components
+│   │   
+│   └── Shared/             # Contains shared UI components used across pages
 │
-├── Models/                     
+├── Models/                 # Data models and DTOs
 │
-├── Services/                  
+├── Services/               # Business logic and API communication
 │
-├── Authentication/              
+├── Authentication/         # User authentication and authorization logic
 │
-└── wwwroot/
+├── Extensions/             # Extension methods for adding functionality 
+│
+├── Helpers/                # Helper classes
+│  
+├── Resources/              # Localization resources
+│
+└── wwwroot/                # Static assets: images, CSS, JS
 ```
 
 ## Kiến trúc
