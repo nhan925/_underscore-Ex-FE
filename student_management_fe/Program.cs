@@ -37,6 +37,7 @@ public class Program
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
         builder.Services.AddAuthorizationCore();
         builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+        
         builder.Services.AddScoped<AuthService>();
         builder.Services.AddScoped<StudentServices>();
         builder.Services.AddScoped<StudentStatusService>();
@@ -49,10 +50,11 @@ public class Program
         builder.Services.AddScoped<CourseService>();
         builder.Services.AddScoped<LecturerService>();
         builder.Services.AddScoped<CourseEnrollmentService>();
+        builder.Services.AddScoped<DataService>();
+        
         builder.Services.AddScoped<Radzen.DialogService>();
         builder.Services.AddScoped<MudBlazor.DialogService>();
         builder.Services.AddBlazoredLocalStorage();
-        builder.Services.AddScoped<DataService>();
         builder.Services.AddMudServices();
         builder.Services.AddRadzenComponents();
 
