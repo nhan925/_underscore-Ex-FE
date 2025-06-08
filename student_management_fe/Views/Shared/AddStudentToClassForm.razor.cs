@@ -39,20 +39,20 @@ public partial class AddStudentToClassForm
     private List<StudentStatus> studentStatuses = new();
     private List<StudyProgram> studyPrograms = new();
 
-    private readonly FacultyService _facultyService;
-    private readonly StudyProgramService _studyProgramService;
-    private readonly StudentStatusService _studentStatusService;
-    private readonly StudentServices _studentService;
-    private readonly CourseEnrollmentService _courseEnrollmentService;
+    private readonly IFacultyService _facultyService;
+    private readonly IStudyProgramService _studyProgramService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStudentServices _studentService;
+    private readonly ICourseEnrollmentService _courseEnrollmentService;
 
     public bool popup = false;
 
     public AddStudentToClassForm(
-        FacultyService facultyService, 
-        StudyProgramService studyProgramService, 
-        StudentStatusService studentStatusService, 
-        StudentServices studentServices, 
-        CourseEnrollmentService courseEnrollmentService)
+        IFacultyService facultyService, 
+        IStudyProgramService studyProgramService, 
+        IStudentStatusService studentStatusService, 
+        IStudentServices studentServices, 
+        ICourseEnrollmentService courseEnrollmentService)
     {
         _facultyService = facultyService;
         _studyProgramService = studyProgramService;
@@ -117,7 +117,7 @@ public partial class AddStudentToClassForm
         {
             try
             {
-                result = await _courseEnrollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
+                result = await _courseEnrollmentService.RegisterAndUnregisterClass(ICourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
                 {
                     StudentId = Student.Id,
                     ClassId = CourseClass.Id,

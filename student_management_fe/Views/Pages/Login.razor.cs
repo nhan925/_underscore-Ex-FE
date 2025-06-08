@@ -13,10 +13,11 @@ public partial class Login
 {
     private LoginModel loginModel = new();
     private string errorMessage = "";
-    private readonly AuthService _authService;
+
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public Login(AuthService authService, IStringLocalizer<Content> localizer)
+    public Login(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;

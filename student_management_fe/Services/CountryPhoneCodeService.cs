@@ -6,11 +6,11 @@ using System.Text.Json;
 
 namespace student_management_fe.Services;
 
-public class CountryPhoneCodeService
+public class CountryPhoneCodeService : ICountryPhoneCodeService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public CountryPhoneCodeService(AuthService authService)
+    public CountryPhoneCodeService(IAuthService authService)
     {
         _authService = authService;
     }

@@ -18,16 +18,17 @@ public partial class EmailSetting
     [Inject]
     private Radzen.DialogService DialogService { get; set; } = default!;
 
-    private readonly ConfigurationsService _configurationsService;
     private string newDomain { get; set; } = string.Empty;
-    private readonly IStringLocalizer<Content> _localizer;
 
     private ConfigurationsModel<List<string>> configInformations = new()
     {
         Value = new List<string>()
     };
 
-    public EmailSetting(ConfigurationsService configurationsService, IStringLocalizer<Content> localizer)
+    private readonly IStringLocalizer<Content> _localizer;
+    private readonly IConfigurationsService _configurationsService;
+
+    public EmailSetting(IConfigurationsService configurationsService, IStringLocalizer<Content> localizer)
     {
         _configurationsService = configurationsService;
         _localizer = localizer;

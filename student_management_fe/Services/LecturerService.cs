@@ -4,11 +4,11 @@ using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
 
-public class LecturerService
+public class LecturerService : ILecturerService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public LecturerService(AuthService authService)
+    public LecturerService(IAuthService authService)
     {
         _authService = authService;
     }

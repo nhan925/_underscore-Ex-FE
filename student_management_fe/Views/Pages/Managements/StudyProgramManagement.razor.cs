@@ -21,41 +21,15 @@ public partial class StudyProgramManagement : ComponentBase
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
-    private int _currentPage = 1;
-    private int currentPage
-    {
-        get
-        {
-            if (totalPages == 0)
-            {
-                return 1;
-            }
-
-            return _currentPage;
-        }
-
-        set
-        {
-            if (value > 0 && value <= totalPages)
-            {
-                _currentPage = value;
-            }
-        }
-    }
-    private int pageSize = 10;
-    private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
-    private int totalCount { get; set; } = 100;
-
-
     private string? searchText;
 
     private List<StudyProgram> studyPrograms = new List<StudyProgram>();
     private List<StudyProgram> tempStudyPrograms = new List<StudyProgram>();
 
-    private readonly StudyProgramService _studyProgramService;
+    private readonly IStudyProgramService _studyProgramService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public StudyProgramManagement(StudyProgramService studyProgramService, IStringLocalizer<Content> localizer)
+    public StudyProgramManagement(IStudyProgramService studyProgramService, IStringLocalizer<Content> localizer)
     {
         _studyProgramService = studyProgramService;
         _localizer = localizer;

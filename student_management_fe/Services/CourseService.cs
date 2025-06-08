@@ -8,12 +8,12 @@ using Microsoft.Extensions.Localization;
 using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
-public class CourseService
+public class CourseService : ICourseService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public CourseService(AuthService authService, IStringLocalizer<Content> localizer)
+    public CourseService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _localizer = localizer;
@@ -135,7 +135,7 @@ public class CourseService
         var content = await response.Content.ReadAsStringAsync();
         try
         {
-            var result = JsonSerializer.Deserialize<HasStudentsResponse>(content, new JsonSerializerOptions
+            var result = JsonSerializer.Deserialize<ICourseService.HasStudentsResponse>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
@@ -145,10 +145,5 @@ public class CourseService
         {
             throw new Exception(_localizer["check_course_has_students_response_parse_failed"]);
         }
-    }
-
-    public class HasStudentsResponse
-    {
-        public bool HasStudents { get; set; }
     }
 }

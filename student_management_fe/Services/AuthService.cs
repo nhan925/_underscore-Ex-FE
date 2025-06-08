@@ -11,7 +11,7 @@ using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly HttpClient _httpClient;
     private readonly CustomAuthStateProvider _authStateProvider;

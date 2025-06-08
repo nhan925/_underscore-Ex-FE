@@ -17,16 +17,18 @@ public partial class CourseForm
     [Inject] private DialogService DialogService { get; set; } = default!;
     [Inject] private NotificationService NotificationService { get; set; } = default!;
     [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     private int SelectedFacultyId { get; set; }
     private IEnumerable<string> SelectedPrerequisiteIds { get; set; } = new List<string>();
     bool popup = false;
-    private readonly CourseService _courseService;
-    private readonly FacultyService _facultyService;
     private List<CourseModel> CoursePrerequisites { get; set; } = new();
     private List<Faculty> Faculties { get; set; } = new();
     private bool HasEnrolledStudents { get; set; } = false;
 
-    public CourseForm(CourseService courseService, FacultyService facultyService)
+    private readonly ICourseService _courseService;
+    private readonly IFacultyService _facultyService;
+
+    public CourseForm(ICourseService courseService, IFacultyService facultyService)
     {
         _courseService = courseService;
         _facultyService = facultyService;

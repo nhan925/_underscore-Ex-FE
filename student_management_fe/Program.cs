@@ -38,19 +38,19 @@ public class Program
         builder.Services.AddAuthorizationCore();
         builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
         
-        builder.Services.AddScoped<AuthService>();
-        builder.Services.AddScoped<StudentServices>();
-        builder.Services.AddScoped<StudentStatusService>();
-        builder.Services.AddScoped<StudyProgramService>();
-        builder.Services.AddScoped<FacultyService>();
-        builder.Services.AddScoped<ConfigurationsService>();
-        builder.Services.AddScoped<CountryPhoneCodeService>();
-        builder.Services.AddScoped<CourseClassService>();
-        builder.Services.AddScoped<YearAndSemesterService>();
-        builder.Services.AddScoped<CourseService>();
-        builder.Services.AddScoped<LecturerService>();
-        builder.Services.AddScoped<CourseEnrollmentService>();
-        builder.Services.AddScoped<DataService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IStudentServices, StudentServices>();
+        builder.Services.AddScoped<IStudentStatusService, StudentStatusService>();
+        builder.Services.AddScoped<IStudyProgramService, StudyProgramService>();
+        builder.Services.AddScoped<IFacultyService, FacultyService>();
+        builder.Services.AddScoped<IConfigurationsService, ConfigurationsService>();
+        builder.Services.AddScoped<ICountryPhoneCodeService, CountryPhoneCodeService>();
+        builder.Services.AddScoped<ICourseClassService, CourseClassService>();
+        builder.Services.AddScoped<IYearAndSemesterService, YearAndSemesterService>();
+        builder.Services.AddScoped<ICourseService, CourseService>();
+        builder.Services.AddScoped<ILecturerService, LecturerService>();
+        builder.Services.AddScoped<ICourseEnrollmentService, CourseEnrollmentService>();
+        builder.Services.AddScoped<IDataService, DataService>();
         
         builder.Services.AddScoped<Radzen.DialogService>();
         builder.Services.AddScoped<MudBlazor.DialogService>();

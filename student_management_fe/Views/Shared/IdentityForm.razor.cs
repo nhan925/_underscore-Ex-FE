@@ -14,7 +14,9 @@ public partial class IdentityForm
     [Parameter] public EventCallback<IdentityInfo> OnIdentityInfoUpdated { get; set; } = default!;
 
     [Parameter] public EventCallback<IdentityInfo> ValueChanged { get; set; } = default!;
+
     [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     bool popup = false;
 
     protected override void OnInitialized()

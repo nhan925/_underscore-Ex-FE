@@ -21,41 +21,15 @@ public partial class StudentStatusManagement
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
-    private int _currentPage = 1;
-    private int currentPage
-    {
-        get
-        {
-            if (totalPages == 0)
-            {
-                return 1;
-            }
-
-            return _currentPage;
-        }
-
-        set
-        {
-            if (value > 0 && value <= totalPages)
-            {
-                _currentPage = value;
-            }
-        }
-    }
-    private int pageSize = 10;
-    private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
-    private int totalCount { get; set; } = 100;
-
-
     private string? searchText;
 
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
     private List<StudentStatus> tempStudentStatuses = new List<StudentStatus>();
 
-    private readonly StudentStatusService _studentStatusService;
+    private readonly IStudentStatusService _studentStatusService;
     private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentStatusManagement(StudentStatusService studentStatusService, IStringLocalizer<Content> localizer)
+    public StudentStatusManagement(IStudentStatusService studentStatusService, IStringLocalizer<Content> localizer)
     {
         _studentStatusService = studentStatusService;
         _localizer = localizer;

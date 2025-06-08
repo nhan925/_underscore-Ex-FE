@@ -27,6 +27,7 @@ student_management_fe/
 ├── Models/                 # Data models and DTOs
 │
 ├── Services/               # Business logic and API communication
+│    └── Interfaces/
 │
 ├── Authentication/         # User authentication and authorization logic
 │
