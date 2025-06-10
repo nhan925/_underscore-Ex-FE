@@ -1,4 +1,6 @@
 ﻿@using MudBlazor
+@using Microsoft.Extensions.Localization
+@using student_management_fe.Resources
 @using FluentValidation
 @inject Radzen.DialogService DialogService
 @inject ISnackbar Snackbar
@@ -6,8 +8,7 @@
 <MudStack Style="width: 100%">
     <MudForm Model="@_model"
     @bind-IsValid="_isValid"
-    @bind-IsTouched="_isTouched"
-    Validation="@_validationRules.ValidateValue">
+    @bind-IsTouched="_isTouched">
         <MudItem xs="12">
             <MudFileUpload T="IBrowserFile"
             @ref="@_fileUpload"
@@ -28,7 +29,7 @@
                     Outlined="true"
                     Class="@_dragClass">
                         <MudText Typo="Typo.h6">
-                            Kéo và thả File hoặc nhấn chọn
+                            @_localizer["upload_file_form_tip"]
                         </MudText>
                         @if (_model.File != null)
                         {
@@ -40,16 +41,16 @@
             <MudToolBar Gutters="@false"
             Class="relative d-flex justify-end gap-4">
                 <MudButton Color="Color.Primary"
-                    Disabled="@(!_isValid || !_isTouched || _model.File is null)"
-                    OnClick="@UploadFiles"
-                    Variant="MudBlazor.Variant.Filled">
-                        Tải lên
+                Disabled="@(!_isValid || !_isTouched || _model.File is null)"
+                OnClick="@UploadFiles"
+                Variant="MudBlazor.Variant.Filled">
+                    @_localizer["upload_file_form_upload"]
                 </MudButton>
                 <MudButton Color="Color.Error"
-                    Disabled="@(_model.File is null)"
-                    OnClick="@ClearAsync"
-                    Variant="MudBlazor.Variant.Filled">
-                        Xóa
+                Disabled="@(_model.File is null)"
+                OnClick="@ClearAsync"
+                Variant="MudBlazor.Variant.Filled">
+                    @_localizer["upload_file_form_delete"]
                 </MudButton>
             </MudToolBar>
         </MudItem>
@@ -65,14 +66,9 @@
         public IBrowserFile? File { get; set; }  
     }
 
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     private Model _model = new();
-    private ModelFluentValidator _validationRules;
-
-    protected override void OnInitialized()
-    {
-        _validationRules = new ModelFluentValidator(AllowedExtensions);
-    }
-
     private MudFileUpload<IBrowserFile>? _fileUpload;
     private bool _isValid;
     private bool _isTouched;
@@ -83,21 +79,22 @@
     {
         if (_model.File == null)
         {
-            Snackbar.Add("Vui lòng chọn ít nhất một tệp.", MudBlazor.Severity.Warning);
+            Snackbar.Add(_localizer["upload_file_form_at_least_warning"], MudBlazor.Severity.Warning);
             return;
         }
 
         // Kiểm tra kích thước file < 5MB
         if (_model.File.Size > 5 * 1024 * 1024)
         {
-            Snackbar.Add("Tệp có kích thước lớn hơn 5MB!", MudBlazor.Severity.Warning);
+            Snackbar.Add(_localizer["upload_file_form_size_warning"], MudBlazor.Severity.Warning);
             return;
         }
 
         // Kiểm tra định dạng file
         if (!AllowedExtensions.Contains(Path.GetExtension(_model.File.Name).ToLower()))
         {
-            Snackbar.Add($"Chỉ chấp nhận các tệp có định dạng: {string.Join(", ", AllowedExtensions)}.", MudBlazor.Severity.Warning);
+            var message = _localizer["upload_file_form_format_warning"];
+            Snackbar.Add($"{message}: {string.Join(", ", AllowedExtensions)} !", MudBlazor.Severity.Warning);
             return;
         }
 
@@ -115,27 +112,4 @@
 
     private Task ClearAsync()
         => _fileUpload?.ClearAsync() ?? Task.CompletedTask;
-
-    public class ModelFluentValidator : AbstractValidator<Model>
-    {
-        private readonly string[] _allowedExtensions;
-
-        public ModelFluentValidator(string[] allowedExtensions)
-        {
-            _allowedExtensions = allowedExtensions;
-            RuleFor(x => x.File)
-                .NotNull()
-                .WithMessage("Phải có một tệp tin.")
-                .Must(file => file.Size <= 5 * 1024 * 1024)
-                .WithMessage("Tệp tin phải nhỏ hơn 5MB.")
-                .Must(file => _allowedExtensions.Contains(Path.GetExtension(file.Name).ToLower()))
-                .WithMessage($"File không hợp lệ");
-        }
-
-        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
-        {
-            var result = await ValidateAsync(ValidationContext<Model>.CreateWithOptions((Model)model, x => x.IncludeProperties(propertyName)));
-            return result.IsValid ? Array.Empty<string>() : result.Errors.Select(e => e.ErrorMessage);
-        };
-    }
 }

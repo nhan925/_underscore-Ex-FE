@@ -1,25 +1,25 @@
 ﻿using Microsoft.JSInterop;
 using student_management_fe.Models;
+using student_management_fe.Helpers;
+using System.Net.Http.Json;
 using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class CourseEnrollmentService
+public class CourseEnrollmentService : ICourseEnrollmentService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
     private readonly IJSRuntime _jsRuntime;
-    public CourseEnrollmentService(AuthService authService, IJSRuntime jSRuntime)
+    private readonly IStringLocalizer<Content> _localizer;
+    public CourseEnrollmentService(IAuthService authService, IJSRuntime jSRuntime, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
         _jsRuntime = jSRuntime;
-    }
-
-    public static class EnrollmentActions
-    {
-        public const string Register = "register";
-        public const string Unregister = "unregister";
+        _localizer = localizer;
     }
 
     public async Task<string> RegisterAndUnregisterClass(string action, CourseEnrollmentRequest courseEnrollmentRequest)
@@ -35,33 +35,24 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            try
-            {
-                var errorDetail = JsonSerializer.Deserialize<JsonElement>(responseContent).GetProperty("details").GetString();
-                throw new Exception(errorDetail);
-            }
-            catch (JsonException)
-            {
-                throw new Exception($"Đã có lỗi xảy ra. Vui lòng thử lại sau!");
-            }
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
 
+            throw new Exception(errorMessage);
         }
 
-        try
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
         {
-            var message = JsonSerializer.Deserialize<JsonElement>(responseContent)
-                             .GetProperty("message").GetString();
-            return message ?? "Thao tác thành công.";
+            return message;
         }
-        catch (JsonException)
-        {
-            return "Thao tác thành công."; 
-        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task<string> UpdateStudentGrade(UpdateStudentGradeRequest updateStudentGradeRequest)
     {
-        var apiEndpoint = $"/api/course-enrollments/update-grade";
+        var apiEndpoint = $"/api/student/update-grade";
         var json = JsonSerializer.Serialize(updateStudentGradeRequest);
         var request = new HttpRequestMessage(HttpMethod.Put, apiEndpoint)
         {
@@ -71,20 +62,32 @@ public class CourseEnrollmentService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật điểm không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     public async Task DownloadTranscript(string studentId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/course-enrollments/transcript/{studentId}");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/student/{studentId}/transcript");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi tải bảng điểm");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
         using var fileStream = await response.Content.ReadAsStreamAsync();

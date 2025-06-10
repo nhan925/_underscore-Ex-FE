@@ -1,50 +1,42 @@
 ﻿using student_management_fe.Models;
-
+using student_management_fe.Helpers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class StudyProgramService
+public class StudyProgramService : IStudyProgramService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudyProgramService(AuthService authService)
+    public StudyProgramService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
-    public async Task<List<StudyProgram>> GetPrograms()
+    public async Task<List<StudyProgram>>GetPrograms()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/study-program");
         var response = await _authService.SendRequestWithAuthAsync(request);
 
-        return await response.Content.ReadFromJsonAsync<List<StudyProgram>>() ?? new List<StudyProgram>();
-    }
-
-    public async Task<int> AddProgram(string name)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, $"/api/study-program/{name}");
-
-        var response = await _authService.SendRequestWithAuthAsync(request);
-
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"Thêm không thành công!");
+            
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
+        return await response.Content.ReadFromJsonAsync<List<StudyProgram>>() ?? new List<StudyProgram>();
 
-        if (responseObj != null && responseObj.TryGetValue("id", out var studyProgramID))
-        {
-            return studyProgramID;
-        }
-
-        throw new Exception("Đã có lỗi xảy ra!");
     }
-
 
 
     public async Task<string> UpdateProgram(StudyProgram program)
@@ -58,10 +50,46 @@ public class StudyProgramService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
+
+    public async Task<int> AddProgram(string name)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, $"/api/study-program/{name}");
+
+        var response = await _authService.SendRequestWithAuthAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+        }
+
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, int>>();
+
+        if (responseObj != null && responseObj.TryGetValue("id", out var studyProgramID))
+        {
+            return studyProgramID;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
+    }
+
+
+
 }
 

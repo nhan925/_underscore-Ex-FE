@@ -4,23 +4,44 @@
 ```
 student_management_fe/
 │
-├── Program.cs                   
+├── Program.cs              # The entry point of the application
 │
-├── App.razor                   
+├── App.razor               # Root component, sets up routing and layout usage
 │
-├── Views/
-│   ├── Pages/
-│   ├── Layout/
-│   └── Shared/
+├── Views/                  # Contains all UI components and page layouts
+│   ├── Pages/              # Holds the core pages of the application
+│   │   ├── AcademicManagements
+│   │   │
+│   │   ├── Managements
+│   │   │
+│   │   ├── Settings
+│   │   │
+│   │   ├── Home.razor
+│   │   │
+│   │   └── Login.razor
+│   │   
+│   ├── Layout/             # Contains the main layout components
+│   │   
+│   └── Shared/             # Contains shared UI components used across pages
 │
-├── Models/                     
+├── Models/                 # Data models and DTOs
 │
-├── Services/                  
+├── Services/               # Business logic and API communication
+│    └── Interfaces/
 │
-├── Authentication/              
+├── Authentication/         # User authentication and authorization logic
 │
-└── wwwroot/
+├── Extensions/             # Extension methods for adding functionality 
+│
+├── Helpers/                # Helper classes
+│  
+├── Resources/              # Localization resources
+│
+└── wwwroot/                # Static assets: images, CSS, JS
 ```
+
+## Kiến trúc
+<img src="./pics/architecture.svg" width=100%/>
 
 ## Hướng dẫn cài đặt & chạy chương trình
 - Sử dụng Visual Studio 2022
@@ -74,6 +95,9 @@ student_management_fe/
 
 ### Quản lý lớp học
 <img src="./pics/class.gif" width=50%/>
+
+### Đa ngôn ngữ
+<img src="./pics/localization.gif" width=50%/>
 
 ## Các Business Rules
 ### MSSV phải là duy nhất

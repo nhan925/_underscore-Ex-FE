@@ -4,7 +4,7 @@
 <RadzenStack>
     <RadzenRow AlignItems="Radzen.AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="4">
-            <RadzenLabel Text="Số nhà/Tên đường" Component="Other" />
+            <RadzenLabel Text=@_localizer["address_form_adress_street_label"] Component="Other" />
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="8">
             <RadzenTextBox Style="width: 100%" Name="Other" @bind-Value="Value.Other" Change="ValidateAndUpdate" />
@@ -14,7 +14,7 @@
 
     <RadzenRow AlignItems="Radzen.AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="4">
-            <RadzenLabel Text="Phường/Xã" Component="Village" />
+            <RadzenLabel Text=@_localizer["address_form_address_village_label"] Component="Village" />
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="8">
             <RadzenTextBox Style="width: 100%" Name="Village" @bind-Value="Value.Village" Change="ValidateAndUpdate" />
@@ -24,7 +24,7 @@
 
     <RadzenRow AlignItems="Radzen.AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="4">
-            <RadzenLabel Text="Quận/Huyện" Component="District" />
+            <RadzenLabel Text=@_localizer["address_form_address_district_label"] Component="District" />
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="8">
             <RadzenTextBox Style="width: 100%" Name="District" @bind-Value="Value.District" Change="ValidateAndUpdate" />
@@ -34,7 +34,7 @@
 
     <RadzenRow AlignItems="Radzen.AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="4">
-            <RadzenLabel Text="Tỉnh/Thành phố" Component="City" />
+            <RadzenLabel Text=@_localizer["address_form_address_city_label"] Component="City" />
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="8">
             <RadzenTextBox Style="width: 100%" Name="City" @bind-Value="Value.City" Change="ValidateAndUpdate" />
@@ -44,7 +44,7 @@
 
     <RadzenRow AlignItems="Radzen.AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="4">
-            <RadzenLabel Text="Quốc gia" Component="Country" />
+            <RadzenLabel Text=@_localizer["address_form_address_country_label"] Component="Country" />
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="8">
             <RadzenTextBox Style="width: 100%" Name="Country" @bind-Value="Value.Country" Change="ValidateAndUpdate" />

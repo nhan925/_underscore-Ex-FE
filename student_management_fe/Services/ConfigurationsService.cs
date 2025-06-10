@@ -10,16 +10,21 @@ using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using student_management_fe.Helpers;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Services;
 
-public class ConfigurationsService
+public class ConfigurationsService : IConfigurationsService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public ConfigurationsService(AuthService authService)
+    public ConfigurationsService(IAuthService authService, IStringLocalizer<Content> localizer)
     {
         _authService = authService;
+        _localizer = localizer;
     }
 
     public async Task<bool> CheckConfig(string type, string value)
@@ -28,7 +33,11 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Thông tin không hợp lệ!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, bool>>();
@@ -37,7 +46,7 @@ public class ConfigurationsService
             Console.WriteLine(result);
             return result;
         }
-        throw new Exception("Đã có lỗi xảy ra!");
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
        
     }
 
@@ -47,7 +56,11 @@ public class ConfigurationsService
         var response = await _authService.SendRequestWithAuthAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi lấy danh sách trạng thái tiếp theo!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         var result = await response.Content.ReadFromJsonAsync<List<StudentStatus>>();
@@ -62,7 +75,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình email!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<List<string>>>()
@@ -81,10 +98,20 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình email không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     // Phone Number Configuration Methods
@@ -95,7 +122,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình số điện thoại!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<List<string>>>()
@@ -114,10 +145,20 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình số điện thoại không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 
     // Student Status Configuration Methods
@@ -128,7 +169,11 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Không thể lấy cấu hình trạng thái sinh viên!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
         return await response.Content.ReadFromJsonAsync<ConfigurationsModel<Dictionary<string, List<int>>>>()
@@ -147,9 +192,19 @@ public class ConfigurationsService
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Cập nhật cấu hình trạng thái sinh viên không thành công!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorMessage = errorResponse?.Message;
+
+            throw new Exception(errorMessage);
+
         }
 
-        return await response.Content.ReadAsStringAsync();
+        var responseObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        if (responseObj != null && responseObj.TryGetValue("message", out var message))
+        {
+            return message;
+        }
+
+        throw new Exception(_localizer["an_unexpected_error_occurred_Please_try_again_later"]);
     }
 }

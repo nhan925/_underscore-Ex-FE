@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Radzen;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 
@@ -31,24 +33,26 @@ public partial class AddStudentToClassForm
 
     [Inject] public ISnackbar Snackbar { get; set; } = default!;
 
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     private List<Faculty> faculties = new();
     private List<StudentStatus> studentStatuses = new();
     private List<StudyProgram> studyPrograms = new();
 
-    private readonly FacultyService _facultyService;
-    private readonly StudyProgramService _studyProgramService;
-    private readonly StudentStatusService _studentStatusService;
-    private readonly StudentServices _studentService;
-    private readonly CourseEnrollmentService _courseEnrollmentService;
+    private readonly IFacultyService _facultyService;
+    private readonly IStudyProgramService _studyProgramService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStudentServices _studentService;
+    private readonly ICourseEnrollmentService _courseEnrollmentService;
 
     public bool popup = false;
 
     public AddStudentToClassForm(
-        FacultyService facultyService, 
-        StudyProgramService studyProgramService, 
-        StudentStatusService studentStatusService, 
-        StudentServices studentServices, 
-        CourseEnrollmentService courseEnrollmentService)
+        IFacultyService facultyService, 
+        IStudyProgramService studyProgramService, 
+        IStudentStatusService studentStatusService, 
+        IStudentServices studentServices, 
+        ICourseEnrollmentService courseEnrollmentService)
     {
         _facultyService = facultyService;
         _studyProgramService = studyProgramService;
@@ -113,7 +117,7 @@ public partial class AddStudentToClassForm
         {
             try
             {
-                result = await _courseEnrollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
+                result = await _courseEnrollmentService.RegisterAndUnregisterClass(ICourseEnrollmentService.EnrollmentActions.Register, new CourseEnrollmentRequest
                 {
                     StudentId = Student.Id,
                     ClassId = CourseClass.Id,
@@ -140,5 +144,5 @@ public partial class AddStudentToClassForm
         Console.WriteLine("Invalid submit");
     }
 
-    private void Cancel() => DialogService.Close(false);
+    private void Cancel() => DialogService.Close(null);
 }

@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Models;
 
 public class CourseModel
 {
-    [Required(ErrorMessage = "Mã khóa học không được để trống")]
-    [StringLength(100, ErrorMessage = "Mã khoa không được dài quá.")]
+    [Required(ErrorMessageResourceName = "course_model_id_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "course_model_id_length",
+                       ErrorMessageResourceType = typeof(Content))]
     public string Id { get; set; } = string.Empty;
     
-    [Required(ErrorMessage = "Tên khóa học không được để trống")]
-    [StringLength(100, ErrorMessage = "Tên khóa học không được dài quá 100 ký tự.")]
+    [Required(ErrorMessageResourceName = "course_model_name_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [StringLength(100, ErrorMessageResourceName = "course_model_name_length",
+                       ErrorMessageResourceType = typeof(Content))]
     public string Name { get; set; } = string.Empty;
     
-    [Required(ErrorMessage = "Số tín chỉ không được để trống")]
-    [Range(3, int.MaxValue, ErrorMessage = "Số tín chỉ phải lớn hơn 2")]
+    [Required(ErrorMessageResourceName = "course_model_credits_required",
+              ErrorMessageResourceType = typeof(Content))]
+    [Range(3, int.MaxValue, ErrorMessageResourceName = "course_model_credits_range",
+                            ErrorMessageResourceType = typeof(Content))]
     public int Credits { get; set; }
     
-    [Required(ErrorMessage = "Khoa phụ trách không được để trống")]
+    [Required(ErrorMessageResourceName = "course_model_facultyid_required",
+              ErrorMessageResourceType = typeof(Content))]
     public int? FacultyId { get; set; }
     
     public string Description { get; set; } = string.Empty;

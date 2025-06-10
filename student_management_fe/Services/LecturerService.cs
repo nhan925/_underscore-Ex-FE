@@ -1,13 +1,14 @@
-﻿using student_management_fe.Models;
+﻿using student_management_fe.Helpers;
+using student_management_fe.Models;
 using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
 
-public class LecturerService
+public class LecturerService : ILecturerService
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public LecturerService(AuthService authService)
+    public LecturerService(IAuthService authService)
     {
         _authService = authService;
     }
@@ -16,6 +17,12 @@ public class LecturerService
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/lecturers");
         var response = await _authService.SendRequestWithAuthAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
+        }
 
         return await response.Content.ReadFromJsonAsync<List<Lecturer>>() ?? new ();
     }

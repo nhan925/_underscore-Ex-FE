@@ -4,6 +4,8 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using student_management_fe.Views.Shared;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages.AcademicManagements;
 
@@ -28,21 +30,24 @@ public partial class RegistrationManagement
     private float? originalGrade;
     private bool isLoading = true;
 
-    private readonly CourseClassService _courseClassService;
-    private readonly DataService _dataService;
-    private readonly YearAndSemesterService _yearAndSemesterService;
-    private readonly CourseEnrollmentService _courseErollmentService;
+    private readonly ICourseClassService _courseClassService;
+    private readonly IDataService _dataService;
+    private readonly IYearAndSemesterService _yearAndSemesterService;
+    private readonly ICourseEnrollmentService _courseErollmentService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     public RegistrationManagement(
-        CourseClassService courseClassService, 
-        DataService dataService, 
-        YearAndSemesterService yearAndSemesterService, 
-        CourseEnrollmentService courseErollmentService)
+        ICourseClassService courseClassService, 
+        IDataService dataService, 
+        IYearAndSemesterService yearAndSemesterService, 
+        ICourseEnrollmentService courseErollmentService,
+        IStringLocalizer<Content> localizer)
     {
         _courseClassService = courseClassService;
         _dataService = dataService;
         _yearAndSemesterService = yearAndSemesterService;
         _courseErollmentService = courseErollmentService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -51,16 +56,18 @@ public partial class RegistrationManagement
         {
             isLoading = true;
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-            courseClass = _dataService.GetData<GetCourseClassResult>();
-            if (courseClass == null)
+            var courseClassTemp = _dataService.GetData<GetCourseClassResult>();
+            if (courseClassTemp == null)
             {
-                courseClass = await LocalStorage.GetItemAsync<GetCourseClassResult>("cachedCourseClassSelected");
-                if (courseClass == null)
+                courseClassTemp = await LocalStorage.GetItemAsync<GetCourseClassResult>("cachedCourseClassSelected");
+                if (courseClassTemp == null)
                 {
-                    Snackbar.Add("Không tìm thấy thông tin lớp học", Severity.Warning);
+                    Snackbar.Add(_localizer["registration_management_classes_info_not_found"], Severity.Warning);
                     return;
                 }
             }
+            courseClass = await _courseClassService.GetCourseClassByIdAndCourseAndSemester(courseClassTemp.Id, courseClassTemp.Course.Id, courseClassTemp.Semester.Id);
+            
             years = await _yearAndSemesterService.GetAllYears();
             if (years != null && courseClass.Semester != null)
             {
@@ -79,7 +86,7 @@ public partial class RegistrationManagement
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Đã xảy ra lỗi: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{_localizer["error"]} {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -99,9 +106,9 @@ public partial class RegistrationManagement
             ContentCssClass = "custom-dialog"
         };
 
-        var result = await DialogService.OpenAsync<AddStudentToClassForm>("Thêm sinh viên vào lớp học", new Dictionary<string, object>
+        var result = await DialogService.OpenAsync<AddStudentToClassForm>(_localizer["registration_management_enroll_student"], new Dictionary<string, object>
         {
-            { "ButtonText", "Thêm sinh viên" },
+            { "ButtonText", _localizer["registration_management_register_button"].Value },
             { "CourseClass", courseClass }
         }, options);
 
@@ -123,12 +130,12 @@ public partial class RegistrationManagement
     {
         var parameters = new Dictionary<string, object>
         {
-            { "ContentText", "Bạn có chắc chắn muốn hủy đăng ký không? Sau khi hủy đăng ký không thể khôi phục!" },
-            { "ButtonText", "Hủy đăng ký" }
+            { "ContentText", $"{_localizer["registration_management_delete_student_confirmation_content"].Value}: {id} !" },
+            { "ButtonText", _localizer["registration_management_unenroll_button"].Value }
         };
 
         var resultVerify = await DialogService.OpenAsync<DeleteConfirmationDialog>(
-            "Xác nhận hủy đăng ký", parameters
+            _localizer["registration_management_delete_confirmation_dialog_header"].Value, parameters
         );
 
         Console.WriteLine($"Dialog result: {resultVerify}");
@@ -144,7 +151,7 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     SemesterId = courseClass.Semester.Id
                 };
-                var result = await _courseErollmentService.RegisterAndUnregisterClass(CourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
+                var result = await _courseErollmentService.RegisterAndUnregisterClass(ICourseEnrollmentService.EnrollmentActions.Unregister, studentUnregistered);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
                 Snackbar.Add(result, Severity.Success);
             }
@@ -159,7 +166,7 @@ public partial class RegistrationManagement
     {
         if (courseClass.Semester.StartDate > DateTime.Now)
         {
-            Snackbar.Add("Không thể sửa điểm số khi lớp học chưa bắt đầu", Severity.Warning);
+            Snackbar.Add(_localizer["registration_management_cannot_update_grade_before_semester"], Severity.Warning);
             return;
         }
         editingStudent = student;
@@ -180,16 +187,17 @@ public partial class RegistrationManagement
                     CourseId = courseClass.Course.Id,
                     Grade = editingStudent.Grade
                 };
-                await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
+
+                var messgae = await _courseErollmentService.UpdateStudentGrade(updateStudentGradeRequest);
                 studentsInClass = await _courseClassService.GetStudentsInClass(courseClass);
-                Snackbar.Add($"Đã cập nhật điểm số của sinh viên có MSSV {editingStudent.Id}", Severity.Success);
+                Snackbar.Add(messgae, Severity.Success);
             }
             catch (Exception ex)
             {
                 if (editingStudent != null && originalGrade.HasValue)
                     editingStudent.Grade = originalGrade;
-
-                Snackbar.Add($"Lỗi khi cập nhật điểm số: {ex.Message}", Severity.Error);
+              
+                Snackbar.Add(ex.Message, Severity.Error);
             }
             finally
             {

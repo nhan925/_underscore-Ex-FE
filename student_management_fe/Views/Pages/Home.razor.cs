@@ -13,7 +13,9 @@ using static student_management_fe.Views.Shared.StudentForm;
 using Radzen;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Resources;
 
 namespace student_management_fe.Views.Pages;
 
@@ -69,20 +71,22 @@ public partial class Home
     private StudentHomePageModel SelectedStudent { get; set; }
 
 
-    private readonly FacultyService _facultyService;
-    private readonly StudyProgramService _studyProgramService;
-    private readonly StudentStatusService _studentStatusService;
-    private readonly StudentServices _studentServices;
-    private readonly ConfigurationsService _configService;
-    private readonly CourseEnrollmentService _courseEnrollmentService;
+    private readonly IFacultyService _facultyService;
+    private readonly IStudyProgramService _studyProgramService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStudentServices _studentServices;
+    private readonly IConfigurationsService _configService;
+    private readonly ICourseEnrollmentService _courseEnrollmentService;
+    private readonly IStringLocalizer<Content> _localizer;
 
     public Home(
-        StudentServices studentServices, 
-        FacultyService facultyService, 
-        StudentStatusService studentStatusService, 
-        StudyProgramService studyProgramService, 
-        ConfigurationsService configService, 
-        CourseEnrollmentService courseEnrollmentService)
+        IStudentServices studentServices, 
+        IFacultyService facultyService,
+        IStudentStatusService studentStatusService,
+        IStudyProgramService studyProgramService,
+        IConfigurationsService configService,
+        ICourseEnrollmentService courseEnrollmentService,
+        IStringLocalizer<Content> localizer)
     {
         _studentServices = studentServices;
         _facultyService = facultyService;
@@ -90,6 +94,7 @@ public partial class Home
         _studyProgramService = studyProgramService;
         _configService = configService;
         _courseEnrollmentService = courseEnrollmentService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -178,29 +183,27 @@ public partial class Home
 
         var parameters = new Dictionary<string, object>
         {
-            { "ButtonText", "Lưu" },
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value },
             { "Student", newStudent },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatuses },
             { "StudyPrograms", studyPrograms   }
         };
 
-        var result = await DialogService.OpenAsync<StudentForm>("Thêm sinh viên", parameters, options);
+        var result = await DialogService.OpenAsync<StudentForm>(_localizer["home_header_form_add_student"], parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var studentId = await _studentServices.AddStudent(newStudent);
                 await ResetPaging();
-                Snackbar.Add($"Đã thêm sinh viên với MSSV {studentId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["home_add_student_success_noti"].Value}: {studentId} !", Severity.Success);
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
- 
-        Console.WriteLine($"Dialog closed with result: {result}");
     }
 
     private async Task ExportTranscript(string mssv)
@@ -208,7 +211,7 @@ public partial class Home
         try
         {
             await _courseEnrollmentService.DownloadTranscript(mssv);
-            Snackbar.Add($"Đã xuất bảng điểm của sinh viên có MSSV {mssv}", Severity.Success);
+            Snackbar.Add($"{_localizer["home_export_transcript_of_student_success_noti"].Value}: {mssv} !", Severity.Success);
         }
         catch (Exception ex)
         {
@@ -216,9 +219,9 @@ public partial class Home
         }
     }
 
-    private async Task EditStudent(string mssv)
+    private async Task EditStudent(string id)
     {
-        var student = await _studentServices.GetStudentById(mssv);
+        var student = await _studentServices.GetStudentById(id);
         var studentStatusesValid = student != null
                               ? await _configService.GetNextStatuses(student.StatusId)
                               : new List<StudentStatus>();
@@ -227,7 +230,7 @@ public partial class Home
 
         var parameters = new Dictionary<string, object>
         {
-            { "ButtonText", "Cập nhật" },
+            { "ButtonText", _localizer["all_actions_save_button_text"].Value },
             { "Student", student },
             { "Faculties", faculties },
             { "StudentStatuses", studentStatusesValid },
@@ -235,14 +238,14 @@ public partial class Home
             { "IsUpdateMode", true }
         };
 
-        var result = await DialogService.OpenAsync<StudentForm>("Cập nhật thông tin sinh viên", parameters, options);
+        var result = await DialogService.OpenAsync<StudentForm>(_localizer["home_header_form_update_student"], parameters, options);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
-                await _studentServices.UpdateStudent(student);
+                var message = await _studentServices.UpdateStudent(student);
                 await ResetPaging();
-                Snackbar.Add($"Thay đổi thông tin thành công !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -255,12 +258,12 @@ public partial class Home
     {
         var parameters = new Dictionary<string, object>
         {
-            { "ContentText", "Bạn có chắc chắn muốn xóa không? Sau khi xóa không thể khôi phục!" },
-            { "ButtonText", "Xóa" }
+            { "ContentText", $"{_localizer["home_delete_student_confirmation_content"].Value}: {id} !" },
+            { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
         };
 
         var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
-            "Xác nhận xóa", parameters
+            _localizer["delete_confirmation_dialog_header"], parameters
         );
 
         Console.WriteLine($"Dialog result: {result}");
@@ -269,9 +272,9 @@ public partial class Home
         {
             try
             {
-                await _studentServices.DeleteStudent(id);
+                var message = await _studentServices.DeleteStudent(id);
                 await ResetPaging();
-                Snackbar.Add("Xóa sinh viên thành công!", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -291,7 +294,7 @@ public partial class Home
 
         var sendFormat = GetFileFormat(format);
         var result = await DialogService.OpenAsync<UploadFile>(
-            $"Thêm sinh viên từ file {sendFormat.ToUpperInvariant()}",
+            $"{_localizer["upload_file_add_student_header"]} {sendFormat.ToUpperInvariant()}",
             parameters,
             new Radzen.DialogOptions() { Width = "40%", CloseDialogOnOverlayClick = false }
         );
@@ -300,9 +303,9 @@ public partial class Home
         {
             try
             {
-                await _studentServices.UploadFiles(file, sendFormat);
+                var meesage = await _studentServices.UploadFiles(file, sendFormat);
                 await ResetPaging();
-                Snackbar.Add("Thêm sinh viên thành công!", Severity.Success);
+                Snackbar.Add(meesage, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -328,7 +331,7 @@ public partial class Home
         {
             var sendFormat = GetFileFormat(format);
             await _studentServices.DownloadFile(sendFormat);
-            Snackbar.Add(" Xuất file thành công", Severity.Success);
+            Snackbar.Add(_localizer["export_file_success_noti"], Severity.Success);
         }
         catch (Exception ex)
         {

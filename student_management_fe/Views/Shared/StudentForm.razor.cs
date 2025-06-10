@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 using Radzen;
 using Radzen.Blazor;
 using ServiceStack;
 using ServiceStack.Text;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using System.ComponentModel.DataAnnotations;
@@ -16,8 +18,7 @@ namespace student_management_fe.Views.Shared;
 
 public partial class StudentForm
 {
-    [Parameter]
-    public StudentModel Student { get; set; }
+    [Parameter] public StudentModel Student { get; set; }
 
     [Parameter] public bool IsUpdateMode { get; set; } = false;
 
@@ -29,8 +30,9 @@ public partial class StudentForm
 
     [Parameter] public string ButtonText { get; set; }
 
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
+
     [Inject] private Radzen.DialogService DialogService { get; set; } = default!;
-    private ConfigurationsService _configurationsService;
 
     string errorEmailMessage = string.Empty;
     string errorPhoneNumberMessage = string.Empty;
@@ -43,10 +45,9 @@ public partial class StudentForm
 
     private IdentityInfo IdentityInfo { get; set; }
 
-    private const string InvalidEmailMessage = "Email không hợp lệ.";
-    private const string InvalidPhoneMessage = "Số điện thoại không hợp lệ.";
+    private IConfigurationsService _configurationsService;
 
-    public StudentForm(ConfigurationsService configurationsService)
+    public StudentForm(IConfigurationsService configurationsService)
     {
         _configurationsService = configurationsService;
     }
@@ -112,6 +113,8 @@ public partial class StudentForm
 
     private async Task<bool> HandleEmailChange(string email)
     {
+        var InvalidEmailMessage = _localizer["student_form_invalid_email"].Value;
+
         if (string.IsNullOrEmpty(email))
         {
             errorEmailMessage = string.Empty;
@@ -140,6 +143,8 @@ public partial class StudentForm
 
     private async Task<bool> HandlePhoneNumberChange(string phoneNumber)
     {
+        var InvalidPhoneMessage = _localizer["student_form_invalid_phone_number"].Value;
+
         if (string.IsNullOrEmpty(phoneNumber))
         {
             errorPhoneNumberMessage = string.Empty;

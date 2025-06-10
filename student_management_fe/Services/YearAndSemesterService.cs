@@ -1,12 +1,13 @@
-﻿using student_management_fe.Models;
+﻿using student_management_fe.Helpers;
+using student_management_fe.Models;
 using System.Net.Http.Json;
 
 namespace student_management_fe.Services;
 
-public class YearAndSemesterService
+public class YearAndSemesterService : IYearAndSemesterService
 {
-    private readonly AuthService _authService;
-    public YearAndSemesterService(AuthService authService)
+    private readonly IAuthService _authService;
+    public YearAndSemesterService(IAuthService authService)
     {
         _authService = authService;
     }
@@ -15,9 +16,11 @@ public class YearAndSemesterService
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/api/year");
         var response = await _authService.SendRequestWithAuthAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi lấy danh sách năm học!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
         return await response.Content.ReadFromJsonAsync<List<Year>>() ?? new();
     }
@@ -26,9 +29,11 @@ public class YearAndSemesterService
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/api/year/{yearId}/semesters");
         var response = await _authService.SendRequestWithAuthAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Lỗi khi lấy danh sách học kỳ!");
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            throw new Exception(errorResponse?.Message);
         }
         return await response.Content.ReadFromJsonAsync<List<Semester>>() ?? new();
     }

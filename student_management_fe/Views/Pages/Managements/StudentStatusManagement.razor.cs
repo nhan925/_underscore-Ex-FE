@@ -5,6 +5,8 @@ using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
 using student_management_fe.Views.Shared.ManagementsForm;
+using student_management_fe.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace student_management_fe.Views.Pages.Managements;
 
@@ -19,42 +21,18 @@ public partial class StudentStatusManagement
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
 
-    private int _currentPage = 1;
-    private int currentPage
-    {
-        get
-        {
-            if (totalPages == 0)
-            {
-                return 1;
-            }
-
-            return _currentPage;
-        }
-
-        set
-        {
-            if (value > 0 && value <= totalPages)
-            {
-                _currentPage = value;
-            }
-        }
-    }
-    private int pageSize = 10;
-    private int totalPages => (int)Math.Ceiling((double)totalCount / pageSize);
-    private int totalCount { get; set; } = 100;
-
-
     private string? searchText;
 
     private List<StudentStatus> studentStatuses = new List<StudentStatus>();
     private List<StudentStatus> tempStudentStatuses = new List<StudentStatus>();
 
-    private readonly StudentStatusService _studentStatusService;
+    private readonly IStudentStatusService _studentStatusService;
+    private readonly IStringLocalizer<Content> _localizer;
 
-    public StudentStatusManagement(StudentStatusService studentStatusService)
+    public StudentStatusManagement(IStudentStatusService studentStatusService, IStringLocalizer<Content> localizer)
     {
         _studentStatusService = studentStatusService;
+        _localizer = localizer;
     }
 
     protected override async Task OnInitializedAsync()
@@ -97,12 +75,10 @@ public partial class StudentStatusManagement
         var studentStatus = new StudentStatus();
         var parameters =new Dictionary<string, object>
         {
-            {"TitleText", "Tên trạng thái sinh viên"},
-            {"ButtonText", "Lưu"},
             {"StudentStatus", studentStatus}
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Thêm trạng thái sinh viên", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>(_localizer["student_status_management_header_form_add"].Value, parameters);
 
         if (result is bool isConfirmed && isConfirmed)
         {
@@ -110,7 +86,7 @@ public partial class StudentStatusManagement
             {
                 var studentStatusId = await _studentStatusService.AddStudentStatus(studentStatus.Name);
                 await LoadStudentStatuses();
-                Snackbar.Add($"Đã thêm trạng thái sinh viên với id: {studentStatusId} !", Severity.Success);
+                Snackbar.Add($"{_localizer["student_status_management_add_success_noti"].Value}: {studentStatusId} !", Severity.Success);
             }
             catch (Exception ex)
             {
@@ -130,18 +106,16 @@ public partial class StudentStatusManagement
         var parameters = new Dictionary<string, object>
         {
             {"StudentStatus", editStudentStatus },
-            {"ButtonText", "Cập nhật" },
-            {"TitleText", "Tên trạng thái sinh viên" },
         };
 
-        var result = await DialogService.OpenAsync<StudentStatusForm>("Cập nhật trạng thái sinh viên", parameters);
+        var result = await DialogService.OpenAsync<StudentStatusForm>(_localizer["student_status_management_header_form_update"].Value, parameters);
         if (result is bool isConfirmed && isConfirmed)
         {
             try
             {
                 var message = await _studentStatusService.UpdateStudentStatus(editStudentStatus);
                 await LoadStudentStatuses();
-                Snackbar.Add($"Đã cập nhật trạng thái sinh viên thành công !", Severity.Success);
+                Snackbar.Add(message, Severity.Success);
             }
             catch (Exception ex)
             {
@@ -150,22 +124,4 @@ public partial class StudentStatusManagement
         }
     }
 
-
-    //private async Task NextPage()
-    //{
-    //    if (currentPage < totalPages)
-    //    {
-    //        currentPage++;
-    //        await LoadStudentStatuses();
-    //    }
-    //}
-
-    //private async Task PreviousPage()
-    //{
-    //    if (currentPage > 1)
-    //    {
-    //        currentPage--;
-    //        await LoadStudentStatuses();
-    //    }
-    //}
 }

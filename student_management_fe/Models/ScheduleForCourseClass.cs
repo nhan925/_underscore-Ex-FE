@@ -1,15 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using student_management_fe.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace student_management_fe.Models;
 
 public class ScheduleForCourseClass
 {
-    [Required (ErrorMessage = "Thứ không được để trống")]
+    [Required (ErrorMessageResourceName = "schedule_for_course_class_dateofweek_required",
+               ErrorMessageResourceType = typeof(Content))]
     public string DateOfWeek { get; set; } = string.Empty;
 
-    [Required (ErrorMessage = "Thời gian bắt đầu không được để trống")]
+    [Required (ErrorMessageResourceName = "schedule_for_course_class_starttime_required",
+               ErrorMessageResourceType = typeof(Content))]
     public TimeSpan? StartTime { get; set; }
 
-    [Required (ErrorMessage = "Thời gian kết thúc không được để trống")]
+    [Required (ErrorMessageResourceName = "schedule_for_course_class_endtime_required",
+               ErrorMessageResourceType = typeof(Content))]
     public TimeSpan? EndTime { get; set; }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
+using student_management_fe.Resources;
 using student_management_fe.Models;
 using System.ComponentModel.DataAnnotations;
 using static MudBlazor.Colors;
@@ -12,6 +14,8 @@ public partial class IdentityForm
     [Parameter] public EventCallback<IdentityInfo> OnIdentityInfoUpdated { get; set; } = default!;
 
     [Parameter] public EventCallback<IdentityInfo> ValueChanged { get; set; } = default!;
+
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     bool popup = false;
 
@@ -46,7 +50,6 @@ public partial class IdentityForm
 
     private async Task ValidateAndUpdate()
     {
-        
         if (OnIdentityInfoUpdated.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);

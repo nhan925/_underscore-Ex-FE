@@ -2,17 +2,20 @@
 using MudBlazor;
 using student_management_fe.Models;
 using student_management_fe.Services;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using student_management_fe.Resources;
+using student_management_fe.Views.Shared;
 
 namespace student_management_fe.Views.Pages.Settings
 {
     public partial class PhoneNumberSetting
     {
-
         [Inject]
         private ISnackbar Snackbar { get; set; } = default!;
 
-        private readonly ConfigurationsService _configurationsService;
-        private readonly CountryPhoneCodeService _countryPhoneCodeService;
+        [Inject]
+        private Radzen.DialogService DialogService { get; set; } = default!;
 
         private ConfigurationsModel<List<string>> configInformations = new()
         {
@@ -22,10 +25,18 @@ namespace student_management_fe.Views.Pages.Settings
         private CountryPhoneCodeModel selectedCountry { get; set; } = null!;
         private List<CountryPhoneCodeModel> mappedCountries = new();
 
-        public PhoneNumberSetting(ConfigurationsService configurationsService, CountryPhoneCodeService countryPhoneCodeService)
+        private readonly IConfigurationsService _configurationsService;
+        private readonly ICountryPhoneCodeService _countryPhoneCodeService;
+        private readonly IStringLocalizer<Content> _localizer;
+
+        public PhoneNumberSetting(
+            IConfigurationsService configurationsService, 
+            ICountryPhoneCodeService countryPhoneCodeService, 
+            IStringLocalizer<Content> localizer)
         {
             _configurationsService = configurationsService;
             _countryPhoneCodeService = countryPhoneCodeService;
+            _localizer = localizer;
         }
 
 
@@ -67,13 +78,13 @@ namespace student_management_fe.Views.Pages.Settings
 
             if (selectedCountry == null)
             {
-                Snackbar.Add("Vui lòng chọn quốc gia", Severity.Error);
+                Snackbar.Add(_localizer["phone_number_country_error_1"].Value, Severity.Error);
                 return;
             }
 
             if (configInformations.Value.Contains(selectedCountry.Code))
             {
-                Snackbar.Add("Quốc gia này đã được thêm vào danh sách", Severity.Warning);
+                Snackbar.Add(_localizer["phone_number_country_error_2"].Value, Severity.Warning);
                 selectedCountry = null!;
                 return;
             }
@@ -86,10 +97,20 @@ namespace student_management_fe.Views.Pages.Settings
 
         private async Task DeletePhoneNumberSetting(string code)
         {
-            configInformations.Value.Remove(code);
-            MapConfigToPhoneInformation();
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-            await UpdatePhoneNumberSetting();
+            var result = await DialogService.OpenAsync<DeleteConfirmationDialog>(
+            title: _localizer["delete_confirmation_dialog_header"],
+            parameters: new Dictionary<string, object>
+            {
+                { "ContentText", _localizer["delete_dialog_confirmation_content"].Value },
+                { "ButtonText", _localizer["all_actions_delete_button_text"].Value }
+            }
+            );
+            if (result is bool confirmed && confirmed)
+            {
+                configInformations.Value.Remove(code);
+                MapConfigToPhoneInformation();
+                await UpdatePhoneNumberSetting();
+            }
         }
 
         private async Task LoadPhoneNumberSetting()
@@ -101,10 +122,18 @@ namespace student_management_fe.Views.Pages.Settings
 
         private async Task UpdatePhoneNumberSetting()
         {
-
-            var message = await _configurationsService.UpdatePhoneNumberConfig(configInformations);
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
-            Snackbar.Add("Cập nhật thành công", Severity.Success);
+            try
+            {
+                var message = await _configurationsService.UpdatePhoneNumberConfig(configInformations);
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+                Snackbar.Add(message, Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            
+           
         }
 
         private async Task OnSwitchChange(bool value)

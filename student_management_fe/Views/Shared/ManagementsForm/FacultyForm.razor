@@ -1,7 +1,10 @@
-﻿<RadzenTemplateForm TItem="Faculty" Data="@Faculty" Submit="@Submit">
+﻿@using Microsoft.Extensions.Localization
+@using student_management_fe.Resources
+
+<RadzenTemplateForm TItem="Faculty" Data="@Faculty" Submit="@Submit">
     <RadzenStack>
         <RadzenColumn>
-            <RadzenText Text="@TitleText" />
+            <RadzenText Text=@_localizer["faculty_form_name_label"] />
         </RadzenColumn>
 
         <RadzenColumn>
@@ -11,8 +14,8 @@
 
         <RadzenColumn>
             <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" class="rz-mt-8 rz-mb-4">
-                <RadzenButton ButtonStyle="ButtonStyle.Light" style="width: 100%" Text="Hủy" Click="Cancel" />
-                <RadzenButton style="width: 100%" Text="@ButtonText" ButtonStyle="ButtonStyle.Success" Type="Submit" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="width: 100%" Text=@_localizer["all_actions_cancel_button_text"] Click="Cancel" />
+                <RadzenButton style="width: 100%" Text=@_localizer["all_actions_save_button_text"] ButtonStyle="ButtonStyle.Success" Type="Submit" />
             </RadzenStack>
         </RadzenColumn>
     </RadzenStack>
@@ -21,13 +24,11 @@
 @code {
 
     [Inject] private Radzen.DialogService DialogService { get; set; }
-
-    [Parameter] public string TitleText { get; set; }
-    [Parameter] public string ButtonText { get; set; }
+    [Inject] private IStringLocalizer<Content> _localizer { get; set; }
 
     [Parameter] public Faculty Faculty { get; set; }
 
-    bool popup = true;
+    bool popup = false;
 
     private void Submit() => DialogService.Close(true);
     private void Cancel() => DialogService.Close(false);
