@@ -1,5 +1,8 @@
 # [FE] Student Management
 
+## Developer guide
+- <a href=https://minhhnguyenn.notion.site/Developers-Guide-Group-1-_underscore-206052a0011480fda096c35d4250ea5a>Click vào đây để xem</a>
+
 ## Cấu trúc source code
 ```
 student_management_fe/
